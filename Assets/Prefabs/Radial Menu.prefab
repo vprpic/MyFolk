@@ -48,6 +48,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10b55bd4a75e78a488ab481515197a9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentCharacter: {fileID: 11400000, guid: b40d50bfc005dfc45af330fafcc94fbd, type: 2}
   buttonPrefab: {fileID: 1853412318921603375, guid: 6147baf668d9d674994f9ad3ca57a635,
     type: 3}
   selected: {fileID: 0}
+  mousePosition: {x: 0, y: 0, z: 0}
+  firstClick: 0
+  menuVisible: 0

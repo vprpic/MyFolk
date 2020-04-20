@@ -4,19 +4,26 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class RadialButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class RadialButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-	public Image circle;
+	public RadialMenu menuParent;
+	public Image background;
 	public Image icon;
 	public string title;
-	public RadialMenu menuParent;
 	public float animateSpeed = 8f;
+	public Color highlightColor;
 
-	Color defaultColor;
+	public ButtonAction buttonAction;
+
 
 	public void Animate()
 	{
 		StartCoroutine(AnimateButtonIn());
+	}
+
+	public void OnClick(Vector3 clickPoint)
+	{
+		buttonAction.PrepareExecution(menuParent.currentCharacter.agent, clickPoint);
 	}
 
 	IEnumerator AnimateButtonIn()
@@ -35,13 +42,14 @@ public class RadialButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 	public void OnPointerEnter(PointerEventData eventData)
 	{
 		menuParent.selected = this;
-		defaultColor = circle.color;
-		circle.color = Color.white;
+		highlightColor = background.color;
+		background.color = Color.white;
 	}
 
 	public void OnPointerExit(PointerEventData eventData)
 	{
 		menuParent.selected = null;
-		circle.color = defaultColor;
+		background.color = highlightColor;
 	}
+
 }

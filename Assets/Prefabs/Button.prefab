@@ -89,10 +89,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 003ba008a9b529a47a347cf0a8e19059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  circle: {fileID: 1853412318921603280}
+  menuParent: {fileID: 0}
+  background: {fileID: 1853412318921603280}
   icon: {fileID: 1853412319171782674}
   title: 
-  menuParent: {fileID: 0}
+  animateSpeed: 8
+  highlightColor: {r: 0, g: 0, b: 0, a: 0}
+  buttonAction: {fileID: 0}
 --- !u!114 &8769256780769807014
 MonoBehaviour:
   m_ObjectHideFlags: 0

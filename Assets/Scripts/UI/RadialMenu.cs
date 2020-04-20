@@ -4,28 +4,38 @@ using UnityEngine;
 
 public class RadialMenu : MonoBehaviour
 {
-	public RadialButton buttonPrefab;
-	public RadialButton selected;
-	public void SpawnButtons(Interactable obj)
+	public CharacterData currentCharacter;
+	public RadialButtonUI buttonPrefab;
+	public RadialButtonUI selected;
+	public Vector3 mousePosition;
+	public bool firstClick;
+	public bool menuVisible;
+	public void SpawnButtons(Interactable obj, Vector3 mousePosition)
 	{
-		StartCoroutine(AnimateButtons(obj));
+		this.mousePosition = mousePosition;
+		menuVisible = true;
+		firstClick = true;
+		if (selected == null)
+		{
+			StartCoroutine(AnimateButtons(obj));
+		}
 	}
 
 	IEnumerator AnimateButtons(Interactable obj)
 	{
 		for (int i = 0; i < obj.options.Length; i++)
 		{
-			RadialButton newButton = Instantiate(buttonPrefab) as RadialButton;
+			RadialButtonUI newButton = Instantiate(buttonPrefab) as RadialButtonUI;
 			newButton.transform.SetParent(transform, false);
 
 			float theta = (2 * Mathf.PI / obj.options.Length) * i;
 			float xPos = Mathf.Sin(theta);
 			float yPos = Mathf.Cos(theta);
 			newButton.transform.localPosition = new Vector3(xPos, yPos, 0f) * 100f;
-			newButton.circle.color = obj.options[i].color;
 			newButton.icon.sprite = obj.options[i].sprite;
 			newButton.title = obj.options[i].title;
 			newButton.menuParent = this;
+			newButton.buttonAction = obj.options[i];
 			newButton.Animate();
 			yield return new WaitForSeconds(0.03f);
 		}
@@ -33,14 +43,20 @@ public class RadialMenu : MonoBehaviour
 
 	private void Update()
 	{
-		//TODO: remove
-		if (Input.GetMouseButtonUp(0))
+		if (menuVisible && !firstClick && Input.GetMouseButtonDown(0))
 		{
-			if (selected)
+			firstClick = true;
+			if(selected != null)
 			{
-				Debug.Log(selected.title+" was selected.");
+
+				selected.OnClick(this.mousePosition);
 			}
+			menuVisible = false;
 			Destroy(gameObject);
+		}
+		else
+		{
+			firstClick = false;
 		}
 	}
 }
