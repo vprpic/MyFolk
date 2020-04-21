@@ -4,30 +4,63 @@ using UnityEngine;
 
 public class RadialMenuSpawner : MonoBehaviour
 {
-	//TODO: remove
-	public static RadialMenuSpawner ins;
-	public RadialMenu menuPrefab;
+	[HideInInspector]
 	public Camera mainCamera;
+	public RadialMenu menuPrefab;
+
+	[HideInInspector]
+	public RadialMenu spawnedMenu;
+
+	/// <summary>
+	/// When the radial menu is destroyed it doesn't register as stopped hovering so we raise the event after destroying
+	/// </summary>
+	public BoolEvent onEnterExitUI;
 
 	private void Awake()
 	{
-		ins = this;
 		mainCamera = Camera.main;
 	}
 
-	public void SpawnMenu(Interactable obj)
+	public void SpawnMenu(IInteractableItem item)
 	{
-		RadialMenu newMenu = Instantiate(menuPrefab) as RadialMenu;
-		newMenu.transform.SetParent(transform, false);
-		Vector3 mousePosition = Input.mousePosition;
-		newMenu.transform.position = mousePosition;
-
-		Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-		RaycastHit hitInfo;
-		if (Physics.Raycast(ray, out hitInfo, 100))
+		if (item.Actions.Length != 0)
 		{
-			//agent.SetDestination(hitInfo.point);
-			newMenu.SpawnButtons(obj, hitInfo.point);
+			RadialMenu newMenu = Instantiate(menuPrefab) as RadialMenu;
+			newMenu.transform.SetParent(transform, false);
+			//TODO: test with item.pointclick and change in interactable to give 
+			Vector3 mousePosition = Input.mousePosition;
+			//newMenu.worldPoint = mainCamera.ScreenToWorldPoint(mousePosition);
+			newMenu.transform.position = mousePosition;
+			spawnedMenu = newMenu;
+			spawnedMenu.worldPoint = item.ClickPoint;
+			newMenu.SpawnButtons(item);
 		}
+	}
+
+	/// <summary>
+	/// A radial button from the menu has been clicked, remove the menu from screen
+	/// </summary>
+	public void OnRadialButtonClicked()
+	{
+		//TODO: no destroying
+		DestroyMenu();
+	}
+
+	public void OnInteractableClick(InteractableItem item)
+	{
+		if (spawnedMenu == null)
+		{
+			SpawnMenu(item);
+		}
+		else
+		{
+			DestroyMenu();
+		}
+	}
+
+	private void DestroyMenu()
+	{
+		GameObject.Destroy(spawnedMenu.gameObject);
+		onEnterExitUI.Raise(false);
 	}
 }

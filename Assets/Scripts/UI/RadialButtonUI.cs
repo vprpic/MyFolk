@@ -4,26 +4,25 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class RadialButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+[RequireComponent(typeof(Image))]
+[RequireComponent(typeof(Button))]
+public class RadialButtonUI : FlexibleUIButton
 {
+	[HideInInspector]
 	public RadialMenu menuParent;
 	public Image background;
 	public Image icon;
 	public string title;
 	public float animateSpeed = 8f;
-	public Color highlightColor;
 
+	//used in the radialMenuSpawner to disable the menu
+	public VoidEvent onRadialButtonClick;
+	[HideInInspector]
 	public ButtonAction buttonAction;
-
 
 	public void Animate()
 	{
 		StartCoroutine(AnimateButtonIn());
-	}
-
-	public void OnClick(Vector3 clickPoint)
-	{
-		buttonAction.PrepareExecution(menuParent.currentCharacter.agent, clickPoint);
 	}
 
 	IEnumerator AnimateButtonIn()
@@ -39,17 +38,10 @@ public class RadialButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 		transform.localScale = Vector3.one;
 	}
 
-	public void OnPointerEnter(PointerEventData eventData)
+	public void OnRadialButtonClick()
 	{
-		menuParent.selected = this;
-		highlightColor = background.color;
-		background.color = Color.white;
-	}
-
-	public void OnPointerExit(PointerEventData eventData)
-	{
-		menuParent.selected = null;
-		background.color = highlightColor;
+		buttonAction.PrepareExecution(menuParent.currentCharacter.currentAgent, menuParent.worldPoint);
+		onRadialButtonClick.Raise();
 	}
 
 }
