@@ -987,6 +987,7 @@ MonoBehaviour:
   menuPrefab: {fileID: 1766016905762664479, guid: c3c67f0874bb7194d84ff7dc34602fd5,
     type: 3}
   spawnedMenu: {fileID: 0}
+  onEnterExitUI: {fileID: 11400000, guid: a64394e4582f1324997a60f93f6faed6, type: 2}
 --- !u!114 &1932775238
 MonoBehaviour:
   m_ObjectHideFlags: 0
