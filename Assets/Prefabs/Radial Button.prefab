@@ -96,6 +96,7 @@ MonoBehaviour:
   menuParent: {fileID: 0}
   background: {fileID: 1853412318921603280}
   icon: {fileID: 1853412319171782674}
+  text: {fileID: 1853412319626749516}
   title: 
   animateSpeed: 8
   onRadialButtonClick: {fileID: 11400000, guid: b057843bbb961444abeb5d88e4b42b0c,

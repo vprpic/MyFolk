@@ -26,6 +26,7 @@ public class RadialMenu : MonoBehaviour
 			newButton.transform.localPosition = new Vector3(xPos, yPos, 0f) * 100f;
 			newButton.icon.sprite = obj.Actions[i].sprite;
 			newButton.title = obj.Actions[i].title;
+			newButton.text.SetText(obj.Actions[i].title);
 			newButton.menuParent = this;
 			newButton.buttonAction = obj.Actions[i];
 
