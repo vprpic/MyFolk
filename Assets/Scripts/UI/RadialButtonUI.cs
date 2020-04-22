@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
+using MyFolk.FlexibleUI;
 
 [RequireComponent(typeof(Image))]
 [RequireComponent(typeof(Button))]

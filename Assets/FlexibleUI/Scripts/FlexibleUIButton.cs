@@ -3,74 +3,76 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Image))]
-[RequireComponent(typeof(Button))]
-public class FlexibleUIButton : FlexibleUI
+namespace MyFolk.FlexibleUI
 {
-    protected Button button;
-    protected Image image;
-    //public BoolEvent onEnterExitUI;
-
-    public ButtonType buttonType;
-
-    public enum ButtonType
+    [RequireComponent(typeof(Image))]
+    [RequireComponent(typeof(Button))]
+    public class FlexibleUIButton : FlexibleUI
     {
-        Default,
-        Confirm,
-        Decline,
-        Warning
-    }
+        protected Button button;
+        protected Image image;
+        //public BoolEvent onEnterExitUI;
 
-    public override void Awake()
-    {
-        button = GetComponent<Button>();
-        image = GetComponent<Image>();
+        public ButtonType buttonType;
 
-        base.Awake();
-    }
-
-    //private void OnMouseEnter()
-    //{
-    //    onEnterExitUI.Raise(true);
-    //}
-
-    public void OnClick()
-    {
-
-    }
-
-    //private void OnMouseExit()
-    //{
-    //    onEnterExitUI.Raise(false);
-    //}
-
-    protected override void OnSkinUI()
-    {
-        button.transition = Selectable.Transition.SpriteSwap;
-        button.targetGraphic = image;
-
-        image.sprite = skinData.buttonSprite;
-        image.type = Image.Type.Sliced;
-        button.spriteState = skinData.buttonSpriteState;
-
-        switch (buttonType)
+        public enum ButtonType
         {
-            case ButtonType.Confirm:
-                image.color = skinData.confirmColor;
-                break;
-            case ButtonType.Decline:
-                image.color = skinData.declineColor;
-                break;
-            case ButtonType.Default:
-                image.color = skinData.defaultColor;
-                break;
-            case ButtonType.Warning:
-                image.color = skinData.warningColor;
-                break;
+            Default,
+            Confirm,
+            Decline,
+            Warning
         }
 
+        public override void Awake()
+        {
+            button = GetComponent<Button>();
+            image = GetComponent<Image>();
 
-        base.OnSkinUI();
+            base.Awake();
+        }
+
+        //private void OnMouseEnter()
+        //{
+        //    onEnterExitUI.Raise(true);
+        //}
+
+        public void OnClick()
+        {
+
+        }
+
+        //private void OnMouseExit()
+        //{
+        //    onEnterExitUI.Raise(false);
+        //}
+
+        protected override void OnSkinUI()
+        {
+            button.transition = Selectable.Transition.SpriteSwap;
+            button.targetGraphic = image;
+
+            image.sprite = skinData.buttonSprite;
+            image.type = Image.Type.Sliced;
+            button.spriteState = skinData.buttonSpriteState;
+
+            switch (buttonType)
+            {
+                case ButtonType.Confirm:
+                    image.color = skinData.confirmColor;
+                    break;
+                case ButtonType.Decline:
+                    image.color = skinData.declineColor;
+                    break;
+                case ButtonType.Default:
+                    image.color = skinData.defaultColor;
+                    break;
+                case ButtonType.Warning:
+                    image.color = skinData.warningColor;
+                    break;
+            }
+
+
+            base.OnSkinUI();
+        }
     }
-
 }

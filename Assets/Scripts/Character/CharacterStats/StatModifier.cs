@@ -1,8 +1,8 @@
 ﻿public enum StatModType
 {
-	Flat,
-	PercentAdd,
-	PercentMult //mod.value == 0.1 -> final value is 110%
+	Flat = 100,
+	PercentAdd = 200,
+	PercentMult = 300//mod.value == 0.1 -> final value is 110%
 }
 
 
