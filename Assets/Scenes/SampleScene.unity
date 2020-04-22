@@ -1064,7 +1064,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0072c049d48d9c74a9ddca3f8e36badb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: 291d153bf6cd48c4aa342530fc30e0b2, type: 2}
+  data: {fileID: 11400000, guid: 517a995f187dfe7438826bd2dfcf4727, type: 2}
   navMeshAgent: {fileID: 0}
 --- !u!1 &1932775232
 GameObject:
@@ -1351,4 +1351,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 4c95696c1e9bf914eaea96d5d1b7b0bc, type: 2}
-  allCharacters: {fileID: 11400000, guid: 6751cadc18ba2cf498f491da1806a4a4, type: 2}
+  allCharacters: []
+  currentlySelectedCharacter: {fileID: 0}

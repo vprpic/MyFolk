@@ -12,4 +12,5 @@ public class GlobalsDataObject : ScriptableObject
 {
 	public CharacterData currentlySelectedCharacterData;
 	public Vector3 worldClickPoint;
+	public int totalCharactersInstantiated;
 }

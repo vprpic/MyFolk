@@ -5,11 +5,25 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "new Character Data", menuName = "Character Data")]
 public class CharacterData : ScriptableObject
 {
-	private static int IDCount;
-	private void Awake()
+	private void Awake() //OnCreate
 	{
-		Id = IDCount;
-		IDCount++;
+		Id = Globals.ins.data.totalCharactersInstantiated;
+		Globals.ins.data.totalCharactersInstantiated++;
+		Debug.Log("Created a character! Id: " + Id);
+
+		Hunger = new CharacterStat();
+		Energy = new CharacterStat();
+		Fun = new CharacterStat();
+		Social = new CharacterStat();
+		Comfort = new CharacterStat();
+		Health = new CharacterStat();
+
+		Hunger.name = "Hunger";
+		Energy.name = "Energy";
+		Fun.name = "Fun";
+		Social.name = "Social";
+		Comfort.name = "Comfort";
+		Health.name = "Health";
 	}
 
 	public int Id;
