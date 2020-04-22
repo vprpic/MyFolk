@@ -6,11 +6,6 @@ using UnityEngine.AI;
 [RequireComponent(typeof(UIInputHandler))]
 public class InputHandler : MonoBehaviour
 {
-    //TODO: move items
-    public GameObject tempDestination;
-    public GameObject selectCharacter;
-    public GameData currentCharacter;
-    //^^^
     [HideInInspector]
     public UIInputHandler uIInteractionHandler;
     [HideInInspector]
@@ -18,8 +13,6 @@ public class InputHandler : MonoBehaviour
 
     private void Awake()
     {
-        currentCharacter.currentAgent = selectCharacter.GetComponent<NavMeshAgent>();
-
         uIInteractionHandler = GetComponent<UIInputHandler>();
 
         itemInteractionHandler = new ItemInteractionHandler();

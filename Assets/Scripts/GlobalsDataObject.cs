@@ -6,10 +6,10 @@ using UnityEngine.AI;
 /// <summary>
 /// A place for all data, e.g. current character selected
 /// </summary>
-[CreateAssetMenu(fileName = "New Game Data", menuName = "Game Data")]
+[CreateAssetMenu(fileName = "New GlobalsDataObject", menuName = "Globals/Data Object")]
 [System.Serializable]
-public class GameData : ScriptableObject
+public class GlobalsDataObject : ScriptableObject
 {
-	public NavMeshAgent currentAgent;
-	public Vector3 clickPoint;
+	public CharacterData currentlySelectedCharacterData;
+	public Vector3 worldClickPoint;
 }

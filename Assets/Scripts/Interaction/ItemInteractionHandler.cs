@@ -28,6 +28,7 @@ public class ItemInteractionHandler
 		{
 			if (currentTarget != null)
 			{
+				Globals.ins.SetLastWorldClickPoint(whatIHit.point);
 				Debug.Log("InteractionRaycasting-Update-whatIHit: " + whatIHit.collider.name+"\n" +
 					whatIHit.point);
 				currentTarget.OnInteract(whatIHit.point);
@@ -46,9 +47,7 @@ public class ItemInteractionHandler
 		{
 			distance = whatIHit.distance;
 			interactable = whatIHit.collider.GetComponent<IInteractableItem>();
-		}
-		if (isHit)
-		{
+
 			if(interactable != null)
 			{
 				if(whatIHit.distance <= interactable.MaxRange)

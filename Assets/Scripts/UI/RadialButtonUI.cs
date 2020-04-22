@@ -17,7 +17,6 @@ public class RadialButtonUI : FlexibleUIButton
 	public string title;
 	public float animateSpeed = 8f;
 
-
 	//used in the radialMenuSpawner to disable the menu
 	public VoidEvent onRadialButtonClick;
 	[HideInInspector]
@@ -43,7 +42,7 @@ public class RadialButtonUI : FlexibleUIButton
 
 	public void OnRadialButtonClick()
 	{
-		buttonAction.PrepareExecution(menuParent.currentCharacter.currentAgent, menuParent.worldPoint);
+		buttonAction.PrepareExecution(Globals.ins.GetSelectedCharacter().navMeshAgent, menuParent.worldPoint);
 		onRadialButtonClick.Raise();
 	}
 

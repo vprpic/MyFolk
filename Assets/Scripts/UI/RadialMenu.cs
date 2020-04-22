@@ -5,7 +5,7 @@ using UnityEngine;
 public class RadialMenu : MonoBehaviour
 {
 	public Vector3 worldPoint;
-	public GameData currentCharacter;
+	//public GlobalsDataObject currentCharacter;
 	public RadialButtonUI buttonPrefab;
 
 	public void SpawnButtons(IInteractableItem obj)
