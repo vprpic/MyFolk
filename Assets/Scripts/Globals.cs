@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -20,6 +21,7 @@ public class Globals : MonoBehaviour
 		if(ins == null)
 		{
 			ins = this;
+			//SetSelectedCharacter();
 		}
 		else
 		{
@@ -39,12 +41,16 @@ public class Globals : MonoBehaviour
 
 	private void SetSelectedCharacter()
 	{
+		Character c;
 		if(allCharacters.Count == 0)
 		{
-			Debug.LogWarning("No characters available to set selected.");
-			return;
+			allCharacters = FindObjectsOfType<Character>().ToList();
+			if(allCharacters.Count == 0)
+			{
+				Debug.LogWarning("No characters available to set selected.");
+				return;
+			}
 		}
-		Character c;
 		bool foundOneSelected = false;
 		for (int i = 0; i < allCharacters.Count; i++)
 		{
@@ -53,7 +59,7 @@ public class Globals : MonoBehaviour
 			{
 				if (!foundOneSelected)
 				{
-					SetSelectedCharacter(FindCharacterFromId(c.data.Id));
+					SetSelectedCharacter(FindCharacterFromId(c.data.id));
 					foundOneSelected = true;
 				}
 				else
@@ -72,9 +78,14 @@ public class Globals : MonoBehaviour
 
 	private Character FindCharacterFromId(int characterId)
 	{
+		if(allCharacters.Count == 0)
+		{
+			allCharacters = FindObjectsOfType<Character>().ToList();
+		}
+
 		foreach (Character c in allCharacters)
 		{
-			if (c.data.Id == characterId)
+			if (c.data.id == characterId)
 				return c;
 		}
 		return null;

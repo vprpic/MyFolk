@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76d9c4d7a9bbfd14b95c6eb9ae45e316, type: 3}
   m_Name: Character0
   m_EditorClassIdentifier: 
-  Id: 0
   Hunger:
     baseValue: 0
     name: Hunger
@@ -35,4 +34,3 @@ MonoBehaviour:
   characterFirstName: aa
   characterLastName: bb
   isSelected: 1
-  isActive: 0

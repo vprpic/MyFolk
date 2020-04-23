@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "new Character Data", menuName = "Character Data")]
+[System.Serializable]
 public class CharacterData : ScriptableObject
 {
-	private void Awake() //OnCreate
+	private void Init()
 	{
-		Id = Globals.ins.data.totalCharactersInstantiated;
-		Globals.ins.data.totalCharactersInstantiated++;
-		Debug.Log("Created a character! Id: " + Id);
+		id = GlobalsDataObject.instance.totalCharactersInstantiated;
+		GlobalsDataObject.instance.totalCharactersInstantiated++;
+		Debug.Log("Created a character! Id: " + id);
 
 		Hunger = new CharacterStat();
 		Energy = new CharacterStat();
@@ -26,7 +27,22 @@ public class CharacterData : ScriptableObject
 		Health.name = "Health";
 	}
 
-	public int Id;
+	private int _id = -1;
+	public int id
+	{
+		get
+		{
+			if(_id < 0)
+			{
+				this.Init();
+			}
+			return _id;
+		}
+		set
+		{
+			_id = value;
+		}
+	}
 
 	public CharacterStat Hunger;
 	public CharacterStat Energy;
@@ -40,5 +56,5 @@ public class CharacterData : ScriptableObject
 	public string characterLastName;
 
 	public bool isSelected;
-	public bool isActive;
+	//public bool isActive;
 }

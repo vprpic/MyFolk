@@ -12,7 +12,7 @@ public class UIInputHandler : MonoBehaviour
 	/// <param name="isHovering">true if a mouse is hovering over the UI element</param>
 	public void OnEnterExitUI(bool isHovering)
 	{
-		Debug.Log("OnEnterExitUI: " + isHovering.ToString());
+		//Debug.Log("OnEnterExitUI: " + isHovering.ToString());
 		this.isHovering = isHovering;
 	}
 
