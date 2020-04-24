@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class InteractableItem : MonoBehaviour, IInteractableItem
 {
+    public InteractableItem ins => this;
     public InteractableItemEvent onInteractable;
     private Vector3 _clickPoint;
     [SerializeField]
-    private ButtonAction[] _actions;
+    public InteractableItemData data;
     public float MaxRange => 100f;
 
-    public ButtonAction[] Actions => _actions;
+    public string itemName => data.itemName;
+    public ScriptableAction[] Actions => data.actions;
     public Vector3 ClickPoint => _clickPoint;
 
+    private void Awake()
+    {
+        if(data == null)
+        {
+            Debug.LogError("InteractableItem's data isn't set: " + this.name);
+        }
+    }
 
     public void OnStartHover()
     {

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [System.Serializable]
+[RequireComponent(typeof(NavMeshAgent))]
 public class Character : MonoBehaviour
 {
 	public CharacterData data;

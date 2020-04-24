@@ -17,11 +17,23 @@ public class RadialButtonUI : FlexibleUIButton
 	public TextMeshProUGUI text;
 	public string title;
 	public float animateSpeed = 8f;
+	public InteractableItem interactableItemClickedOn;
 
 	//used in the radialMenuSpawner to disable the menu
 	public VoidEvent onRadialButtonClick;
 	[HideInInspector]
-	public ButtonAction buttonAction;
+	public ScriptableAction buttonAction;
+
+	public void Init(RadialMenu parent, IInteractableItem item, ScriptableAction action)
+	{
+		this.interactableItemClickedOn = item.ins;
+		this.buttonAction = action;
+
+		this.icon.sprite = buttonAction.sprite;
+		this.title = buttonAction.actionName;
+		this.text.SetText(buttonAction.actionName);
+		this.menuParent = parent;
+	}
 
 	public void Animate()
 	{
@@ -43,7 +55,7 @@ public class RadialButtonUI : FlexibleUIButton
 
 	public void OnRadialButtonClick()
 	{
-		buttonAction.PrepareExecution(Globals.ins.GetSelectedCharacter().navMeshAgent, menuParent.worldPoint);
+		buttonAction.PerformAction(interactableItemClickedOn.gameObject, menuParent.worldPoint);
 		onRadialButtonClick.Raise();
 	}
 

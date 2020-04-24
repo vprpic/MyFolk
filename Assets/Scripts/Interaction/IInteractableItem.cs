@@ -4,9 +4,11 @@ using UnityEngine;
 
 public interface IInteractableItem
 {
+	InteractableItem ins { get; }
+	string itemName { get; }
 	float MaxRange { get; }
 	Vector3 ClickPoint { get; }
-	ButtonAction[] Actions { get; }
+	ScriptableAction[] Actions { get; }
 	
 	void OnStartHover();
 	void OnInteract(Vector3 clickPoint);

@@ -9,7 +9,7 @@ public class ItemInteractionHandler
 	public Ray ray;
 	public Camera mainCamera;
 	public float range = 500f;
-	public IInteractableItem currentTarget;
+	public InteractableItem currentTarget;
 	private bool isHit;
 	RaycastHit whatIHit;
 	public void Init()
@@ -39,14 +39,14 @@ public class ItemInteractionHandler
 	private void RaycastForTarget()
 	{
 		float distance;
-		IInteractableItem interactable = null;
+		InteractableItem interactable = null;
 		Vector3 mousePosition = Input.mousePosition;
 		Ray ray = mainCamera.ScreenPointToRay(mousePosition);
 		isHit = Physics.Raycast(ray, out whatIHit, range);
 		if (isHit)
 		{
 			distance = whatIHit.distance;
-			interactable = whatIHit.collider.GetComponent<IInteractableItem>();
+			interactable = whatIHit.collider.GetComponent<InteractableItem>();
 
 			if(interactable != null)
 			{

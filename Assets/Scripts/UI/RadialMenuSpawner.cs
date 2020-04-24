@@ -46,7 +46,7 @@ public class RadialMenuSpawner : MonoBehaviour
 		DestroyMenu();
 	}
 
-	public void OnInteractableClick(InteractableItem item)
+	public void OnInteractableClick(IInteractableItem item)
 	{
 		if (spawnedMenu == null)
 		{

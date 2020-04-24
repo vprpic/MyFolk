@@ -31,20 +31,10 @@ namespace MyFolk.FlexibleUI
             base.Awake();
         }
 
-        //private void OnMouseEnter()
-        //{
-        //    onEnterExitUI.Raise(true);
-        //}
-
         public void OnClick()
         {
 
         }
-
-        //private void OnMouseExit()
-        //{
-        //    onEnterExitUI.Raise(false);
-        //}
 
         protected override void OnSkinUI()
         {
