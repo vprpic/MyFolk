@@ -7,57 +7,63 @@ using TMPro;
 using MyFolk.FlexibleUI;
 using EventCallbacks;
 
-[RequireComponent(typeof(Image))]
-[RequireComponent(typeof(Button))]
-public class RadialButtonUI : FlexibleUIButton
+namespace MyFolk
 {
-	[HideInInspector]
-	public RadialMenu menuParent;
-	public Image background;
-	public Image icon;
-	public TextMeshProUGUI text;
-	public string title;
-	public float animateSpeed = 8f;
-	public InteractableItemClickedEventInfo interactableItemEventInfo;
-
-	//used in the radialMenuSpawner to disable the menu
-	public VoidEvent onRadialButtonClick;
-	[HideInInspector]
-	public ScriptableAction buttonAction;
-
-	public void Init(RadialMenu parent, InteractableItemClickedEventInfo eventInfo, ScriptableAction action)
+	[RequireComponent(typeof(Image))]
+	[RequireComponent(typeof(Button))]
+	public class RadialButtonUI : FlexibleUIButton
 	{
-		this.interactableItemEventInfo = eventInfo;
-		this.buttonAction = action;
+		[HideInInspector]
+		public RadialMenu menuParent;
+		public Image background;
+		public Image icon;
+		public TextMeshProUGUI text;
+		public string title;
+		public float animateSpeed = 8f;
+		public InteractableItemClickedEventInfo interactableItemEventInfo;
 
-		this.icon.sprite = buttonAction.sprite;
-		this.title = buttonAction.actionName;
-		this.text.SetText(buttonAction.actionName);
-		this.menuParent = parent;
-	}
+		//used in the radialMenuSpawner to disable the menu
+		public VoidEvent onRadialButtonClick;
+		[HideInInspector]
+		public Interaction buttonInteraction;//buttonAction;
 
-	public void Animate()
-	{
-		StartCoroutine(AnimateButtonIn());
-	}
-
-	IEnumerator AnimateButtonIn()
-	{
-		transform.localScale = Vector3.zero;
-		float timer = 0f;
-		while (timer < 1 / animateSpeed)
+		public void Init(RadialMenu parent, InteractableItemClickedEventInfo eventInfo, Interaction interaction)
 		{
-			timer += Time.deltaTime;
-			transform.localScale = Vector3.one * timer * animateSpeed;
-			yield return null;
+			this.interactableItemEventInfo = eventInfo;
+			this.buttonInteraction = interaction;
+			//this.buttonAction = action;
+
+			this.icon.sprite = interaction.sprite; //buttonAction.sprite;
+			this.title = interaction.interactionName;
+			this.text.SetText(interaction.interactionName);
+			this.menuParent = parent;
 		}
-		transform.localScale = Vector3.one;
-	}
 
-	public void OnRadialButtonClick()
-	{
-		buttonAction.PerformAction(interactableItemEventInfo.iitem.gameObject, interactableItemEventInfo.worldClickPoint);
-		onRadialButtonClick.Raise();
-	}
+		public void Animate()
+		{
+			StartCoroutine(AnimateButtonIn());
+		}
 
+		IEnumerator AnimateButtonIn()
+		{
+			transform.localScale = Vector3.zero;
+			float timer = 0f;
+			while (timer < 1 / animateSpeed)
+			{
+				timer += Time.deltaTime;
+				transform.localScale = Vector3.one * timer * animateSpeed;
+				yield return null;
+			}
+			transform.localScale = Vector3.one;
+		}
+
+		public void OnRadialButtonClick()
+		{
+			//TODO(interaction)
+			Globals.ins.currentlySelectedCharacter.interactionQueue.EnqueueInteraction(this.buttonInteraction, this.interactableItemEventInfo);
+			//buttonAction.PerformAction(interactableItemEventInfo.iitem.gameObject, interactableItemEventInfo.worldClickPoint);
+			onRadialButtonClick.Raise();
+		}
+
+	}
 }

@@ -4,105 +4,107 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
-
-public class Globals : MonoBehaviour
+namespace MyFolk
 {
-	public static Globals ins;
-
-	[SerializeField]
-	public GlobalsDataObject data = null;
-	//public GlobalsDataObject Data { get { return data; } }
-	//public CharactersRuntimeSet allCharacters;
-	public List<Character> allCharacters;
-	public Character currentlySelectedCharacter;
-
-	private void Awake()
+	public class Globals : MonoBehaviour
 	{
-		if(ins == null)
+		public static Globals ins;
+
+		[SerializeField]
+		public GlobalsDataObject data = null;
+		//public GlobalsDataObject Data { get { return data; } }
+		//public CharactersRuntimeSet allCharacters;
+		public List<Character> allCharacters;
+		public Character currentlySelectedCharacter;
+
+		private void Awake()
 		{
-			ins = this;
+			if (ins == null)
+			{
+				ins = this;
+				//SetSelectedCharacter();
+			}
+			else
+			{
+				Debug.LogWarning("Multiple Globals instances");
+				Destroy(this);
+			}
 			//SetSelectedCharacter();
 		}
-		else
-		{
-			Debug.LogWarning("Multiple Globals instances");
-			Destroy(this);
-		}
-		//SetSelectedCharacter();
-	}
 
-	private void Start()
-	{
-		if (GetSelectedCharacter() == null)
+		private void Start()
 		{
-			SetSelectedCharacter();
-		}
-	}
-
-	private void SetSelectedCharacter()
-	{
-		Character c;
-		if(allCharacters.Count == 0)
-		{
-			allCharacters = FindObjectsOfType<Character>().ToList();
-			if(allCharacters.Count == 0)
+			if (GetSelectedCharacter() == null)
 			{
-				Debug.LogWarning("No characters available to set selected.");
-				return;
+				SetSelectedCharacter();
 			}
 		}
-		bool foundOneSelected = false;
-		for (int i = 0; i < allCharacters.Count; i++)
+
+		private void SetSelectedCharacter()
 		{
-			c = allCharacters[i];
-			if (c.data.isSelected)
+			Character c;
+			if (allCharacters.Count == 0)
 			{
-				if (!foundOneSelected)
+				allCharacters = FindObjectsOfType<Character>().ToList();
+				if (allCharacters.Count == 0)
 				{
-					SetSelectedCharacter(FindCharacterFromId(c.data.id));
-					foundOneSelected = true;
-				}
-				else
-				{
-					c.data.isSelected = false;
+					Debug.LogWarning("No characters available to set selected.");
+					return;
 				}
 			}
+			bool foundOneSelected = false;
+			for (int i = 0; i < allCharacters.Count; i++)
+			{
+				c = allCharacters[i];
+				if (c.data.isSelected)
+				{
+					if (!foundOneSelected)
+					{
+						SetSelectedCharacter(FindCharacterFromId(c.data.id));
+						foundOneSelected = true;
+					}
+					else
+					{
+						c.data.isSelected = false;
+					}
+				}
+			}
+			if (!foundOneSelected)
+			{
+				c = allCharacters[0];
+				c.data.isSelected = true;
+				SetSelectedCharacter(c);
+			}
 		}
-		if(!foundOneSelected)
+
+		private Character FindCharacterFromId(int characterId)
 		{
-			c = allCharacters[0];
-			c.data.isSelected = true;
-			SetSelectedCharacter(c);
-		}
-	}
+			if (allCharacters.Count == 0)
+			{
+				allCharacters = FindObjectsOfType<Character>().ToList();
+			}
 
-	private Character FindCharacterFromId(int characterId)
-	{
-		if(allCharacters.Count == 0)
+			foreach (Character c in allCharacters)
+			{
+				if (c.data.id == characterId)
+					return c;
+			}
+			return null;
+		}
+
+		public Character GetSelectedCharacter() => currentlySelectedCharacter;
+		public void SetSelectedCharacter(Character character)
 		{
-			allCharacters = FindObjectsOfType<Character>().ToList();
+			currentlySelectedCharacter = character;
+			data.currentlySelectedCharacterData = character.data;
 		}
 
-		foreach (Character c in allCharacters)
+		public Vector3 GetLastWorldClickPoint() => data.worldClickPoint;
+		public void SetLastWorldClickPoint(Vector3 clickPoint)
 		{
-			if (c.data.id == characterId)
-				return c;
+			data.worldClickPoint = clickPoint;
 		}
-		return null;
+
+
 	}
-
-	public Character GetSelectedCharacter() => currentlySelectedCharacter;
-	public void SetSelectedCharacter(Character character)
-	{
-		currentlySelectedCharacter = character;
-		data.currentlySelectedCharacterData = character.data;
-	}
-
-	public Vector3 GetLastWorldClickPoint() => data.worldClickPoint;
-	public void SetLastWorldClickPoint(Vector3 clickPoint)
-	{
-		data.worldClickPoint = clickPoint;
-	}
-
-
 }

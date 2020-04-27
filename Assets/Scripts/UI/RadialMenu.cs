@@ -3,31 +3,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RadialMenu : MonoBehaviour
+namespace MyFolk
 {
-	public Vector3 worldPoint;
-	public RadialButtonUI buttonPrefab;
-
-	public void SpawnButtons(InteractableItemClickedEventInfo obj)
+	public class RadialMenu : MonoBehaviour
 	{
-		StartCoroutine(AnimateButtons(obj));
-	}
+		public Vector3 worldPoint;
+		public RadialButtonUI buttonPrefab;
 
-	IEnumerator AnimateButtons(InteractableItemClickedEventInfo eventInfo)
-	{
-		for (int i = 0; i < eventInfo.iitem.Actions.Length; i++)
+		public void SpawnButtons(InteractableItemClickedEventInfo obj)
 		{
-			RadialButtonUI newButton = Instantiate(buttonPrefab) as RadialButtonUI;
-			newButton.transform.SetParent(transform, false);
+			StartCoroutine(AnimateButtons(obj));
+		}
 
-			float theta = (2 * Mathf.PI / eventInfo.iitem.Actions.Length) * i;
-			float xPos = Mathf.Sin(theta);
-			float yPos = Mathf.Cos(theta);
-			newButton.transform.localPosition = new Vector3(xPos, yPos, 0f) * 100f;
+		IEnumerator AnimateButtons(InteractableItemClickedEventInfo eventInfo)
+		{
+			for (int i = 0; i < eventInfo.iitem.Interactions.Length; i++)
+			{
+				RadialButtonUI newButton = Instantiate(buttonPrefab) as RadialButtonUI;
+				newButton.transform.SetParent(transform, false);
 
-			newButton.Init(this, eventInfo, eventInfo.iitem.Actions[i]);
-			newButton.Animate();
-			yield return new WaitForSeconds(0.03f);
+				float theta = (2 * Mathf.PI / eventInfo.iitem.Interactions.Length) * i;
+				float xPos = Mathf.Sin(theta);
+				float yPos = Mathf.Cos(theta);
+				newButton.transform.localPosition = new Vector3(xPos, yPos, 0f) * 100f;
+
+				newButton.Init(this, eventInfo, eventInfo.iitem.Interactions[i]);
+				newButton.Animate();
+				yield return new WaitForSeconds(0.03f);
+			}
 		}
 	}
 }

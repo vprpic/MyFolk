@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: TerrainData
   m_EditorClassIdentifier: 
   itemName: Floor
-  actions:
-  - {fileID: 11400000, guid: 0656c92280fa1e44d94d02112fef6856, type: 2}
+  interactions:
+  - {fileID: 11400000, guid: 8e57ab3c808c74a459d8fbdba21f1774, type: 2}

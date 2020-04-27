@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-[CreateAssetMenu(menuName = "InteractableItem/Data")]
-public class InteractableItemData : ScriptableObject
+namespace MyFolk
 {
-    public string itemName;
-    public ScriptableAction[] actions;
+    [System.Serializable]
+    [CreateAssetMenu(menuName = "InteractableItem/Data")]
+    public class InteractableItemData : ScriptableObject
+    {
+        public string itemName;
+        public Interaction[] interactions;
+    }
 }

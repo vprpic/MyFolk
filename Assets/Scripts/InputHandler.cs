@@ -3,27 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(UIInputHandler))]
-public class InputHandler : MonoBehaviour
+namespace MyFolk
 {
-    [HideInInspector]
-    public UIInputHandler uIInteractionHandler;
-    [HideInInspector]
-    public ItemInteractionHandler itemInteractionHandler;
-
-    private void Awake()
+    [RequireComponent(typeof(UIInputHandler))]
+    public class InputHandler : MonoBehaviour
     {
-        uIInteractionHandler = GetComponent<UIInputHandler>();
+        [HideInInspector]
+        public UIInputHandler uIInteractionHandler;
+        [HideInInspector]
+        public ItemInteractionHandler itemInteractionHandler;
 
-        itemInteractionHandler = new ItemInteractionHandler();
-        itemInteractionHandler.Init();
-    }
-
-    private void Update()
-    {
-        if (!uIInteractionHandler.isHovering)
+        private void Awake()
         {
-            itemInteractionHandler.CheckForHit();
+            uIInteractionHandler = GetComponent<UIInputHandler>();
+
+            itemInteractionHandler = new ItemInteractionHandler();
+            itemInteractionHandler.Init();
+        }
+
+        private void Update()
+        {
+            if (!uIInteractionHandler.isHovering)
+            {
+                itemInteractionHandler.CheckForHit();
+            }
         }
     }
 }

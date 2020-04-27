@@ -1,68 +1,83 @@
-﻿using System.Collections;
+﻿using EventCallbacks;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-[System.Serializable]
-public abstract class ScriptableAction : ScriptableObject
+namespace MyFolk
 {
-	public string actionName;
-	public Sprite sprite;
-	//TODO:
-	//public float attenuation;
-	//Attenuation reduces the attractiveness of an interaction over a distance. The higher the attenuation the closer the Sim will have
-	//to be before he feels like using the object.
-
-	//TODO: save animations for each action
-
-	#region Flags
-	[SerializeField]
-	private List<Flag> flags;
-
-	public bool ContainsFlag(Flag flag)
+	public enum ActionState
 	{
-		foreach (Flag f in flags)
-		{
-			if (f.value.Equals(flag.value))
-			{
-				return true;
-			}
-		}
-		return false;
+		NotStarted,
+		Starting,
+		Running,
+		Ending,
+		Done
 	}
-
-	//TODO: test
-	public bool ContainsAllFlags(List<Flag> flagList)
+	[System.Serializable]
+	public abstract class ScriptableAction : ScriptableObject
 	{
-		bool contained = true;
-		foreach (Flag flag1 in flagList)
+		public string actionName;
+		//TODO:
+		//public float attenuation;
+		//Attenuation reduces the attractiveness of an interaction over a distance. The higher the attenuation the closer the Sim will have
+		//to be before he feels like using the object.
+
+		//TODO: save animations for each action
+
+		#region Flags
+		[SerializeField]
+		private List<Flag> flags;
+
+		public bool ContainsFlag(Flag flag)
 		{
-			bool currentContained = false;
-			foreach (Flag flag2 in flags)
+			foreach (Flag f in flags)
 			{
-				if (flag2.value.Equals(flag1.value))
+				if (f.value.Equals(flag.value))
 				{
-					currentContained = true;
-					continue;
+					return true;
 				}
 			}
-			if (!currentContained)
-			{
-				contained = false;
-			}
+			return false;
 		}
-		return contained;
+
+		//TODO: test
+		public bool ContainsAllFlags(List<Flag> flagList)
+		{
+			bool contained = true;
+			foreach (Flag flag1 in flagList)
+			{
+				bool currentContained = false;
+				foreach (Flag flag2 in flags)
+				{
+					if (flag2.value.Equals(flag1.value))
+					{
+						currentContained = true;
+						continue;
+					}
+				}
+				if (!currentContained)
+				{
+					contained = false;
+				}
+			}
+			return contained;
+		}
+
+		#endregion Flags
+
+		#region Advertisement
+
+		//TODO: when AI implementation
+
+		#endregion Advertisement
+
+		public delegate void StartActionOver(); //the interaction is done starting, you can call the start action
+		public delegate void PerformActionOver(); //the interaction is done starting, you can call the end action
+		public delegate void EndActionOver(); //the interaction is done starting, you can call the end action
+		public delegate void ActionCanceled();
+
+		public abstract bool CheckIfPossible(InteractableItemClickedEventInfo eventInfo, ActionCanceled actionCanceled);
+		public abstract void StartAction(InteractableItemClickedEventInfo eventInfo, StartActionOver startActionOver, ActionCanceled actionCanceled);
+		public abstract void PerformAction(InteractableItemClickedEventInfo eventInfo, PerformActionOver performActionOver, ActionCanceled actionCanceled);
+		public abstract void EndAction(InteractableItemClickedEventInfo eventInfo, EndActionOver endActionOver, ActionCanceled actionCanceled);
 	}
-
-	#endregion Flags
-
-	#region Advertisement
-
-	//TODO: when AI implementation
-
-	#endregion Advertisement
-
-	public abstract bool CheckIfPossible(GameObject obj);
-	public abstract void StartAction();
-	public abstract void PerformAction(GameObject obj, Vector3 worldClickPoint);
-	public abstract void EndAction();
 }

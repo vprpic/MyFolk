@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using MyFolk;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace EventCallbacks
 {
+    [System.Serializable]
     public abstract class EventInfo
     {
         /*
@@ -27,6 +29,15 @@ namespace EventCallbacks
         public Vector3 worldClickPoint;
 
         public Vector3 screenClickPoint;
+
+        public InteractableItemClickedEventInfo(){}
+
+        public InteractableItemClickedEventInfo(InteractableItem iitem, Vector3 wcp, Vector3 scp)
+        {
+            this.iitem = iitem;
+            this.worldClickPoint = wcp;
+            this.screenClickPoint = scp;
+        }
 
         /*
 

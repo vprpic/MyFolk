@@ -1,7 +1,10 @@
 ﻿using UnityEngine.Events;
 
-[System.Serializable]
-public class UnityInteractableItemEvent : UnityEvent<InteractableItem>
+namespace MyFolk
 {
+	[System.Serializable]
+	public class UnityInteractableItemEvent : UnityEvent<InteractableItem>
+	{
 
+	}
 }

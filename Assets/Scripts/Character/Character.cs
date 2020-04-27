@@ -3,25 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-[System.Serializable]
-[RequireComponent(typeof(NavMeshAgent))]
-public class Character : MonoBehaviour
+namespace MyFolk
 {
-	public CharacterData data;
-	public NavMeshAgent navMeshAgent;
-
-	private void Awake()
+	[System.Serializable]
+	[RequireComponent(typeof(NavMeshAgent))]
+	public class Character : MonoBehaviour
 	{
-		navMeshAgent = GetComponent<NavMeshAgent>();
-	}
+		public CharacterData data;
+		public NavMeshAgent navMeshAgent;
+		public InteractionQueue interactionQueue;
 
-	private void Start()
-	{
-		Globals.ins.allCharacters.Add(this);
-	}
+		private void Awake()
+		{
+			navMeshAgent = GetComponent<NavMeshAgent>();
+			interactionQueue = new InteractionQueue();
+		}
 
-	public void SayYourName()
-	{
-		Debug.Log(data.characterFirstName + " " + data.characterLastName);
+		private void Start()
+		{
+			Globals.ins.allCharacters.Add(this);
+		}
+
+		private void Update()
+		{
+			interactionQueue.Update();
+		}
+
+		public void SayYourName()
+		{
+			Debug.Log(data.characterFirstName + " " + data.characterLastName);
+		}
 	}
 }
