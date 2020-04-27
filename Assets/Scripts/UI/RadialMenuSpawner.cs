@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using EventCallbacks;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,21 +20,19 @@ public class RadialMenuSpawner : MonoBehaviour
 	private void Awake()
 	{
 		mainCamera = Camera.main;
+		EventSystem.Current.RegisterListener<InteractableItemClickedEventInfo>(OnInteractableClick);
 	}
 
-	public void SpawnMenu(IInteractableItem item)
+	public void SpawnMenu(InteractableItemClickedEventInfo eventInfo)
 	{
-		if (item.Actions.Length != 0)
+		if (eventInfo.iitem.Actions.Length != 0)
 		{
 			RadialMenu newMenu = Instantiate(menuPrefab) as RadialMenu;
 			newMenu.transform.SetParent(transform, false);
-			//TODO: test with item.pointclick and change in interactable to give 
-			Vector3 mousePosition = Input.mousePosition;
-			//newMenu.worldPoint = mainCamera.ScreenToWorldPoint(mousePosition);
-			newMenu.transform.position = mousePosition;
+			newMenu.transform.position = eventInfo.screenClickPoint;
 			spawnedMenu = newMenu;
-			spawnedMenu.worldPoint = item.ClickPoint;
-			newMenu.SpawnButtons(item);
+			//spawnedMenu.worldPoint = eventInfo.worldClickPoint;
+			newMenu.SpawnButtons(eventInfo);
 		}
 	}
 
@@ -46,17 +45,30 @@ public class RadialMenuSpawner : MonoBehaviour
 		DestroyMenu();
 	}
 
-	public void OnInteractableClick(IInteractableItem item)
+	void OnInteractableClick(InteractableItemClickedEventInfo interactableItemClickedInfo)
 	{
+		Debug.Log("Alerted about interactable clicked: " + interactableItemClickedInfo.iitem.itemName);
 		if (spawnedMenu == null)
 		{
-			SpawnMenu(item);
+			SpawnMenu(interactableItemClickedInfo);
 		}
 		else
 		{
 			DestroyMenu();
 		}
 	}
+
+	//public void OnInteractableClick(IInteractableItem item)
+	//{
+	//	if (spawnedMenu == null)
+	//	{
+	//		SpawnMenu(item);
+	//	}
+	//	else
+	//	{
+	//		DestroyMenu();
+	//	}
+	//}
 
 	private void DestroyMenu()
 	{

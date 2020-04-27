@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractableItem : MonoBehaviour, IInteractableItem
+public class InteractableItem : MonoBehaviour
 {
-    public InteractableItem ins => this;
-    public InteractableItemEvent onInteractable;
     private Vector3 _clickPoint;
     [SerializeField]
     public InteractableItemData data;
@@ -30,8 +28,8 @@ public class InteractableItem : MonoBehaviour, IInteractableItem
     public void OnInteract(Vector3 clickPoint)
     {
         this._clickPoint = clickPoint;
-        if (!clickPoint.Equals(Vector3.zero))
-            onInteractable.Raise(this);
+        //if (!clickPoint.Equals(Vector3.zero))
+        //    onInteractable.Raise(this);
     }
 
     public void OnEndHover()

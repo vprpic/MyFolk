@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 using MyFolk.FlexibleUI;
+using EventCallbacks;
 
 [RequireComponent(typeof(Image))]
 [RequireComponent(typeof(Button))]
@@ -17,16 +18,16 @@ public class RadialButtonUI : FlexibleUIButton
 	public TextMeshProUGUI text;
 	public string title;
 	public float animateSpeed = 8f;
-	public InteractableItem interactableItemClickedOn;
+	public InteractableItemClickedEventInfo interactableItemEventInfo;
 
 	//used in the radialMenuSpawner to disable the menu
 	public VoidEvent onRadialButtonClick;
 	[HideInInspector]
 	public ScriptableAction buttonAction;
 
-	public void Init(RadialMenu parent, IInteractableItem item, ScriptableAction action)
+	public void Init(RadialMenu parent, InteractableItemClickedEventInfo eventInfo, ScriptableAction action)
 	{
-		this.interactableItemClickedOn = item.ins;
+		this.interactableItemEventInfo = eventInfo;
 		this.buttonAction = action;
 
 		this.icon.sprite = buttonAction.sprite;
@@ -55,7 +56,7 @@ public class RadialButtonUI : FlexibleUIButton
 
 	public void OnRadialButtonClick()
 	{
-		buttonAction.PerformAction(interactableItemClickedOn.gameObject, menuParent.worldPoint);
+		buttonAction.PerformAction(interactableItemEventInfo.iitem.gameObject, interactableItemEventInfo.worldClickPoint);
 		onRadialButtonClick.Raise();
 	}
 

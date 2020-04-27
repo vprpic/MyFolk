@@ -12,6 +12,8 @@ public abstract class ScriptableAction : ScriptableObject
 	//Attenuation reduces the attractiveness of an interaction over a distance. The higher the attenuation the closer the Sim will have
 	//to be before he feels like using the object.
 
+	//TODO: save animations for each action
+
 	#region Flags
 	[SerializeField]
 	private List<Flag> flags;
@@ -59,6 +61,8 @@ public abstract class ScriptableAction : ScriptableObject
 
 	#endregion Advertisement
 
-	public abstract void PerformAction(GameObject obj, Vector3 worldClickPoint);
 	public abstract bool CheckIfPossible(GameObject obj);
+	public abstract void StartAction();
+	public abstract void PerformAction(GameObject obj, Vector3 worldClickPoint);
+	public abstract void EndAction();
 }

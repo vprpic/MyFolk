@@ -1,15 +1,16 @@
-﻿using System;
+﻿using EventCallbacks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class ItemInteractionHandler
 {
 	public Ray ray;
 	public Camera mainCamera;
 	public float range = 500f;
-	public InteractableItem currentTarget;
+	public InteractableItem currentTargetIItem;
+	public InteractableItemClickedEventInfo currentEventInfo;
 	private bool isHit;
 	RaycastHit whatIHit;
 	public void Init()
@@ -26,76 +27,82 @@ public class ItemInteractionHandler
 	{
 		if (Input.GetMouseButtonDown(0))
 		{
-			if (currentTarget != null)
+			if (currentTargetIItem != null)
 			{
-				Globals.ins.SetLastWorldClickPoint(whatIHit.point);
-				Debug.Log("InteractionRaycasting-Update-whatIHit: " + whatIHit.collider.name+"\n" +
-					whatIHit.point);
-				currentTarget.OnInteract(whatIHit.point);
+				//Debug.Log("InteractionRaycasting-Update-whatIHit: " + whatIHit.collider.name+"\n" +
+					//whatIHit.point);
+				currentEventInfo.iitem = currentTargetIItem;
+				EventSystem.Current.FireEvent(
+					currentEventInfo
+				);
+				currentTargetIItem.OnInteract(whatIHit.point); //the interactable doesn't listen to the event, all of them would be activated
 			}
 		}
 	}
 
 	private void RaycastForTarget()
 	{
-		float distance;
+		if(currentEventInfo == null)
+		{
+			currentEventInfo = new InteractableItemClickedEventInfo();
+		}
 		InteractableItem interactable = null;
-		Vector3 mousePosition = Input.mousePosition;
-		Ray ray = mainCamera.ScreenPointToRay(mousePosition);
+		currentEventInfo.screenClickPoint = Input.mousePosition;
+		Ray ray = mainCamera.ScreenPointToRay(currentEventInfo.screenClickPoint);
 		isHit = Physics.Raycast(ray, out whatIHit, range);
 		if (isHit)
 		{
-			distance = whatIHit.distance;
+			currentEventInfo.worldClickPoint = whatIHit.point;
 			interactable = whatIHit.collider.GetComponent<InteractableItem>();
 
 			if(interactable != null)
 			{
 				if(whatIHit.distance <= interactable.MaxRange)
 				{
-					if (interactable == currentTarget)
+					if (interactable == currentTargetIItem)
 					{
 						return;
 					}
-					else if (currentTarget != null)
+					else if (currentTargetIItem != null)
 					{
-						currentTarget.OnEndHover();
-						currentTarget = interactable;
-						currentTarget.OnStartHover();
+						currentTargetIItem.OnEndHover();
+						currentTargetIItem = interactable;
+						currentTargetIItem.OnStartHover();
 						return;
 					}
 					else
 					{
-						currentTarget = interactable;
-						currentTarget.OnStartHover();
+						currentTargetIItem = interactable;
+						currentTargetIItem.OnStartHover();
 						return;
 					}
 				}
 				else
 				{
-					if(currentTarget != null)
+					if(currentTargetIItem != null)
 					{
-						currentTarget.OnEndHover();
-						currentTarget = null;
+						currentTargetIItem.OnEndHover();
+						currentTargetIItem = null;
 						return;
 					}
 				}
 			}
 			else
 			{
-				if (currentTarget != null)
+				if (currentTargetIItem != null)
 				{
-					currentTarget.OnEndHover();
-					currentTarget = null;
+					currentTargetIItem.OnEndHover();
+					currentTargetIItem = null;
 					return;
 				}
 			}
 		}
 		else
 		{
-			if (currentTarget != null)
+			if (currentTargetIItem != null)
 			{
-				currentTarget.OnEndHover();
-				currentTarget = null;
+				currentTargetIItem.OnEndHover();
+				currentTargetIItem = null;
 				return;
 			}
 		}
