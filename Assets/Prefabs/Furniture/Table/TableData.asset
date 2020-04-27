@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: TableData
   m_EditorClassIdentifier: 
   itemName: Table
-  actions:
-  - {fileID: 11400000, guid: 1e5c5ffa4280bbf4880d66b5afb52a12, type: 2}
-  - {fileID: 11400000, guid: 0656c92280fa1e44d94d02112fef6856, type: 2}
+  interactions:
+  - {fileID: 11400000, guid: da14b8ffd0265d34282837c27579cbcc, type: 2}

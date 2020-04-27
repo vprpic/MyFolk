@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace MyFolk
 {
-	[CreateAssetMenu(menuName = "Interactions/Actions/Look At")]
+	[CreateAssetMenu(menuName = "Interactions/Actions/Look At", fileName = "LookAt_Action")]
 	public class LookAtAction : ScriptableAction
 	{
 		public float lookSpeed;
