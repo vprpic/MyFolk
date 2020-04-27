@@ -81,6 +81,7 @@ namespace MyFolk
 			else
 			{
 				this.currentActionIndex = newIndex;
+				this.currentActionState = ActionState.NotStarted;
 			}
 		}
 		public void RunInteraction(bool run)

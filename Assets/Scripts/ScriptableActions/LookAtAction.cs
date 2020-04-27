@@ -8,17 +8,10 @@ namespace MyFolk
 	[CreateAssetMenu(menuName = "Interactions/Actions/Look At")]
 	public class LookAtAction : ScriptableAction
 	{
-		public float damping;
-		///// <param name="obj">The gameobject the player clicked on</param>
-		//public override void PerformAction(GameObject obj, Vector3 worldClickPoint)
-		//{
-		//	InteractableItem ii = obj.GetComponent<InteractableItem>();
-		//	Debug.Log("LookAtScriptableAction - Looking at " + ii.itemName);
-		//	Character c = Globals.ins.currentlySelectedCharacter;
-
-		//	Quaternion targetRotation = Quaternion.LookRotation(ii.transform.position - c.transform.position);
-		//	c.transform.localRotation = targetRotation;
-		//}
+		public float lookSpeed;
+		private float currentRotationPercentage;
+		private Quaternion prevQuaternion;
+		
 		public override bool CheckIfPossible(InteractableItemClickedEventInfo eventInfo, ActionCanceled actionCanceled)
 		{
 			return true;
@@ -26,6 +19,8 @@ namespace MyFolk
 
 		public override void StartAction(InteractableItemClickedEventInfo eventInfo, StartActionOver startActionOver, ActionCanceled actionCanceled)
 		{
+			currentRotationPercentage = 0f;
+			prevQuaternion = Quaternion.identity;
 			Debug.Log("Starting to look at item");
 			startActionOver.Invoke();
 		}
@@ -33,21 +28,28 @@ namespace MyFolk
 		{
 			Vector3 target = eventInfo.iitem.gameObject.transform.position;
 			Character character = Globals.ins.currentlySelectedCharacter;
+			Vector3 temp = target - character.gameObject.transform.position;
+			temp.y = 0;
 
-			Vector3 targetPostition = new Vector3(target.x,
-										character.gameObject.transform.position.y,
-										target.z);
-			character.gameObject.transform.LookAt(targetPostition);
-			float angle = Vector3.Angle(target, character.gameObject.transform.forward);
-			Debug.Log("angle: " + angle);
-			if (Vector3.Angle(target, character.gameObject.transform.forward) < 1)
+			Quaternion lookRotation = Quaternion.LookRotation((temp).normalized);
+			Debug.Log("look rotation: " + lookRotation);
+			//over time
+			character.gameObject.transform.rotation = Quaternion.Slerp(character.gameObject.transform.rotation, lookRotation, currentRotationPercentage);
+			currentRotationPercentage += Time.deltaTime * lookSpeed;
+			Debug.Log("currentRotationPercentage " + currentRotationPercentage);
+			if(prevQuaternion == lookRotation && currentRotationPercentage > 0.5f)
 			{
+				prevQuaternion = Quaternion.identity;
+				currentRotationPercentage = 0f;
 				performActionOver.Invoke();
 			}
+			prevQuaternion = lookRotation;
 		}
 
 		public override void EndAction(InteractableItemClickedEventInfo eventInfo, EndActionOver endActionOver, ActionCanceled actionCanceled)
 		{
+			prevQuaternion = Quaternion.identity;
+			currentRotationPercentage = 0f;
 			endActionOver.Invoke();
 		}
 	}

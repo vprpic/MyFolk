@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: LookAt
   m_EditorClassIdentifier: 
   actionName: Look At
-  damping: 10
+  lookSpeed: 0.1
