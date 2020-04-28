@@ -11,7 +11,6 @@ namespace MyFolk.FlexibleUI
     {
         protected Button button;
         protected Image image;
-        //public BoolEvent onEnterExitUI;
 
         public ButtonType buttonType;
 
@@ -29,11 +28,6 @@ namespace MyFolk.FlexibleUI
             image = GetComponent<Image>();
 
             base.Awake();
-        }
-
-        public void OnClick()
-        {
-
         }
 
         protected override void OnSkinUI()

@@ -1,60 +1,62 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-[CreateAssetMenu(fileName = "new Character Data", menuName = "Character Data")]
-[System.Serializable]
-public class CharacterData : ScriptableObject
+namespace MyFolk
 {
-	private void Init()
+	[CreateAssetMenu(fileName = "new Character Data", menuName = "Character Data")]
+	[System.Serializable]
+	public class CharacterData : ScriptableObject
 	{
-		id = GlobalsDataObject.instance.totalCharactersInstantiated;
-		GlobalsDataObject.instance.totalCharactersInstantiated++;
-		Debug.Log("Created a character! Id: " + id);
-
-		Hunger = new CharacterStat();
-		Energy = new CharacterStat();
-		Fun = new CharacterStat();
-		Social = new CharacterStat();
-		Comfort = new CharacterStat();
-		Health = new CharacterStat();
-
-		Hunger.name = "Hunger";
-		Energy.name = "Energy";
-		Fun.name = "Fun";
-		Social.name = "Social";
-		Comfort.name = "Comfort";
-		Health.name = "Health";
-	}
-
-	private int _id = -1;
-	public int id
-	{
-		get
+		private void Init()
 		{
-			if(_id < 0)
+			id = GlobalsDataObject.instance.totalCharactersInstantiated;
+			GlobalsDataObject.instance.totalCharactersInstantiated++;
+			Debug.Log("Created a character! Id: " + id);
+
+			Hunger = new CharacterStat();
+			Energy = new CharacterStat();
+			Fun = new CharacterStat();
+			Social = new CharacterStat();
+			Comfort = new CharacterStat();
+			Health = new CharacterStat();
+
+			Hunger.charName = "Hunger";
+			Energy.charName = "Energy";
+			Fun.charName = "Fun";
+			Social.charName = "Social";
+			Comfort.charName = "Comfort";
+			Health.charName = "Health";
+		}
+
+		private int _id = -1;
+		public int id
+		{
+			get
 			{
-				this.Init();
+				if (_id < 0)
+				{
+					this.Init();
+				}
+				return _id;
 			}
-			return _id;
+			set
+			{
+				_id = value;
+			}
 		}
-		set
-		{
-			_id = value;
-		}
+
+		public CharacterStat Hunger = new CharacterStat("Hunger");
+		public CharacterStat Energy = new CharacterStat("Energy");
+		public CharacterStat Fun = new CharacterStat("Fun");
+		public CharacterStat Social = new CharacterStat("Social");
+		public CharacterStat Comfort = new CharacterStat("Comfort");
+		public CharacterStat Health = new CharacterStat("Health");
+
+		public Vector3 currentWorldPosition;
+		public string characterFirstName;
+		public string characterLastName;
+
+		public bool isSelected;
+		//public bool isActive;
 	}
-
-	public CharacterStat Hunger;
-	public CharacterStat Energy;
-	public CharacterStat Fun;
-	public CharacterStat Social;
-	public CharacterStat Comfort;
-	public CharacterStat Health;
-
-	public Vector3 currentWorldPosition;
-	public string characterFirstName;
-	public string characterLastName;
-
-	public bool isSelected;
-	//public bool isActive;
 }

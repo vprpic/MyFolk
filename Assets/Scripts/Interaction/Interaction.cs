@@ -12,7 +12,7 @@ namespace MyFolk
 	public class Interaction : ScriptableObject
 	{
 		public string interactionName;
-		public Sprite sprite;
+		public Sprite radialButtonSprite;
 		public List<ScriptableAction> actions = new List<ScriptableAction>();
 
 		internal void RunCurrentInteraction(Action currentInteractionCompleted, Action currentInteractionCancelled)

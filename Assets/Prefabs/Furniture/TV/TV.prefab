@@ -15,8 +15,8 @@ GameObject:
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2283457082691697835
 Transform:
@@ -94,8 +94,8 @@ GameObject:
   m_Name: Screen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &3265227288502636385
 Transform:
@@ -168,7 +168,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7949318392676549786}
   - component: {fileID: 3428665955995006407}
-  - component: {fileID: 207212896687906455}
+  - component: {fileID: 8873181647645501262}
   m_Layer: 0
   m_Name: TV
   m_TagString: Untagged
@@ -207,7 +207,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -3298800115395149385, guid: dab2abfcbf79e204fa18f44e10801c22, type: 3}
---- !u!114 &207212896687906455
+--- !u!114 &8873181647645501262
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -219,7 +219,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b1a6a07fd8b78643a0e4c9cf2ef26b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onInteractable: {fileID: 0}
   data: {fileID: 0}
 --- !u!1 &8332827071110570228
 GameObject:
@@ -236,8 +235,8 @@ GameObject:
   m_Name: Stand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8982558847129662697
 Transform:

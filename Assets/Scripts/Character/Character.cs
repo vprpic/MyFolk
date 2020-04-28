@@ -16,7 +16,7 @@ namespace MyFolk
 		private void Awake()
 		{
 			navMeshAgent = GetComponent<NavMeshAgent>();
-			interactionQueue = new InteractionQueue();
+			interactionQueue = new InteractionQueue(this);
 		}
 
 		private void Start()

@@ -11,6 +11,9 @@ namespace MyFolk.FlexibleUI
         public Sprite buttonSprite;
         public SpriteState buttonSpriteState;
 
+        public Sprite interactionQueueSprite;
+        public SpriteState interactionQueueSpriteState;
+
         public Color defaultColor;
         public Color confirmColor;
         public Color declineColor;

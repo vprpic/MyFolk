@@ -9,12 +9,12 @@ namespace MyFolk
         private Vector3 _clickPoint;
         [SerializeField]
         public InteractableItemData data;
-        public float MaxRange => 100f;
+        public float RaycastRange => 100f;
 
         public string itemName => data.itemName;
         public Interaction[] Interactions => data.interactions;
-        public Vector3 ClickPoint => _clickPoint;
-
+        public Vector3 InteractionPoint => data.interactionPoint;
+        public Sprite QueueSprite => data.queueSprite;
         private void Awake()
         {
             if (data == null)

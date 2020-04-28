@@ -15,8 +15,8 @@ GameObject:
   m_Name: Leg.Back.Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &6113664214875154133
 Transform:
@@ -89,7 +89,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4172764158070696600}
   m_Layer: 0
-  m_Name: TableModel
+  m_Name: Table_Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -129,8 +129,8 @@ GameObject:
   m_Name: Leg.Front.Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &3068444088828245503
 Transform:
@@ -208,8 +208,8 @@ GameObject:
   m_Name: Surface
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2884588843946992343
 Transform:
@@ -287,8 +287,8 @@ GameObject:
   m_Name: Leg.Back.Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1691779719727706548
 Transform:
@@ -366,8 +366,8 @@ GameObject:
   m_Name: Leg.Front.Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1927756423814602672
 Transform:

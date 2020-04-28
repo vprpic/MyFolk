@@ -7,15 +7,17 @@ namespace MyFolk
 {
 	public class InteractionQueue
 	{
-		private List<(Interaction, InteractableItemClickedEventInfo)> interactionQueue;
+		public Character owner;
+		public List<(Interaction, InteractableItemClickedEventInfo)> interactionQueue;
 		private bool runningInteraction;
 		public (Interaction, InteractableItemClickedEventInfo) currentInteraction;
 		public ScriptableAction currentAction;
 		public int currentActionIndex;
 		public ActionState currentActionState;
-
-		public InteractionQueue()
+		
+		public InteractionQueue(Character owner)
 		{
+			this.owner = owner;
 			Init();
 		}
 		public void Init()
@@ -29,6 +31,7 @@ namespace MyFolk
 		public void EnqueueInteraction(Interaction interaction, InteractableItemClickedEventInfo eventInfo)
 		{
 			interactionQueue.Add((interaction, eventInfo));
+			EventSystem.Current.FireEvent(new InteractionEnqueueEventInfo(interaction, eventInfo));
 		}
 
 		public void RemoveFromQueue(int index)
@@ -44,6 +47,7 @@ namespace MyFolk
 			{
 				i = interactionQueue[0].Item1;
 				info = interactionQueue[0].Item2;
+				//EventSystem.Current.FireEvent(new InteractionDequeueEventInfo(i, info));
 				interactionQueue.RemoveAt(0);
 			}
 			return (i, info);
@@ -53,10 +57,13 @@ namespace MyFolk
 			RunInteraction(false);
 			currentActionState = ActionState.NotStarted;
 			currentActionIndex = 0;
+			if(currentInteraction != (null, null) && Globals.ins.currentlySelectedCharacter.Equals(owner)) {
+				EventSystem.Current.FireEvent(new InteractionDequeueEventInfo(currentInteraction.Item1, currentInteraction.Item2));
+			}
 			currentInteraction = DequeueFirst();
 			if(interactionQueue.Count == 0)
 			{
-				Debug.Log("Interaction Queue is empty");
+				//Debug.Log("Interaction Queue is empty");
 				return;
 			}
 
@@ -65,7 +72,11 @@ namespace MyFolk
 				Debug.Log("Current interaction impossible, skipping to next.");
 				SetNextInteraction();
 			}
-			if(currentInteraction.Item1.actions != null && currentInteraction.Item1.actions.Count > 0)
+
+			//if (currentInteraction.Item1 != null && currentInteraction.Item2 != null)
+			//	EventSystem.Current.FireEvent(new InteractionDequeueEventInfo(currentInteraction.Item1, currentInteraction.Item2));
+
+			if (currentInteraction.Item1.actions != null && currentInteraction.Item1.actions.Count > 0)
 				currentAction = currentInteraction.Item1.actions[0];
 			RunInteraction(true);
 		}

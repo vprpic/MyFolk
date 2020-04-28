@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EventCallbacks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +43,7 @@ namespace MyFolk
 
 		private void SetSelectedCharacter()
 		{
-			Character c;
+			Character c = null;
 			if (allCharacters.Count == 0)
 			{
 				allCharacters = FindObjectsOfType<Character>().ToList();
@@ -75,6 +76,8 @@ namespace MyFolk
 				c.data.isSelected = true;
 				SetSelectedCharacter(c);
 			}
+			if (c != null)
+				EventSystem.Current.FireEvent(new CharacterSelectedEventInfo(null, c));
 		}
 
 		private Character FindCharacterFromId(int characterId)

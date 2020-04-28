@@ -63,7 +63,7 @@ namespace MyFolk
 
 				if (interactable != null)
 				{
-					if (whatIHit.distance <= interactable.MaxRange)
+					if (whatIHit.distance <= interactable.RaycastRange)
 					{
 						if (interactable == currentTargetIItem)
 						{

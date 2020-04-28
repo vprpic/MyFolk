@@ -15,3 +15,5 @@ MonoBehaviour:
   itemName: Table
   interactions:
   - {fileID: 11400000, guid: da14b8ffd0265d34282837c27579cbcc, type: 2}
+  interactionPoint: {x: 0, y: 0, z: 0}
+  queueSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace MyFolk
+namespace MyFolk.UI
 {
 	public class RadialMenuSpawner : MonoBehaviour
 	{
@@ -17,12 +17,13 @@ namespace MyFolk
 		/// <summary>
 		/// When the radial menu is destroyed it doesn't register as stopped hovering so we raise the event after destroying
 		/// </summary>
-		public BoolEvent onEnterExitUI;
+		//public BoolEvent onEnterExitUI;
 
 		private void Awake()
 		{
 			mainCamera = Camera.main;
 			EventSystem.Current.RegisterListener<InteractableItemClickedEventInfo>(OnInteractableClick);
+			EventSystem.Current.RegisterListener<RadialButtonClickEventInfo>(OnRadialButtonClicked);
 		}
 
 		public void SpawnMenu(InteractableItemClickedEventInfo eventInfo)
@@ -41,10 +42,10 @@ namespace MyFolk
 		/// <summary>
 		/// A radial button from the menu has been clicked, remove the menu from screen
 		/// </summary>
-		public void OnRadialButtonClicked()
+		public void OnRadialButtonClicked(RadialButtonClickEventInfo radialButtonClickEventInfo)
 		{
 			//TODO: no destroying
-			DestroyMenu();
+			DestroyMenu(radialButtonClickEventInfo);
 		}
 
 		void OnInteractableClick(InteractableItemClickedEventInfo interactableItemClickedInfo)
@@ -60,10 +61,12 @@ namespace MyFolk
 			}
 		}
 
-		private void DestroyMenu()
+		private void DestroyMenu(RadialButtonClickEventInfo radialButtonClickEventInfo = null)
 		{
 			GameObject.Destroy(spawnedMenu.gameObject);
-			onEnterExitUI.Raise(false);
+			EventSystem.Current.FireEvent(new FlexibleUIEnterExitEventInfo(
+				radialButtonClickEventInfo != null ? radialButtonClickEventInfo.radialButtonUI : null,
+				false));
 		}
 	}
 }

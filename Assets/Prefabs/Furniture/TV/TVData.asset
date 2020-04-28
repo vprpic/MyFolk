@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: TVData
   m_EditorClassIdentifier: 
   itemName: TV
-  actions:
-  - {fileID: 11400000, guid: 1e5c5ffa4280bbf4880d66b5afb52a12, type: 2}
+  interactions: []
+  interactionPoint: {x: 0, y: 0, z: 0}
+  queueSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}

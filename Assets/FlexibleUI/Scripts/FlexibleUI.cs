@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using EventCallbacks;
 
 namespace MyFolk.FlexibleUI
 {
@@ -13,7 +14,7 @@ namespace MyFolk.FlexibleUI
         /// <summary>
         /// Must be attached in the editor for every UI element, used in the UIInputHandler component
         /// </summary>
-        public BoolEvent onEnterExitUI;
+        //public BoolEvent onEnterExitUI;
 
         protected virtual void OnSkinUI()
         {
@@ -27,19 +28,16 @@ namespace MyFolk.FlexibleUI
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if (onEnterExitUI != null)
-            {
-                //onEnterExitUI must be attached in the editor on every FlexibleUI element
-                onEnterExitUI.Raise(true);
-            }
+            Debug.Log("OnPointerEnter");
+            if(eventData != null)
+                EventCallbacks.EventSystem.Current.FireEvent(new FlexibleUIEnterExitEventInfo(this, true));
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            if (onEnterExitUI != null)
-            {
-                onEnterExitUI.Raise(false);
-            }
+            Debug.Log("OnPointerExit");
+            if (eventData != null)
+                EventCallbacks.EventSystem.Current.FireEvent(new FlexibleUIEnterExitEventInfo(this, false));
         }
 
         //TODO: remove
@@ -51,6 +49,7 @@ namespace MyFolk.FlexibleUI
                 OnSkinUI();
             }
         }
+
 #endif
     }
 }

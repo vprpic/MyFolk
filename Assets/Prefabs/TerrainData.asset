@@ -15,3 +15,5 @@ MonoBehaviour:
   itemName: Floor
   interactions:
   - {fileID: 11400000, guid: 8e57ab3c808c74a459d8fbdba21f1774, type: 2}
+  interactionPoint: {x: 0, y: 0, z: 0}
+  queueSprite: {fileID: 21300000, guid: 8b3a29eb1da75744080b6515bae58059, type: 3}

@@ -7,7 +7,7 @@ using TMPro;
 using MyFolk.FlexibleUI;
 using EventCallbacks;
 
-namespace MyFolk
+namespace MyFolk.UI
 {
 	[RequireComponent(typeof(Image))]
 	[RequireComponent(typeof(Button))]
@@ -22,18 +22,15 @@ namespace MyFolk
 		public float animateSpeed = 8f;
 		public InteractableItemClickedEventInfo interactableItemEventInfo;
 
-		//used in the radialMenuSpawner to disable the menu
-		public VoidEvent onRadialButtonClick;
 		[HideInInspector]
-		public Interaction buttonInteraction;//buttonAction;
+		public Interaction buttonInteraction;
 
 		public void Init(RadialMenu parent, InteractableItemClickedEventInfo eventInfo, Interaction interaction)
 		{
 			this.interactableItemEventInfo = eventInfo;
 			this.buttonInteraction = interaction;
-			//this.buttonAction = action;
 
-			this.icon.sprite = interaction.sprite; //buttonAction.sprite;
+			this.icon.sprite = interaction.radialButtonSprite;
 			this.title = interaction.interactionName;
 			this.text.SetText(interaction.interactionName);
 			this.menuParent = parent;
@@ -57,12 +54,13 @@ namespace MyFolk
 			transform.localScale = Vector3.one;
 		}
 
+		/// <summary>
+		/// Referenced in editor
+		/// </summary>
 		public void OnRadialButtonClick()
 		{
-			//TODO(interaction)
 			Globals.ins.currentlySelectedCharacter.interactionQueue.EnqueueInteraction(this.buttonInteraction, this.interactableItemEventInfo);
-			//buttonAction.PerformAction(interactableItemEventInfo.iitem.gameObject, interactableItemEventInfo.worldClickPoint);
-			onRadialButtonClick.Raise();
+			EventCallbacks.EventSystem.Current.FireEvent(new RadialButtonClickEventInfo(this));
 		}
 
 	}

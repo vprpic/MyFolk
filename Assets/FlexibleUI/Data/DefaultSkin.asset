@@ -17,8 +17,15 @@ MonoBehaviour:
     m_HighlightedSprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
     m_PressedSprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
     m_SelectedSprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-    m_DisabledSprite: {fileID: 21300000, guid: 8b3a29eb1da75744080b6515bae58059, type: 3}
-  defaultColor: {r: 0.46635816, g: 0.754717, b: 0.46804067, a: 1}
+    m_DisabledSprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  interactionQueueSprite: {fileID: 10907, guid: 0000000000000000f000000000000000,
+    type: 0}
+  interactionQueueSpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  defaultColor: {r: 0.681, g: 1, b: 0.8032833, a: 1}
   confirmColor: {r: 0.82582784, g: 0.990566, b: 0.4999555, a: 1}
   declineColor: {r: 0.33664113, g: 0.829238, b: 0.8396226, a: 1}
   warningColor: {r: 1, g: 0.70283026, b: 0.7028302, a: 1}
