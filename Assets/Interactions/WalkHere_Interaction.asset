@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: WalkHere_Interaction
   m_EditorClassIdentifier: 
   interactionName: Walk Here
-  sprite: {fileID: 21300000, guid: 8b3a29eb1da75744080b6515bae58059, type: 3}
+  radialButtonSprite: {fileID: 21300000, guid: 8b3a29eb1da75744080b6515bae58059, type: 3}
   actions:
   - {fileID: 11400000, guid: 0656c92280fa1e44d94d02112fef6856, type: 2}

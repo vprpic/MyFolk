@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GetFood_Interaction
   m_EditorClassIdentifier: 
   interactionName: Get Food
-  sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  radialButtonSprite: {fileID: 21300000, guid: 0ab32fdceb25aaf45b866baec470bba9, type: 3}
   actions:
   - {fileID: 11400000, guid: 0656c92280fa1e44d94d02112fef6856, type: 2}
   - {fileID: 11400000, guid: 1e5c5ffa4280bbf4880d66b5afb52a12, type: 2}
