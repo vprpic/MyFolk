@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace MyFolk
 {
+
 	public enum ActionState
 	{
 		NotStarted,
@@ -74,11 +75,14 @@ namespace MyFolk
 		public delegate void PerformActionOver(); //the interaction is done starting, you can call the end action
 		public delegate void EndActionOver(); //the interaction is done starting, you can call the end action
 		public delegate void ActionCanceled();
+		public delegate void ReturnCurrentInteractionState(ActionStateData actionStateData);
 
-		public abstract bool CheckIfPossible(InteractableItemClickedEventInfo eventInfo, ActionCanceled actionCanceled);
-		public abstract void StartAction(InteractableItemClickedEventInfo eventInfo, StartActionOver startActionOver, ActionCanceled actionCanceled);
-		public abstract void PerformAction(InteractableItemClickedEventInfo eventInfo, PerformActionOver performActionOver, ActionCanceled actionCanceled);
-		public abstract void EndAction(InteractableItemClickedEventInfo eventInfo, EndActionOver endActionOver, ActionCanceled actionCanceled);
-		public abstract void CancelAction(InteractableItemClickedEventInfo eventInfo, EndActionOver endActionOver, ActionCanceled actionCanceled);
+		public abstract bool CheckIfPossible(InteractableItemClickedEventInfo eventInfo);
+		public abstract void StartAction(InteractableItemClickedEventInfo eventInfo,
+			ReturnCurrentInteractionState returnCurrentInteractionState, StartActionOver startActionOver, ActionCanceled actionCanceled);
+		public abstract void PerformAction(ActionStateData actionStateData, ReturnCurrentInteractionState returnCurrentInteractionState,
+			PerformActionOver performActionOver, ActionCanceled actionCanceled);
+		public abstract void EndAction(ActionStateData actionStateData, EndActionOver endActionOver, ActionCanceled actionCanceled);
+		public abstract void CancelAction(ActionStateData actionStateData, EndActionOver endActionOver, ActionCanceled actionCanceled);
 	}
 }

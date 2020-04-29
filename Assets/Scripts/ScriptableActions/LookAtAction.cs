@@ -9,52 +9,62 @@ namespace MyFolk
 	public class LookAtAction : ScriptableAction
 	{
 		public float lookSpeed;
-		private float currentRotationPercentage;
-		private Quaternion prevQuaternion;
+		public float maxInteractionTime;
 		
-		public override bool CheckIfPossible(InteractableItemClickedEventInfo eventInfo, ActionCanceled actionCanceled)
+		public override bool CheckIfPossible(InteractableItemClickedEventInfo eventInfo)
 		{
 			return true;
 		}
 
-		public override void StartAction(InteractableItemClickedEventInfo eventInfo, StartActionOver startActionOver, ActionCanceled actionCanceled)
-		{
-			currentRotationPercentage = 0f;
-			prevQuaternion = Quaternion.identity;
-			Debug.Log("Starting to look at item");
-			startActionOver.Invoke();
-		}
-		public override void PerformAction(InteractableItemClickedEventInfo eventInfo, PerformActionOver performActionOver, ActionCanceled actionCanceled)
+		public override void StartAction(InteractableItemClickedEventInfo eventInfo, ReturnCurrentInteractionState returnCurrentInteractionState, 
+			StartActionOver startActionOver, ActionCanceled actionCanceled)
 		{
 			Vector3 target = eventInfo.iitem.gameObject.transform.position;
-			Vector3 temp = target - eventInfo.character.gameObject.transform.position;
-			temp.y = 0;
+			//Vector3 target = new Vector3(eventInfo.character.gameObject.transform.forward.x, 
+				//eventInfo.iitem.gameObject.transform.position.y, eventInfo.character.gameObject.transform.forward.z);
+			LookAtStateData asd = new LookAtStateData(eventInfo, target);
+			asd.firstCharacterRotation = eventInfo.character.transform.rotation;
+			Debug.Log("Starting to look at item");
+			returnCurrentInteractionState(asd);
+			startActionOver();
+		}
 
-			Quaternion lookRotation = Quaternion.LookRotation((temp).normalized);
-			Debug.Log("look rotation: " + lookRotation);
-			//over time
-			eventInfo.character.gameObject.transform.rotation = Quaternion.Slerp(eventInfo.character.gameObject.transform.rotation, lookRotation, currentRotationPercentage);
-			currentRotationPercentage += Time.deltaTime * lookSpeed;
-			//Debug.Log("currentRotationPercentage " + currentRotationPercentage);
-			if(prevQuaternion == lookRotation && currentRotationPercentage > 0.5f)
+
+		public override void PerformAction(ActionStateData actionStateData, ReturnCurrentInteractionState returnCurrentInteractionState, 
+			PerformActionOver performActionOver, ActionCanceled actionCanceled)
+		{
+			LookAtStateData asd = (LookAtStateData)actionStateData;
+			if (asd == null)
 			{
-				prevQuaternion = Quaternion.identity;
-				currentRotationPercentage = 0f;
-				performActionOver.Invoke();
+				Debug.LogError("LookAtStateData not found in actionStateData");
+				actionCanceled();
+				return;
 			}
-			prevQuaternion = lookRotation;
+
+			Vector3 tempTarget = asd.target - asd.eventInfo.character.gameObject.transform.position;
+			tempTarget.y = 0;
+
+			Quaternion lookRotation = Quaternion.LookRotation((tempTarget).normalized);
+			asd.timer += Time.deltaTime * lookSpeed;
+			float tempPerc = asd.timer / maxInteractionTime;
+			asd.eventInfo.character.gameObject.transform.rotation = Quaternion.Slerp(asd.firstCharacterRotation, lookRotation, tempPerc);
+
+			if (tempPerc >= 1)
+			{
+
+				performActionOver();
+			}
+			returnCurrentInteractionState(asd);
 		}
 
-		public override void EndAction(InteractableItemClickedEventInfo eventInfo, EndActionOver endActionOver, ActionCanceled actionCanceled)
+		public override void EndAction(ActionStateData actionStateData, EndActionOver endActionOver, ActionCanceled actionCanceled)
 		{
-			prevQuaternion = Quaternion.identity;
-			currentRotationPercentage = 0f;
-			endActionOver.Invoke();
+			endActionOver();
 		}
 
-		public override void CancelAction(InteractableItemClickedEventInfo eventInfo, EndActionOver endActionOver, ActionCanceled actionCanceled)
+		public override void CancelAction(ActionStateData actionStateData, EndActionOver endActionOver, ActionCanceled actionCanceled)
 		{
-			actionCanceled.Invoke();
+			actionCanceled();
 		}
 	}
 }

@@ -9,7 +9,7 @@ namespace MyFolk
 	[CreateAssetMenu(menuName = "Interactions/Actions/Walk Here", fileName = "WalkHere_Action")]
 	public class WalkHereAction : ScriptableAction
 	{
-		public override bool CheckIfPossible(InteractableItemClickedEventInfo eventInfo, ActionCanceled actionCanceled)
+		public override bool CheckIfPossible(InteractableItemClickedEventInfo eventInfo)
 		{
 			NavMeshPath path = new NavMeshPath();
 			eventInfo.character.navMeshAgent.CalculatePath(eventInfo.worldClickPoint, path);
@@ -18,33 +18,29 @@ namespace MyFolk
 			else
 				return false;
 		}
-
-		public override void StartAction(InteractableItemClickedEventInfo eventInfo, StartActionOver startActionOver, ActionCanceled actionCanceled)
+		public override void StartAction(InteractableItemClickedEventInfo eventInfo, ReturnCurrentInteractionState returnCurrentInteractionState, StartActionOver startActionOver, ActionCanceled actionCanceled)
 		{
-			//Debug.Log("Started walking: " + eventInfo.worldClickPoint.ToString());
+			ActionStateData asd = new ActionStateData(eventInfo);
 			eventInfo.character.navMeshAgent.SetDestination(eventInfo.worldClickPoint);
-			startActionOver.Invoke();
+			returnCurrentInteractionState(asd);
+			startActionOver();
 		}
-
-		public override void PerformAction(InteractableItemClickedEventInfo eventInfo, PerformActionOver performActionOver, ActionCanceled actionCanceled)
+		public override void PerformAction(ActionStateData actionStateData, ReturnCurrentInteractionState returnCurrentInteractionState, PerformActionOver performActionOver, ActionCanceled actionCanceled)
 		{
-			NavMeshAgent agent = eventInfo.character.navMeshAgent;
+			NavMeshAgent agent = actionStateData.eventInfo.character.navMeshAgent;
 			if (!agent.pathPending && !agent.hasPath)
 			{
-				//Debug.Log("I have reached my destination! " + eventInfo.worldClickPoint.ToString());
-				performActionOver.Invoke();
+				performActionOver();
 			}
 		}
-		public override void EndAction(InteractableItemClickedEventInfo eventInfo, EndActionOver endActionOver, ActionCanceled actionCanceled)
+		public override void EndAction(ActionStateData actionStateData, EndActionOver endActionOver, ActionCanceled actionCanceled)
 		{
-			//Debug.Log("Ended walking");
-			endActionOver.Invoke();
+			endActionOver();
 		}
-
-		public override void CancelAction(InteractableItemClickedEventInfo eventInfo, EndActionOver endActionOver, ActionCanceled actionCanceled)
+		public override void CancelAction(ActionStateData actionStateData, EndActionOver endActionOver, ActionCanceled actionCanceled)
 		{
-			eventInfo.character.navMeshAgent.ResetPath();
-			actionCanceled.Invoke();
+			actionStateData.eventInfo.character.navMeshAgent.ResetPath();
+			actionCanceled();
 		}
 	}
 }

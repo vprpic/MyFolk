@@ -11,30 +11,32 @@ namespace MyFolk
 	{
 		public float foodAmount;
 
-		public override bool CheckIfPossible(InteractableItemClickedEventInfo eventInfo, ActionCanceled actionCanceled)
+		public override bool CheckIfPossible(InteractableItemClickedEventInfo eventInfo)
 		{
 			return true;
 		}
 
-		public override void StartAction(InteractableItemClickedEventInfo eventInfo, StartActionOver startActionOver, ActionCanceled actionCanceled)
+		public override void StartAction(InteractableItemClickedEventInfo eventInfo, ReturnCurrentInteractionState returnCurrentInteractionState, StartActionOver startActionOver, ActionCanceled actionCanceled)
 		{
-			startActionOver.Invoke();
+			ActionStateData asd = new ActionStateData(eventInfo);
+			returnCurrentInteractionState(asd);
+			startActionOver();
 		}
 
-		public override void PerformAction(InteractableItemClickedEventInfo eventInfo, PerformActionOver performActionOver, ActionCanceled actionCanceled)
+		public override void PerformAction(ActionStateData actionStateData, ReturnCurrentInteractionState returnCurrentInteractionState, PerformActionOver performActionOver, ActionCanceled actionCanceled)
 		{
-			eventInfo.character.data.Hunger.baseValue += foodAmount;
+			actionStateData.eventInfo.character.data.Hunger.baseValue += foodAmount;
 
-			performActionOver.Invoke();
+			performActionOver();
 		}
-		public override void EndAction(InteractableItemClickedEventInfo eventInfo, EndActionOver endActionOver, ActionCanceled actionCanceled)
+		public override void EndAction(ActionStateData actionStateData, EndActionOver endActionOver, ActionCanceled actionCanceled)
 		{
-			endActionOver.Invoke();
+			endActionOver();
 		}
 
-		public override void CancelAction(InteractableItemClickedEventInfo eventInfo, EndActionOver endActionOver, ActionCanceled actionCanceled)
+		public override void CancelAction(ActionStateData actionStateData, EndActionOver endActionOver, ActionCanceled actionCanceled)
 		{
-			actionCanceled.Invoke();
+			actionCanceled();
 		}
 	}
 }

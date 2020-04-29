@@ -65,7 +65,7 @@ namespace MyFolk
 		{
 			foreach (ScriptableAction action in actions)
 			{
-				if (!action.CheckIfPossible(info, actionCanceled))
+				if (!action.CheckIfPossible(info))
 				{
 					return false;
 				}

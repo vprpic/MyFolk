@@ -12,9 +12,16 @@ namespace MyFolk
 		public List<(Interaction, InteractableItemClickedEventInfo)> interactionQueue;
 		private bool runningInteraction;
 		public (Interaction, InteractableItemClickedEventInfo) currentInteraction;
+
+		#region current action
 		public ScriptableAction currentAction;
 		public int currentActionIndex;
 		public ActionState currentActionState;
+		public ActionStateData currentActionStateData;
+		//public float interactionTimer; //for timed actions
+		#endregion current action
+
+
 		
 		public InteractionQueue(Character owner)
 		{
@@ -127,7 +134,7 @@ namespace MyFolk
 
 		public void CurrentInteractionCancelled()
 		{
-			currentAction.CancelAction(currentInteraction.Item2, EndActionOver, ActionCanceled);
+			currentAction.CancelAction(currentActionStateData, EndActionOver, ActionCanceled);
 		}
 
 		public void CurrentInteractionCompleted()
@@ -170,16 +177,16 @@ namespace MyFolk
 					{
 						case ActionState.NotStarted:
 							StartedAction();
-							currentAction.StartAction(currentInteraction.Item2, StartActionOver, ActionCanceled);
+							currentAction.StartAction(currentInteraction.Item2, SetCurrentActionStateData, StartActionOver, ActionCanceled);
 							break;
 						case ActionState.Starting:
 							//The callback sets this
 							break;
 						case ActionState.Running:
-							currentAction.PerformAction(currentInteraction.Item2, PerformActionOver, ActionCanceled);
+							currentAction.PerformAction(currentActionStateData, SetCurrentActionStateData, PerformActionOver, ActionCanceled);
 							break;
 						case ActionState.Ending:
-							currentAction.EndAction(currentInteraction.Item2, EndActionOver, ActionCanceled);
+							currentAction.EndAction(currentActionStateData, EndActionOver, ActionCanceled);
 							break;
 						case ActionState.Done:
 							SetNextAction();
@@ -194,6 +201,11 @@ namespace MyFolk
 
 
 		#region Action States
+
+		public void SetCurrentActionStateData(ActionStateData actionStateData)
+		{
+			this.currentActionStateData = actionStateData;
+		}
 
 		public void StartedAction()
 		{
