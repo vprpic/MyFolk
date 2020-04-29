@@ -7,6 +7,7 @@ namespace MyFolk
 {
 	public class InteractionQueue
 	{
+		public int maxInteractionsPossible = 10;
 		public Character owner;
 		public List<(Interaction, InteractableItemClickedEventInfo)> interactionQueue;
 		private bool runningInteraction;
@@ -26,17 +27,46 @@ namespace MyFolk
 			runningInteraction = false;
 			currentActionIndex = 0;
 			currentActionState = ActionState.NotStarted;
+			EventSystem.Current.RegisterListener<InteractionQueueElementUIClickEventInfo>(OnInteractionQueueElementUIClicked);
 		}
 
 		public void EnqueueInteraction(Interaction interaction, InteractableItemClickedEventInfo eventInfo)
 		{
+			if(interactionQueue.Count >= 10)
+			{
+				//TODO: give feedback to player
+				Debug.Log("max interaction capacity reached.");
+				return;
+			}
 			interactionQueue.Add((interaction, eventInfo));
 			EventSystem.Current.FireEvent(new InteractionEnqueueEventInfo(interaction, eventInfo));
 		}
 
-		public void RemoveFromQueue(int index)
+		public void OnInteractionQueueElementUIClicked(InteractionQueueElementUIClickEventInfo eventInfo)
 		{
-			interactionQueue.RemoveAt(index);
+			if (interactionQueue == null && interactionQueue.Count < 1)
+				return;
+
+			if(eventInfo.queueIndex == 0)
+			{
+				//it's the first item
+				CurrentInteractionCancelled();
+			}
+			else if(eventInfo.queueIndex > 0)
+			{
+				if((eventInfo.queueIndex-1) > interactionQueue.Count - 1) //-1 bc interactionQueue doesn't hold the currently performing interaction
+				{
+					Debug.Log("Can't remove interaction from queue, index too large: "+
+						eventInfo.interactionQueueElementUI.interaction.interactionName+" "+eventInfo.queueIndex);
+					return;
+				}
+				interactionQueue.RemoveAt(eventInfo.queueIndex - 1);
+			}
+			else
+			{
+				//can't be negative
+				return;
+			}
 		}
 
 		public (Interaction, InteractableItemClickedEventInfo) DequeueFirst()
@@ -47,7 +77,6 @@ namespace MyFolk
 			{
 				i = interactionQueue[0].Item1;
 				info = interactionQueue[0].Item2;
-				//EventSystem.Current.FireEvent(new InteractionDequeueEventInfo(i, info));
 				interactionQueue.RemoveAt(0);
 			}
 			return (i, info);
@@ -67,15 +96,11 @@ namespace MyFolk
 				return;
 			}
 
-			if (currentInteraction != (null, null) && !currentInteraction.Item1.CheckIfInteractionPossible(currentInteraction.Item2, ActionCancelled))
+			if (currentInteraction != (null, null) && !currentInteraction.Item1.CheckIfInteractionPossible(currentInteraction.Item2, ActionCanceled))
 			{
 				Debug.Log("Current interaction impossible, skipping to next.");
 				SetNextInteraction();
 			}
-
-			//if (currentInteraction.Item1 != null && currentInteraction.Item2 != null)
-			//	EventSystem.Current.FireEvent(new InteractionDequeueEventInfo(currentInteraction.Item1, currentInteraction.Item2));
-
 			if (currentInteraction.Item1.actions != null && currentInteraction.Item1.actions.Count > 0)
 				currentAction = currentInteraction.Item1.actions[0];
 			RunInteraction(true);
@@ -102,7 +127,7 @@ namespace MyFolk
 
 		public void CurrentInteractionCancelled()
 		{
-			CurrentInteractionCompleted();
+			currentAction.CancelAction(currentInteraction.Item2, EndActionOver, ActionCanceled);
 		}
 
 		public void CurrentInteractionCompleted()
@@ -145,16 +170,16 @@ namespace MyFolk
 					{
 						case ActionState.NotStarted:
 							StartedAction();
-							currentAction.StartAction(currentInteraction.Item2, StartActionOver, ActionCancelled);
+							currentAction.StartAction(currentInteraction.Item2, StartActionOver, ActionCanceled);
 							break;
 						case ActionState.Starting:
 							//The callback sets this
 							break;
 						case ActionState.Running:
-							currentAction.PerformAction(currentInteraction.Item2, PerformActionOver, ActionCancelled);
+							currentAction.PerformAction(currentInteraction.Item2, PerformActionOver, ActionCanceled);
 							break;
 						case ActionState.Ending:
-							currentAction.EndAction(currentInteraction.Item2, EndActionOver, ActionCancelled);
+							currentAction.EndAction(currentInteraction.Item2, EndActionOver, ActionCanceled);
 							break;
 						case ActionState.Done:
 							SetNextAction();
@@ -188,9 +213,9 @@ namespace MyFolk
 			this.currentActionState = ActionState.Done;
 		}
 
-		public void ActionCancelled()
+		public void ActionCanceled()
 		{
-			this.CurrentInteractionCancelled();
+			CurrentInteractionCompleted();
 		}
 		#endregion Action States
 	}

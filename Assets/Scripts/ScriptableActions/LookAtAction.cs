@@ -27,16 +27,15 @@ namespace MyFolk
 		public override void PerformAction(InteractableItemClickedEventInfo eventInfo, PerformActionOver performActionOver, ActionCanceled actionCanceled)
 		{
 			Vector3 target = eventInfo.iitem.gameObject.transform.position;
-			Character character = Globals.ins.currentlySelectedCharacter;
-			Vector3 temp = target - character.gameObject.transform.position;
+			Vector3 temp = target - eventInfo.character.gameObject.transform.position;
 			temp.y = 0;
 
 			Quaternion lookRotation = Quaternion.LookRotation((temp).normalized);
 			Debug.Log("look rotation: " + lookRotation);
 			//over time
-			character.gameObject.transform.rotation = Quaternion.Slerp(character.gameObject.transform.rotation, lookRotation, currentRotationPercentage);
+			eventInfo.character.gameObject.transform.rotation = Quaternion.Slerp(eventInfo.character.gameObject.transform.rotation, lookRotation, currentRotationPercentage);
 			currentRotationPercentage += Time.deltaTime * lookSpeed;
-			Debug.Log("currentRotationPercentage " + currentRotationPercentage);
+			//Debug.Log("currentRotationPercentage " + currentRotationPercentage);
 			if(prevQuaternion == lookRotation && currentRotationPercentage > 0.5f)
 			{
 				prevQuaternion = Quaternion.identity;
@@ -51,6 +50,11 @@ namespace MyFolk
 			prevQuaternion = Quaternion.identity;
 			currentRotationPercentage = 0f;
 			endActionOver.Invoke();
+		}
+
+		public override void CancelAction(InteractableItemClickedEventInfo eventInfo, EndActionOver endActionOver, ActionCanceled actionCanceled)
+		{
+			actionCanceled.Invoke();
 		}
 	}
 }

@@ -12,7 +12,7 @@ namespace MyFolk
 		public override bool CheckIfPossible(InteractableItemClickedEventInfo eventInfo, ActionCanceled actionCanceled)
 		{
 			NavMeshPath path = new NavMeshPath();
-			Globals.ins.currentlySelectedCharacter.navMeshAgent.CalculatePath(eventInfo.worldClickPoint, path);
+			eventInfo.character.navMeshAgent.CalculatePath(eventInfo.worldClickPoint, path);
 			if (path.status == NavMeshPathStatus.PathComplete)
 				return true;
 			else
@@ -22,16 +22,16 @@ namespace MyFolk
 		public override void StartAction(InteractableItemClickedEventInfo eventInfo, StartActionOver startActionOver, ActionCanceled actionCanceled)
 		{
 			//Debug.Log("Started walking: " + eventInfo.worldClickPoint.ToString());
-			Globals.ins.currentlySelectedCharacter.navMeshAgent.SetDestination(eventInfo.worldClickPoint);
+			eventInfo.character.navMeshAgent.SetDestination(eventInfo.worldClickPoint);
 			startActionOver.Invoke();
 		}
 
 		public override void PerformAction(InteractableItemClickedEventInfo eventInfo, PerformActionOver performActionOver, ActionCanceled actionCanceled)
 		{
-			NavMeshAgent agent = Globals.ins.currentlySelectedCharacter.navMeshAgent;
+			NavMeshAgent agent = eventInfo.character.navMeshAgent;
 			if (!agent.pathPending && !agent.hasPath)
 			{
-				Debug.Log("I have reached my destination! " + eventInfo.worldClickPoint.ToString());
+				//Debug.Log("I have reached my destination! " + eventInfo.worldClickPoint.ToString());
 				performActionOver.Invoke();
 			}
 		}
@@ -39,6 +39,12 @@ namespace MyFolk
 		{
 			//Debug.Log("Ended walking");
 			endActionOver.Invoke();
+		}
+
+		public override void CancelAction(InteractableItemClickedEventInfo eventInfo, EndActionOver endActionOver, ActionCanceled actionCanceled)
+		{
+			eventInfo.character.navMeshAgent.ResetPath();
+			actionCanceled.Invoke();
 		}
 	}
 }

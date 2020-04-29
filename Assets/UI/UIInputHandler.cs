@@ -12,7 +12,7 @@ namespace MyFolk.UI
 		public void OnEnterExitUI(FlexibleUIEnterExitEventInfo eventInfo)
 		{
 			this.isHovering = eventInfo.isHovering;
-			Debug.Log("OnEnterExitUI: " + isHovering.ToString());
+			//Debug.Log("OnEnterExitUI: " + isHovering.ToString());
 		}
 
 		private void Start()

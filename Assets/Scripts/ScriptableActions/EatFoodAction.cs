@@ -23,13 +23,18 @@ namespace MyFolk
 
 		public override void PerformAction(InteractableItemClickedEventInfo eventInfo, PerformActionOver performActionOver, ActionCanceled actionCanceled)
 		{
-			Globals.ins.currentlySelectedCharacter.data.Hunger.baseValue += foodAmount;
+			eventInfo.character.data.Hunger.baseValue += foodAmount;
 
 			performActionOver.Invoke();
 		}
 		public override void EndAction(InteractableItemClickedEventInfo eventInfo, EndActionOver endActionOver, ActionCanceled actionCanceled)
 		{
 			endActionOver.Invoke();
+		}
+
+		public override void CancelAction(InteractableItemClickedEventInfo eventInfo, EndActionOver endActionOver, ActionCanceled actionCanceled)
+		{
+			actionCanceled.Invoke();
 		}
 	}
 }

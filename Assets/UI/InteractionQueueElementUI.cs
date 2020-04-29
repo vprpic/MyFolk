@@ -64,11 +64,9 @@ namespace MyFolk.UI
 		/// </summary>
 		public void OnElementClick()
 		{
-			//TODO: dequeue this element
-			//careful if current element dequeued!
-
-			//Globals.ins.currentlySelectedCharacter.interactionQueue.EnqueueInteraction(this.buttonInteraction, this.interactableItemEventInfo);
-			EventCallbacks.EventSystem.Current.FireEvent(new InteractionQueueElementUIClickEventInfo(this));
+			int index = menuParent.DequeueElement(this);
+			EventCallbacks.EventSystem.Current.FireEvent(new InteractionQueueElementUIClickEventInfo(this, index));
+			EventCallbacks.EventSystem.Current.FireEvent(new FlexibleUIEnterExitEventInfo(this, false));
 		}
 
 	}

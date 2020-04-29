@@ -44,11 +44,13 @@ namespace EventCallbacks
     public class InteractionQueueElementUIClickEventInfo : EventInfo
     {
         public InteractionQueueElementUI interactionQueueElementUI;
+        public int queueIndex;
         public InteractionQueueElementUIClickEventInfo() { }
-        public InteractionQueueElementUIClickEventInfo(InteractionQueueElementUI interactionQueueElementUI)
+        public InteractionQueueElementUIClickEventInfo(InteractionQueueElementUI interactionQueueElementUI, int index)
         {
             this.interactionQueueElementUI = interactionQueueElementUI;
-            this.EventDescription = "Radial button was clicked: " + interactionQueueElementUI.name;
+            this.queueIndex = index;
+            this.EventDescription = "Interaction queue element was clicked: " + interactionQueueElementUI.name;
         }
     }
 
@@ -94,6 +96,8 @@ namespace EventCallbacks
 
     public class InteractableItemClickedEventInfo : EventInfo
     {
+        public Character character;
+
         public InteractableItem iitem;
 
         public Vector3 worldClickPoint;
@@ -102,8 +106,9 @@ namespace EventCallbacks
 
         public InteractableItemClickedEventInfo() { }
 
-        public InteractableItemClickedEventInfo(InteractableItem iitem, Vector3 wcp, Vector3 scp)
+        public InteractableItemClickedEventInfo(Character character, InteractableItem iitem, Vector3 wcp, Vector3 scp)
         {
+            this.character = character;
             this.EventDescription = iitem.itemName + " was clicked";
             this.iitem = iitem;
             this.worldClickPoint = wcp;

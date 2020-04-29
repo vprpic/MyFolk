@@ -36,6 +36,7 @@ namespace MyFolk
 					currentEventInfo.iitem = currentTargetIItem;
 					EventSystem.Current.FireEvent(
 						new InteractableItemClickedEventInfo(
+							Globals.ins.currentlySelectedCharacter,
 							currentEventInfo.iitem,
 							currentEventInfo.worldClickPoint,
 							currentEventInfo.screenClickPoint

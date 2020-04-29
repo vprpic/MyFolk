@@ -63,17 +63,37 @@ namespace MyFolk.UI
 			EnqueueElement((interaction.interaction,interaction.interactableItemClickedEventInfo));
 		}
 
+		internal int GetQueueIndex(InteractionQueueElementUI interactionQueueElementUI)
+		{
+			//int i = UIElements.FindIndex(a => a == interactionQueueElementUI);
+			//Debug.Log("index: " + i);
+			//return i;
+			return UIElements.IndexOf(interactionQueueElementUI);
+		}
+
 		public void DequeueElement((Interaction, InteractableItemClickedEventInfo) interaction)
 		{
 			foreach (var item in UIElements)
 			{
 				if(item.interaction.Equals(interaction.Item1) && item.interactableItemClickedEventInfo.Equals(interaction.Item2))
 				{
+					UIElements.Remove(UIElements.Find(a => a.interaction.Equals(interaction.Item1) && a.interactableItemClickedEventInfo.Equals(interaction.Item2)));
 					GameObject.Destroy(item.gameObject);
 					return;
 				}
 			}
 		}
+
+		internal int DequeueElement(InteractionQueueElementUI interactionQueueElementUI)
+		{
+			if (UIElements == null || UIElements.Count < 1)
+				return -1;
+			int i = GetQueueIndex(interactionQueueElementUI);
+			UIElements.RemoveAt(i);
+			GameObject.Destroy(interactionQueueElementUI.gameObject);
+			return i;
+		}
+
 		public void DequeueElement(InteractionDequeueEventInfo interaction)
 		{
 			DequeueElement((interaction.interaction, interaction.interactableItemClickedEventInfo));
