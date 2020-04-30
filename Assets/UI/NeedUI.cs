@@ -49,14 +49,30 @@ namespace MyFolk.FlexibleUI {
 
 		private void SetSliderColor()
 		{
-			float third = need.maxValue / 3f;
-			if (need.currentValue >= 2 * third)
+			float r, g, b, curr, perc;
+			float sixth = need.maxValue / 6f;
+			float max = 2 * sixth;
+			if (need.currentValue >= 5 * sixth)
 			{
 				this.sliderFill.color = skinData.thirdThirdBarColor;
 			}
-			else if (need.currentValue >= third)
+			else if (need.currentValue >= 3 * sixth)
 			{
-				this.sliderFill.color = skinData.secondThirdBarColor;
+				curr = need.currentValue - 3 * sixth;
+				perc = curr / max;
+				r = Mathf.Lerp(skinData.secondThirdBarColor.r, skinData.thirdThirdBarColor.r, perc);
+				g = Mathf.Lerp(skinData.secondThirdBarColor.g, skinData.thirdThirdBarColor.g, perc);
+				b = Mathf.Lerp(skinData.secondThirdBarColor.b, skinData.thirdThirdBarColor.b, perc);
+				this.sliderFill.color = new Color(r, g, b);
+			}
+			else if(need.currentValue >= sixth)
+			{
+				curr = need.currentValue - sixth;
+				perc = curr / max;
+				r = Mathf.Lerp(skinData.firstThirdBarColor.r, skinData.secondThirdBarColor.r, perc);
+				g = Mathf.Lerp(skinData.firstThirdBarColor.g, skinData.secondThirdBarColor.g, perc);
+				b = Mathf.Lerp(skinData.firstThirdBarColor.b, skinData.secondThirdBarColor.b, perc);
+				this.sliderFill.color = new Color(r, g, b);
 			}
 			else
 			{

@@ -24,7 +24,7 @@ namespace MyFolk
 				//eventInfo.iitem.gameObject.transform.position.y, eventInfo.character.gameObject.transform.forward.z);
 			LookAtStateData asd = new LookAtStateData(eventInfo, target);
 			asd.firstCharacterRotation = eventInfo.character.transform.rotation;
-			Debug.Log("Starting to look at item");
+			//Debug.Log("Starting to look at item");
 			returnCurrentInteractionState(asd);
 			startActionOver();
 		}

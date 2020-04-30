@@ -151,7 +151,7 @@ namespace MyFolk
 				{
 					//currentAction = currentInteraction.Item1.StartInteraction(SetNextAction);
 					//why am I not running?
-					Debug.Log("Interaction not running, but selected!");
+					//Debug.Log("Interaction not running, but selected!");
 					RunInteraction(true);
 				}
 				else
