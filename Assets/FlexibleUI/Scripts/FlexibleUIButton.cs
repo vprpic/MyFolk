@@ -17,7 +17,7 @@ namespace MyFolk.FlexibleUI
         public enum ButtonType
         {
             Default,
-            Confirm,
+            Highlight,
             Decline,
             Warning
         }
@@ -41,17 +41,17 @@ namespace MyFolk.FlexibleUI
 
             switch (buttonType)
             {
-                case ButtonType.Confirm:
-                    image.color = skinData.confirmColor;
+                case ButtonType.Highlight:
+                    image.color = skinData.highlightColor;
                     break;
                 case ButtonType.Decline:
-                    image.color = skinData.declineColor;
+                    //image.color = skinData.declineColor;
                     break;
                 case ButtonType.Default:
                     image.color = skinData.defaultColor;
                     break;
                 case ButtonType.Warning:
-                    image.color = skinData.warningColor;
+                    //image.color = skinData.warningColor;
                     break;
             }
 

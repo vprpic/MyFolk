@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76d9c4d7a9bbfd14b95c6eb9ae45e316, type: 3}
   m_Name: Bella
   m_EditorClassIdentifier: 
+  imageUI: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   hunger:
     minValue: 0
     maxValue: 100
     type: 0
-    currentValue: 100
+    currentValue: 40.099674
   energy:
     minValue: 0
     maxValue: 100

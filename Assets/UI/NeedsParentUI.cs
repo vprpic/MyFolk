@@ -7,12 +7,10 @@ using UnityEngine.UI;
 
 namespace MyFolk.FlexibleUI
 {
-	public class NeedsParentUI : FlexibleUI
+	public class NeedsParentUI : FlexibleUIPanel
 	{
 		Dictionary<Need.NeedType,NeedUI> needs;
 		List<Need> dirtyNeeds; //needs that need updating
-		[HideInInspector]
-		public Image panelBackground;
 
 		public Character currentCharacter;
 
@@ -30,14 +28,7 @@ namespace MyFolk.FlexibleUI
 			EventSystem.Current.RegisterListener<CurrentCharacterNeedChangedEventInfo>(OnNeedUpdated);
 			EventSystem.Current.RegisterListener<CharacterSelectedEventInfo>(OnCurrentCharacterChanged);
 		}
-		public override void Awake()
-		{
-			if (panelBackground == null)
-			{
-				panelBackground = GetComponent<Image>();
-			}
-			base.Awake();
-		}
+		
 		public override void Update()
 		{
 #if UNITY_EDITOR
@@ -57,15 +48,7 @@ namespace MyFolk.FlexibleUI
 			}
 		}
 
-
-		protected override void OnSkinUI()
-		{
-			panelBackground.sprite = skinData.panelBackground;
-			panelBackground.type = Image.Type.Sliced;
-			panelBackground.color = skinData.defaultPanelColor;
-		}
-
-			public void OnCurrentCharacterChanged(CharacterSelectedEventInfo eventInfo)
+		public void OnCurrentCharacterChanged(CharacterSelectedEventInfo eventInfo)
 		{
 			this.currentCharacter = eventInfo.newCharacter;
 			if (currentCharacter != null)

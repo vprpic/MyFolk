@@ -42,6 +42,7 @@ namespace MyFolk
 		//public CharacterSkill Fulfillment = new CharacterSkill("Fulfillment");
 		//public CharacterSkill Comfort = new CharacterSkill("Comfort");
 
+		public Sprite imageUI;
 		public Need hunger = new Need(Need.NeedType.Hunger, 0, 100);
 		public Need energy = new Need(Need.NeedType.Energy, 0, 100);
 		public Need fun = new Need(Need.NeedType.Fun, 0, 100);

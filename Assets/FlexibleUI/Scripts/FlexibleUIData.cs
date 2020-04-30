@@ -14,9 +14,7 @@ namespace MyFolk.FlexibleUI
         public Sprite interactionQueueSprite;
 
         public Color defaultColor;
-        public Color confirmColor;
-        public Color declineColor;
-        public Color warningColor;
+        public Color highlightColor;
 
         #region Needs
         public Color thirdThirdBarColor;          //if a need is 2/3 and over

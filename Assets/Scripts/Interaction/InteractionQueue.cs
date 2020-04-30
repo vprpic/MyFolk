@@ -34,7 +34,7 @@ namespace MyFolk
 			runningInteraction = false;
 			currentActionIndex = 0;
 			currentActionState = ActionState.NotStarted;
-			EventSystem.Current.RegisterListener<InteractionQueueElementUIClickEventInfo>(OnInteractionQueueElementUIClicked);
+			EventSystem.Current.RegisterListener<CharacterSelectedEventInfo>(OnCharacterSelected);
 		}
 
 		public void EnqueueInteraction(Interaction interaction, InteractableItemClickedEventInfo eventInfo)
@@ -47,6 +47,18 @@ namespace MyFolk
 			}
 			interactionQueue.Add((interaction, eventInfo));
 			EventSystem.Current.FireEvent(new InteractionEnqueueEventInfo(interaction, eventInfo));
+		}
+
+		public void OnCharacterSelected(CharacterSelectedEventInfo eventInfo)
+		{
+			if (owner.Equals(eventInfo.newCharacter))
+			{
+				EventSystem.Current.RegisterListener<InteractionQueueElementUIClickEventInfo>(OnInteractionQueueElementUIClicked);
+			}
+			else
+			{
+				EventSystem.Current.UnregisterListener<InteractionQueueElementUIClickEventInfo>(OnInteractionQueueElementUIClicked);
+			}
 		}
 
 		public void OnInteractionQueueElementUIClicked(InteractionQueueElementUIClickEventInfo eventInfo)

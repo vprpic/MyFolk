@@ -78,7 +78,8 @@ namespace MyFolk.UI
 				if(item.interaction.Equals(interaction.Item1) && item.interactableItemClickedEventInfo.Equals(interaction.Item2))
 				{
 					UIElements.Remove(UIElements.Find(a => a.interaction.Equals(interaction.Item1) && a.interactableItemClickedEventInfo.Equals(interaction.Item2)));
-					GameObject.Destroy(item.gameObject);
+					if(item != null)
+						GameObject.Destroy(item.gameObject);
 					return;
 				}
 			}

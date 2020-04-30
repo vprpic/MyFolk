@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+
 namespace MyFolk
 {
 	public class Globals : MonoBehaviour
@@ -18,6 +19,10 @@ namespace MyFolk
 		public List<Character> allCharacters;
 		public Character currentlySelectedCharacter;
 
+
+		//TODO: remove
+		public MyFolk.UI.FamilyPanelUI familyPanel;
+
 		private void Awake()
 		{
 			if (ins == null)
@@ -30,6 +35,7 @@ namespace MyFolk
 				Debug.LogWarning("Multiple Globals instances");
 				Destroy(this);
 			}
+			EventSystem.Current.RegisterListener<CharacterSelectedEventInfo>(OnCharacterSelected);
 			//SetSelectedCharacter();
 		}
 
@@ -57,6 +63,7 @@ namespace MyFolk
 			for (int i = 0; i < allCharacters.Count; i++)
 			{
 				c = allCharacters[i];
+				familyPanel.AddCharacterSelector(c);
 				if (c.data.isSelected)
 				{
 					if (!foundOneSelected)
@@ -100,6 +107,7 @@ namespace MyFolk
 		{
 			currentlySelectedCharacter = character;
 			data.currentlySelectedCharacterData = character.data;
+			character.data.isSelected = true;
 		}
 
 		public Vector3 GetLastWorldClickPoint() => data.worldClickPoint;
@@ -108,6 +116,11 @@ namespace MyFolk
 			data.worldClickPoint = clickPoint;
 		}
 
-
+		public void OnCharacterSelected(CharacterSelectedEventInfo eventInfo)
+		{
+			if(eventInfo.oldCharacter != null)
+				eventInfo.oldCharacter.data.isSelected = false;
+			SetSelectedCharacter(eventInfo.newCharacter);
+		}
 	}
 }

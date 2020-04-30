@@ -54,6 +54,25 @@ namespace EventCallbacks
         public void UnregisterListener<T>(System.Action<T> listener) where T : EventInfo
         {
             // TODO
+            System.Type eventType = typeof(T);
+            if (eventListeners == null || eventListeners.ContainsKey(eventType) == false || eventListeners[eventType] == null)
+            {
+                return;
+            }
+
+            // Wrap a type converstion around the event listener
+            // I'm betting someone better at C# generic syntax
+            // can find a way around this.
+            EventListener wrapper = (ei) => { listener((T)ei); };
+
+            if (eventListeners[eventType].Remove(wrapper))
+            {
+                Debug.Log("Celebrate.");
+            }
+            else
+            {
+                Debug.LogError("Can't celebrate");
+            }
         }
 
         public void FireEvent(EventInfo eventInfo)
