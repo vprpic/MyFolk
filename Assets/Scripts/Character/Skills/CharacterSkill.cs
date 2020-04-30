@@ -5,7 +5,7 @@ namespace MyFolk
 {
 	//https://www.youtube.com/watch?v=SH25f3cXBVc
 	[System.Serializable]
-	public class CharacterStat
+	public class CharacterSkill
 	{
 		public float baseValue;
 		public string charName;
@@ -28,32 +28,32 @@ namespace MyFolk
 		protected float _value;
 		protected float lastBaseValue = float.MinValue;
 
-		protected readonly List<StatModifier> _statModifiers;
-		public readonly ReadOnlyCollection<StatModifier> statModifiers;
+		protected readonly List<SkillModifier> _statModifiers;
+		public readonly ReadOnlyCollection<SkillModifier> statModifiers;
 
-		public CharacterStat()
+		public CharacterSkill()
 		{
-			_statModifiers = new List<StatModifier>();
+			_statModifiers = new List<SkillModifier>();
 			statModifiers = _statModifiers.AsReadOnly();
 		}
 
-		public CharacterStat(float baseValue) : this()
+		public CharacterSkill(float baseValue) : this()
 		{
 			this.baseValue = baseValue;
 		}
-		public CharacterStat(string name) : this()
+		public CharacterSkill(string name) : this()
 		{
 			this.charName = name;
 		}
 
-		public virtual void AddModifier(StatModifier mod)
+		public virtual void AddModifier(SkillModifier mod)
 		{
 			isDirty = true;
 			_statModifiers.Add(mod);
 			_statModifiers.Sort(CompareModifierOrder);
 		}
 
-		protected virtual int CompareModifierOrder(StatModifier a, StatModifier b)
+		protected virtual int CompareModifierOrder(SkillModifier a, SkillModifier b)
 		{
 			if (a.order < b.order)
 				return -1;
@@ -62,7 +62,7 @@ namespace MyFolk
 			else return 0;
 		}
 
-		public virtual bool RemoveModifier(StatModifier mod)
+		public virtual bool RemoveModifier(SkillModifier mod)
 		{
 			if (_statModifiers.Remove(mod))
 			{
@@ -95,21 +95,21 @@ namespace MyFolk
 			float sumPercentAdd = 0;
 			for (int i = 0; i < _statModifiers.Count; i++)
 			{
-				StatModifier mod = _statModifiers[i];
+				SkillModifier mod = _statModifiers[i];
 
 				switch (mod.type)
 				{
-					case StatModType.Flat:
+					case SkillModType.Flat:
 						finalValue += mod.value;
 						break;
-					case StatModType.PercentAdd:
+					case SkillModType.PercentAdd:
 						sumPercentAdd += mod.value;
-						if (i + 1 >= _statModifiers.Count || _statModifiers[i + 1].type != StatModType.PercentAdd)
+						if (i + 1 >= _statModifiers.Count || _statModifiers[i + 1].type != SkillModType.PercentAdd)
 						{
 							finalValue *= 1 + sumPercentAdd;
 						}
 						break;
-					case StatModType.PercentMult:
+					case SkillModType.PercentMult:
 						finalValue *= 1 + mod.value; //mod.value == 0.1 -> final value is 110%
 						break;
 					default:

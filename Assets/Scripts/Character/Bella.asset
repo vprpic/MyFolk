@@ -12,24 +12,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76d9c4d7a9bbfd14b95c6eb9ae45e316, type: 3}
   m_Name: Bella
   m_EditorClassIdentifier: 
-  Hunger:
-    baseValue: 0
-    charName: Hunger
-  Energy:
-    baseValue: 0
-    charName: Energy
-  Fun:
-    baseValue: 0
-    charName: Fun
-  Social:
-    baseValue: 0
-    charName: Social
-  Comfort:
-    baseValue: 0
-    charName: Comfort
-  Health:
-    baseValue: 0
-    charName: Health
+  hunger:
+    minValue: 0
+    maxValue: 100
+    type: 0
+    currentValue: 100
+  energy:
+    minValue: 0
+    maxValue: 100
+    type: 4
+    currentValue: 100
+  fun:
+    minValue: 0
+    maxValue: 100
+    type: 1
+    currentValue: 100
+  social:
+    minValue: 0
+    maxValue: 100
+    type: 2
+    currentValue: 100
+  hygiene:
+    minValue: 0
+    maxValue: 100
+    type: 3
+    currentValue: 100
+  bladder:
+    minValue: 0
+    maxValue: 100
+    type: 5
+    currentValue: 100
+  fulfillment:
+    minValue: 0
+    maxValue: 100
+    type: 6
+    currentValue: 100
+  comfort:
+    minValue: 0
+    maxValue: 100
+    type: 8
+    currentValue: 100
+  health:
+    minValue: 0
+    maxValue: 100
+    type: 7
+    currentValue: 100
   currentWorldPosition: {x: 0, y: 0, z: 0}
   characterFirstName: Bella
   characterLastName: Bob

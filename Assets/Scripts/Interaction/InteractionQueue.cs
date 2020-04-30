@@ -103,7 +103,7 @@ namespace MyFolk
 				return;
 			}
 
-			if (currentInteraction != (null, null) && !currentInteraction.Item1.CheckIfInteractionPossible(currentInteraction.Item2, ActionCanceled))
+			if (currentInteraction != (null, null) && !currentInteraction.Item1.CheckIfInteractionPossible(currentInteraction.Item2))
 			{
 				Debug.Log("Current interaction impossible, skipping to next.");
 				SetNextInteraction();

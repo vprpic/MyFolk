@@ -16,10 +16,10 @@ namespace MyFolk
 			this.eventInfo = eventInfo;
 		}
 
-		public virtual void ResetValues()
-		{
-			eventInfo = null;
-		}
+		//public virtual void ResetValues()
+		//{
+		//	eventInfo = null;
+		//}
 	}
 
 	public class LookAtStateData : ActionStateData
@@ -28,17 +28,33 @@ namespace MyFolk
 		public Vector3 target;
 		public float timer;
 
-		public LookAtStateData(InteractableItemClickedEventInfo eventInfo, Vector3 target)
+		public LookAtStateData(InteractableItemClickedEventInfo eventInfo, Vector3 target) : base(eventInfo)
 		{
-			this.eventInfo = eventInfo;
 			this.target = target;
 		}
 
-		public override void ResetValues()
+		//public override void ResetValues()
+		//{
+		//	base.ResetValues();
+		//	this.target = Vector3.zero;
+		//	this.timer = 0f;
+		//}
+	}
+
+	public class EatFoodStateData : ActionStateData
+	{
+		public float currentFoodAmountAdded;
+		public float timer;
+
+		public EatFoodStateData(InteractableItemClickedEventInfo eventInfo) : base(eventInfo)
 		{
-			base.ResetValues();
-			this.target = Vector3.zero;
-			this.timer = 0f;
 		}
+
+		//public override void ResetValues()
+		//{
+		//	base.ResetValues();
+		//	this.timer = 0f;
+		//	this.currentFoodAmountAdded = 0f;
+		//}
 	}
 }

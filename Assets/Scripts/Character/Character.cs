@@ -12,6 +12,7 @@ namespace MyFolk
 		public CharacterData data;
 		public NavMeshAgent navMeshAgent;
 		public InteractionQueue interactionQueue;
+		public bool isSelected => data.isSelected;
 
 		private void Awake()
 		{

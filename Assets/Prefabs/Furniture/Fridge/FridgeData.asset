@@ -17,4 +17,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: da14b8ffd0265d34282837c27579cbcc, type: 2}
   - {fileID: 11400000, guid: 0812db6a137ec9f439490bd56c90dc9d, type: 2}
   interactionPoint: {x: 0, y: 0, z: 0}
-  queueSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  queueSprite: {fileID: 21300000, guid: 7779bd6e66ce8064889928c267be3fb4, type: 3}

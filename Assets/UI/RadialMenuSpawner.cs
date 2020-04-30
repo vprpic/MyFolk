@@ -1,4 +1,5 @@
 ﻿using EventCallbacks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,7 +27,7 @@ namespace MyFolk.UI
 			EventSystem.Current.RegisterListener<RadialButtonClickEventInfo>(OnRadialButtonClicked);
 		}
 
-		public void SpawnMenu(InteractableItemClickedEventInfo eventInfo)
+		public void SpawnMenu(InteractableItemClickedEventInfo eventInfo, List<Interaction> possibleInteractions)
 		{
 			if (eventInfo.iitem.Interactions.Length != 0)
 			{
@@ -35,7 +36,7 @@ namespace MyFolk.UI
 				newMenu.transform.position = eventInfo.screenClickPoint;
 				spawnedMenu = newMenu;
 				//spawnedMenu.worldPoint = eventInfo.worldClickPoint;
-				newMenu.SpawnButtons(eventInfo);
+				newMenu.SpawnButtons(eventInfo, possibleInteractions);
 			}
 		}
 
@@ -53,12 +54,32 @@ namespace MyFolk.UI
 			//Debug.Log("Alerted about interactable clicked: " + interactableItemClickedInfo.iitem.itemName);
 			if (spawnedMenu == null)
 			{
-				SpawnMenu(interactableItemClickedInfo);
+				List<Interaction> possibleInteractions = GetCurrentlyPossibleActions(interactableItemClickedInfo);
+				if(possibleInteractions.Count > 0)
+					SpawnMenu(interactableItemClickedInfo, possibleInteractions);
 			}
 			else
 			{
 				DestroyMenu();
 			}
+		}
+
+		private List<Interaction> GetCurrentlyPossibleActions(InteractableItemClickedEventInfo eventInfo)
+		{
+			List<Interaction> possibleInteractions = new List<Interaction>();
+			foreach (Interaction interaction in eventInfo.iitem.Interactions)
+			{
+				if(interaction == null)
+				{
+					Debug.LogError("Interaction not set correctly for interactable item: " + eventInfo.iitem.itemName);
+					continue;
+				}
+				if (interaction.CheckIfInteractionPossible(eventInfo))
+				{
+					possibleInteractions.Add(interaction);
+				}
+			}
+			return possibleInteractions;
 		}
 
 		private void DestroyMenu(RadialButtonClickEventInfo radialButtonClickEventInfo = null)

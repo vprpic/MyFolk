@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: LookAt_Action
   m_EditorClassIdentifier: 
   actionName: Look At
-  lookSpeed: 0.2
+  lookSpeed: 2
+  maxInteractionTime: 1

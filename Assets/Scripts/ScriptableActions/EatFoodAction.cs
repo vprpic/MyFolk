@@ -6,10 +6,11 @@ using UnityEngine.AI;
 
 namespace MyFolk
 {
-	[CreateAssetMenu(menuName = "Interactions/Actions/Get Food", fileName = "GetFood_Action")]
+	[CreateAssetMenu(menuName = "Actions/Get Food", fileName = "GetFood_Action")]
 	public class EatFoodAction : ScriptableAction
 	{
-		public float foodAmount;
+		public float maxFoodAmountToAdd;
+		public float foodAmountToAddPerUpdate;
 
 		public override bool CheckIfPossible(InteractableItemClickedEventInfo eventInfo)
 		{
@@ -18,16 +19,24 @@ namespace MyFolk
 
 		public override void StartAction(InteractableItemClickedEventInfo eventInfo, ReturnCurrentInteractionState returnCurrentInteractionState, StartActionOver startActionOver, ActionCanceled actionCanceled)
 		{
-			ActionStateData asd = new ActionStateData(eventInfo);
+			EatFoodStateData asd = new EatFoodStateData(eventInfo);
 			returnCurrentInteractionState(asd);
 			startActionOver();
 		}
 
 		public override void PerformAction(ActionStateData actionStateData, ReturnCurrentInteractionState returnCurrentInteractionState, PerformActionOver performActionOver, ActionCanceled actionCanceled)
 		{
-			actionStateData.eventInfo.character.data.Hunger.baseValue += foodAmount;
-
-			performActionOver();
+			EatFoodStateData asd = (EatFoodStateData)actionStateData;
+			if(asd == null)
+			{
+				Debug.LogError("ASD is not EatFoodStateData");
+				actionCanceled();
+				return;
+			}
+			asd.currentFoodAmountAdded += this.foodAmountToAddPerUpdate;
+			asd.eventInfo.character.data.hunger.AddToCurrentValue(this.foodAmountToAddPerUpdate, asd.eventInfo.character.isSelected);
+			if(asd.currentFoodAmountAdded >= this.maxFoodAmountToAdd)
+				performActionOver();
 		}
 		public override void EndAction(ActionStateData actionStateData, EndActionOver endActionOver, ActionCanceled actionCanceled)
 		{

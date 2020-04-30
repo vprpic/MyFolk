@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 099a4b493d3ce2c4481cfd8415177706, type: 3}
   m_Name: JustLook_Interaction
   m_EditorClassIdentifier: 
-  interactionName: 
-  radialButtonSprite: {fileID: 0}
-  actions: []
+  interactionName: Just Look
+  radialButtonSprite: {fileID: 21300000, guid: 735540549fad49d48926b5093edaffc1, type: 3}
+  actions:
+  - {fileID: 11400000, guid: 1e5c5ffa4280bbf4880d66b5afb52a12, type: 2}

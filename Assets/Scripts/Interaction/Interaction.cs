@@ -8,7 +8,7 @@ using static MyFolk.ScriptableAction;
 namespace MyFolk
 {
 	[System.Serializable]
-	[CreateAssetMenu(menuName = "Interactions/Interaction")]
+	[CreateAssetMenu(menuName = "Interaction")]
 	public class Interaction : ScriptableObject
 	{
 		public string interactionName;
@@ -61,10 +61,15 @@ namespace MyFolk
 			return sa;
 		}
 
-		public bool CheckIfInteractionPossible(InteractableItemClickedEventInfo info, ActionCanceled actionCanceled)
+		public bool CheckIfInteractionPossible(InteractableItemClickedEventInfo info)
 		{
 			foreach (ScriptableAction action in actions)
 			{
+				if(action == null)
+				{
+					Debug.LogError("Action not set correctly for interaction: " + this.interactionName);
+					return false;
+				}
 				if (!action.CheckIfPossible(info))
 				{
 					return false;
