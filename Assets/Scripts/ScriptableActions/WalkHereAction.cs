@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 namespace MyFolk
 {
-	[CreateAssetMenu(menuName = "Interactions/Actions/Walk Here", fileName = "WalkHere_Action")]
+	[CreateAssetMenu(menuName = "Actions/Walk Here", fileName = "WalkHere_Action")]
 	public class WalkHereAction : ScriptableAction
 	{
 		public override bool CheckIfPossible(InteractableItemClickedEventInfo eventInfo)

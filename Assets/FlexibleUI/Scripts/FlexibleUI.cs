@@ -10,7 +10,6 @@ namespace MyFolk.FlexibleUI
     {
         public FlexibleUIData skinData;
 
-
         /// <summary>
         /// Must be attached in the editor for every UI element, used in the UIInputHandler component
         /// </summary>
@@ -21,6 +20,7 @@ namespace MyFolk.FlexibleUI
 
         }
 
+        public virtual void Update() { }
         public virtual void Awake()
         {
             OnSkinUI();
@@ -40,16 +40,5 @@ namespace MyFolk.FlexibleUI
                 EventCallbacks.EventSystem.Current.FireEvent(new FlexibleUIEnterExitEventInfo(this, false));
         }
 
-        //TODO: remove
-#if UNITY_EDITOR
-        public virtual void Update()
-        {
-            if (Application.isEditor)
-            {
-                OnSkinUI();
-            }
-        }
-
-#endif
     }
 }

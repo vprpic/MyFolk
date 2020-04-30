@@ -40,6 +40,7 @@ namespace MyFolk {
 		{
 			float newValue = Mathf.Clamp(this.currentValue + amount, this.minValue, this.maxValue);
 			float amountChanged = Mathf.Abs(newValue - this.currentValue);
+			amountChanged *= amount < 0 ? -1 : 1;
 			this.currentValue = newValue;
 			if (ownerIsCurrentlySelected && amountChanged != 0f)
 			{

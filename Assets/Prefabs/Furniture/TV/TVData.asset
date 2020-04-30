@@ -15,5 +15,6 @@ MonoBehaviour:
   itemName: TV
   interactions:
   - {fileID: 11400000, guid: f05f8dc3d94dab749b02bffb064fe2c8, type: 2}
+  - {fileID: 11400000, guid: 77ac79e647800604ab7a3e3ba92ce46e, type: 2}
   interactionPoint: {x: 0, y: 0, z: 0}
   queueSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}

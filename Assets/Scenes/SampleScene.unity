@@ -623,6 +623,11 @@ PrefabInstance:
       propertyPath: m_text
       value: Hygiene
       objectReference: {fileID: 0}
+    - target: {fileID: 6045035836485197840, guid: 07e4cbfd3c69e484c85322a057123b2b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.58000183
+      objectReference: {fileID: 0}
     - target: {fileID: 8429446766721605685, guid: 07e4cbfd3c69e484c85322a057123b2b,
         type: 3}
       propertyPath: m_Name
@@ -1097,6 +1102,11 @@ PrefabInstance:
       propertyPath: m_text
       value: Energy
       objectReference: {fileID: 0}
+    - target: {fileID: 6045035836485197840, guid: 07e4cbfd3c69e484c85322a057123b2b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.58000183
+      objectReference: {fileID: 0}
     - target: {fileID: 8429446766721605685, guid: 07e4cbfd3c69e484c85322a057123b2b,
         type: 3}
       propertyPath: m_Name
@@ -1446,6 +1456,11 @@ PrefabInstance:
       propertyPath: m_text
       value: Social
       objectReference: {fileID: 0}
+    - target: {fileID: 6045035836485197840, guid: 07e4cbfd3c69e484c85322a057123b2b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.58000183
+      objectReference: {fileID: 0}
     - target: {fileID: 8429446766721605685, guid: 07e4cbfd3c69e484c85322a057123b2b,
         type: 3}
       propertyPath: m_Name
@@ -1752,6 +1767,11 @@ PrefabInstance:
       propertyPath: m_text
       value: Bladder
       objectReference: {fileID: 0}
+    - target: {fileID: 6045035836485197840, guid: 07e4cbfd3c69e484c85322a057123b2b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.58000183
+      objectReference: {fileID: 0}
     - target: {fileID: 8429446766721605685, guid: 07e4cbfd3c69e484c85322a057123b2b,
         type: 3}
       propertyPath: m_Name
@@ -1951,6 +1971,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_text
       value: Fun
+      objectReference: {fileID: 0}
+    - target: {fileID: 6045035836485197840, guid: 07e4cbfd3c69e484c85322a057123b2b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.58000183
       objectReference: {fileID: 0}
     - target: {fileID: 8429446766721605685, guid: 07e4cbfd3c69e484c85322a057123b2b,
         type: 3}
@@ -2241,7 +2266,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8066038, g: 1, b: 0.96935284, a: 0.5176471}
+  m_Color: {r: 0.8066038, g: 1, b: 0.96935284, a: 0.5019608}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2276,6 +2301,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83430f4ef3b358d458c67764d135e901, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skinData: {fileID: 11400000, guid: 54000866688d8b24e86975d7147a35c9, type: 2}
+  panelBackground: {fileID: 0}
   currentCharacter: {fileID: 254101389}
 --- !u!1001 &1769229443
 PrefabInstance:
@@ -2358,6 +2385,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_text
       value: Health
+      objectReference: {fileID: 0}
+    - target: {fileID: 6045035836485197840, guid: 07e4cbfd3c69e484c85322a057123b2b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.58000183
       objectReference: {fileID: 0}
     - target: {fileID: 8429446766721605685, guid: 07e4cbfd3c69e484c85322a057123b2b,
         type: 3}
@@ -2838,6 +2870,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_text
       value: Fulfillment
+      objectReference: {fileID: 0}
+    - target: {fileID: 6045035836485197840, guid: 07e4cbfd3c69e484c85322a057123b2b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.58000183
       objectReference: {fileID: 0}
     - target: {fileID: 8429446766721605685, guid: 07e4cbfd3c69e484c85322a057123b2b,
         type: 3}
@@ -3342,6 +3379,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_textInfo.wordCount
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6045035836485197840, guid: 07e4cbfd3c69e484c85322a057123b2b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.58000183
       objectReference: {fileID: 0}
     - target: {fileID: 8429446766721605685, guid: 07e4cbfd3c69e484c85322a057123b2b,
         type: 3}

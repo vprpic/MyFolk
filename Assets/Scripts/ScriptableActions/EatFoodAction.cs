@@ -35,9 +35,10 @@ namespace MyFolk
 			}
 			asd.currentFoodAmountAdded += this.foodAmountToAddPerUpdate;
 			asd.eventInfo.character.data.hunger.AddToCurrentValue(this.foodAmountToAddPerUpdate, asd.eventInfo.character.isSelected);
-			if(asd.currentFoodAmountAdded >= this.maxFoodAmountToAdd)
+			if(Mathf.Abs(asd.currentFoodAmountAdded) >= Mathf.Abs(this.maxFoodAmountToAdd))
 				performActionOver();
 		}
+
 		public override void EndAction(ActionStateData actionStateData, EndActionOver endActionOver, ActionCanceled actionCanceled)
 		{
 			endActionOver();

@@ -3,13 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using EventCallbacks;
+using UnityEngine.UI;
 
-namespace MyFolk.UI
+namespace MyFolk.FlexibleUI
 {
-	public class NeedsParentUI : MonoBehaviour
+	public class NeedsParentUI : FlexibleUI
 	{
 		Dictionary<Need.NeedType,NeedUI> needs;
 		List<Need> dirtyNeeds; //needs that need updating
+		[HideInInspector]
+		public Image panelBackground;
 
 		public Character currentCharacter;
 
@@ -27,15 +30,25 @@ namespace MyFolk.UI
 			EventSystem.Current.RegisterListener<CurrentCharacterNeedChangedEventInfo>(OnNeedUpdated);
 			EventSystem.Current.RegisterListener<CharacterSelectedEventInfo>(OnCurrentCharacterChanged);
 		}
-
-		private void Update()
+		public override void Awake()
 		{
+			if (panelBackground == null)
+			{
+				panelBackground = GetComponent<Image>();
+			}
+			base.Awake();
+		}
+		public override void Update()
+		{
+#if UNITY_EDITOR
+			OnSkinUI();
+#endif
 			if (dirtyNeeds != null && dirtyNeeds.Count > 0)
 			{
 				for (int i = dirtyNeeds.Count - 1; i >= 0; i--)
 				{
 					NeedUI ui = null;
-					if(needs.TryGetValue(dirtyNeeds[i].type, out ui))
+					if (needs.TryGetValue(dirtyNeeds[i].type, out ui))
 					{
 						ui.SetNewNeed(dirtyNeeds[i]);
 					}
@@ -44,7 +57,15 @@ namespace MyFolk.UI
 			}
 		}
 
-		public void OnCurrentCharacterChanged(CharacterSelectedEventInfo eventInfo)
+
+		protected override void OnSkinUI()
+		{
+			panelBackground.sprite = skinData.panelBackground;
+			panelBackground.type = Image.Type.Sliced;
+			panelBackground.color = skinData.defaultPanelColor;
+		}
+
+			public void OnCurrentCharacterChanged(CharacterSelectedEventInfo eventInfo)
 		{
 			this.currentCharacter = eventInfo.newCharacter;
 			if (currentCharacter != null)
