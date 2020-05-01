@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraManager : MonoBehaviour
 {
 	public Transform followTransform;
+	public Transform rotateRig;
 	public Camera mainCam;
 
 	public float normalSpeed;
@@ -23,12 +24,13 @@ public class CameraManager : MonoBehaviour
 	public Vector3 rotateStartPosition;
 	public Vector3 rotateCurrentPosition;
 
+	bool isHit = false;
 
 	private void Start()
 	{
 		mainCam = Camera.main;
 		newPosition = transform.position;
-		newRotation = transform.rotation;
+		newRotation = rotateRig.rotation;
 		newZoom = mainCam.transform.localPosition;
 	}
 
@@ -43,6 +45,11 @@ public class CameraManager : MonoBehaviour
 			HandleMouseInput();
 			HandleMovementInput();
 		}
+
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			followTransform = null;
+		}
 	}
 
 	void HandleMouseInput()
@@ -53,7 +60,6 @@ public class CameraManager : MonoBehaviour
 		}
 		if (Input.GetMouseButtonDown(1))
 		{
-			Debug.Log("click");
 			Plane plane = new Plane(Vector3.up, Vector3.zero);
 
 			Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
@@ -77,17 +83,35 @@ public class CameraManager : MonoBehaviour
 				newPosition = transform.position + dragStartPosition - dragCurrentPosition;
 			}
 		}
-
-		if (Input.GetMouseButtonDown(2))
+		if (!isHit && Input.GetMouseButtonDown(2))
 		{
+			Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
+			RaycastHit hit;
+			isHit = Physics.Raycast(ray, out hit, 100f);
+			if(isHit)
+			{
+				if (Input.GetKey(KeyCode.LeftShift))
+				{
+					newPosition = hit.point;
+					newPosition.y = 0f;
+				}
+			}
+			isHit = true;
 			rotateStartPosition = Input.mousePosition;
+
 		}
-		if (Input.GetMouseButton(2))
+		if (isHit && Input.GetMouseButton(2))
 		{
 			rotateCurrentPosition = Input.mousePosition;
 			Vector3 difference = rotateStartPosition - rotateCurrentPosition;
 			rotateStartPosition = rotateCurrentPosition;
-			newRotation *= Quaternion.Euler(Vector3.up * (-difference.x / 5f));
+			newRotation *= Quaternion.Euler(rotateRig.right * (difference.y / 5f));
+			newRotation *= Quaternion.Euler(rotateRig.up * (-difference.x / 5f));
+
+		}
+		if (Input.GetMouseButtonUp(2))
+		{
+			isHit = false;
 		}
 	}
 
@@ -137,7 +161,12 @@ public class CameraManager : MonoBehaviour
 		}
 
 		transform.position = Vector3.Lerp(transform.position, newPosition, Time.deltaTime * movementTime);
-		transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * movementTime);
+		if (newRotation.eulerAngles.z != 0f)
+		{
+			Vector3 eulerRotation = newRotation.eulerAngles;
+			newRotation = Quaternion.Euler(eulerRotation.x, eulerRotation.y, 0);
+		}
+		rotateRig.rotation = Quaternion.Lerp(rotateRig.rotation, newRotation, Time.deltaTime * movementTime);
 		mainCam.transform.localPosition = Vector3.Lerp(mainCam.transform.localPosition, newZoom, Time.deltaTime * movementTime);
 	}
 }
