@@ -31,10 +31,9 @@ namespace MyFolk.UI
 		{
 			for (int i = this.transform.childCount - 1; i >= 0; i--)
 			{
-
 				GameObject.Destroy(this.transform.GetChild(i).gameObject);
 			}
-
+			UIElements.Clear();
 			foreach (var item in currentQueue)
 			{
 				EnqueueElement(item);
@@ -76,14 +75,19 @@ namespace MyFolk.UI
 
 		public void DequeueElement((Interaction, InteractableItemClickedEvent) interaction)
 		{
-			foreach (var item in UIElements)
+			for (int i = UIElements.Count - 1; i >= 0; i--)
 			{
+				var item = UIElements[i];
 				if(item.interaction.Equals(interaction.Item1) && item.interactableItemClickedEventInfo.Equals(interaction.Item2))
 				{
-					UIElements.Remove(UIElements.Find(a => a.interaction.Equals(interaction.Item1) && a.interactableItemClickedEventInfo.Equals(interaction.Item2)));
+					UIElements.RemoveAt(i);//(UIElements.Find(a => a.interaction.Equals(interaction.Item1) && a.interactableItemClickedEventInfo.Equals(interaction.Item2)));
 					if(item != null)
 						GameObject.Destroy(item.gameObject);
 					return;
+				}
+				if(item == null)
+				{
+					UIElements.RemoveAt(i);
 				}
 			}
 		}

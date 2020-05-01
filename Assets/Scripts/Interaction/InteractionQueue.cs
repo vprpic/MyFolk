@@ -65,6 +65,11 @@ namespace MyFolk
 
 		public void OnInteractionQueueElementUIClicked(InteractionQueueElementUIClickEvent eventInfo)
 		{
+			if (!this.owner.Equals(eventInfo.interactionQueueElementUI.interactableItemClickedEventInfo.character))
+			{
+				Debug.Log("not owner");
+				return;
+			}
 			if (interactionQueue == null && interactionQueue.Count < 1)
 				return;
 
