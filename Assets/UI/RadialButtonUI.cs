@@ -20,12 +20,12 @@ namespace MyFolk.UI
 		public TextMeshProUGUI text;
 		public string title;
 		public float animateSpeed = 8f;
-		public InteractableItemClickedEventInfo interactableItemEventInfo;
+		public InteractableItemClickedEvent interactableItemEventInfo;
 
 		[HideInInspector]
 		public Interaction buttonInteraction;
 
-		public void Init(RadialMenu parent, InteractableItemClickedEventInfo eventInfo, Interaction interaction)
+		public void Init(RadialMenu parent, InteractableItemClickedEvent eventInfo, Interaction interaction)
 		{
 			this.interactableItemEventInfo = eventInfo;
 			this.buttonInteraction = interaction;
@@ -60,7 +60,8 @@ namespace MyFolk.UI
 		public void OnRadialButtonClick()
 		{
 			Globals.ins.currentlySelectedCharacter.interactionQueue.EnqueueInteraction(this.buttonInteraction, this.interactableItemEventInfo);
-			EventCallbacks.EventSystem.Current.FireEvent(new RadialButtonClickEventInfo(this));
+			//EventCallbacks.EventSystem.Current.FireEvent(new RadialButtonClickEvent(this));
+			(new RadialButtonClickEvent(this)).FireEvent();
 		}
 
 	}

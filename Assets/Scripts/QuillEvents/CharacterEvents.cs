@@ -2,24 +2,24 @@
 
 namespace EventCallbacks
 {
-    public class CharacterSelectedEventInfo : EventInfo
+    public class CharacterSelectedEvent : Event<CharacterSelectedEvent>
     {
         public Character newCharacter;
         public Character oldCharacter;
 
-        public CharacterSelectedEventInfo(Character oldCharacter, Character newCharacter)
+        public CharacterSelectedEvent(Character oldCharacter, Character newCharacter)
         {
             this.oldCharacter = oldCharacter;
             this.newCharacter = newCharacter;
         }
     }
 
-    public class CurrentCharacterNeedChangedEventInfo : EventInfo
+    public class CurrentCharacterNeedChangedEvent : Event<CurrentCharacterNeedChangedEvent>
     {
         public Need needChanged;
         public float amountChanged;
 
-        public CurrentCharacterNeedChangedEventInfo(Need needChanged, float amountChanged)
+        public CurrentCharacterNeedChangedEvent(Need needChanged, float amountChanged)
         {
             this.needChanged = needChanged;
             this.amountChanged = amountChanged;

@@ -23,11 +23,13 @@ namespace MyFolk.UI
 		private void Awake()
 		{
 			mainCamera = Camera.main;
-			EventSystem.Current.RegisterListener<InteractableItemClickedEventInfo>(OnInteractableClick);
-			EventSystem.Current.RegisterListener<RadialButtonClickEventInfo>(OnRadialButtonClicked);
+			//EventSystem.Current.RegisterListener<InteractableItemClickedEvent>(OnInteractableClick);
+			InteractableItemClickedEvent.RegisterListener(OnInteractableClick);
+			RadialButtonClickEvent.RegisterListener(OnRadialButtonClicked);
+			//EventSystem.Current.RegisterListener<RadialButtonClickEvent>(OnRadialButtonClicked);
 		}
 
-		public void SpawnMenu(InteractableItemClickedEventInfo eventInfo, List<Interaction> possibleInteractions)
+		public void SpawnMenu(InteractableItemClickedEvent eventInfo, List<Interaction> possibleInteractions)
 		{
 			if (eventInfo.iitem.Interactions.Length != 0)
 			{
@@ -43,13 +45,13 @@ namespace MyFolk.UI
 		/// <summary>
 		/// A radial button from the menu has been clicked, remove the menu from screen
 		/// </summary>
-		public void OnRadialButtonClicked(RadialButtonClickEventInfo radialButtonClickEventInfo)
+		public void OnRadialButtonClicked(RadialButtonClickEvent radialButtonClickEventInfo)
 		{
 			//TODO: no destroying
 			DestroyMenu(radialButtonClickEventInfo);
 		}
 
-		void OnInteractableClick(InteractableItemClickedEventInfo interactableItemClickedInfo)
+		void OnInteractableClick(InteractableItemClickedEvent interactableItemClickedInfo)
 		{
 			//Debug.Log("Alerted about interactable clicked: " + interactableItemClickedInfo.iitem.itemName);
 			if (spawnedMenu == null)
@@ -64,7 +66,7 @@ namespace MyFolk.UI
 			}
 		}
 
-		private List<Interaction> GetCurrentlyPossibleActions(InteractableItemClickedEventInfo eventInfo)
+		private List<Interaction> GetCurrentlyPossibleActions(InteractableItemClickedEvent eventInfo)
 		{
 			List<Interaction> possibleInteractions = new List<Interaction>();
 			foreach (Interaction interaction in eventInfo.iitem.Interactions)
@@ -82,12 +84,12 @@ namespace MyFolk.UI
 			return possibleInteractions;
 		}
 
-		private void DestroyMenu(RadialButtonClickEventInfo radialButtonClickEventInfo = null)
+		private void DestroyMenu(RadialButtonClickEvent radialButtonClickEventInfo = null)
 		{
 			GameObject.Destroy(spawnedMenu.gameObject);
-			EventSystem.Current.FireEvent(new FlexibleUIEnterExitEventInfo(
+			(new FlexibleUIEnterExitEvent(
 				radialButtonClickEventInfo != null ? radialButtonClickEventInfo.radialButtonUI : null,
-				false));
+				false)).FireEvent();
 		}
 	}
 }

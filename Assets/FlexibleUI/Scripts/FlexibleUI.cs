@@ -29,15 +29,17 @@ namespace MyFolk.FlexibleUI
         public void OnPointerEnter(PointerEventData eventData)
         {
             //Debug.Log("OnPointerEnter");
-            if(eventData != null)
-                EventCallbacks.EventSystem.Current.FireEvent(new FlexibleUIEnterExitEventInfo(this, true));
+            if (eventData != null)
+                (new FlexibleUIEnterExitEvent(this, true)).FireEvent();
+                //EventCallbacks.EventSystem.Current.FireEvent(new FlexibleUIEnterExitEvent(this, true));
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
             //Debug.Log("OnPointerExit");
             if (eventData != null)
-                EventCallbacks.EventSystem.Current.FireEvent(new FlexibleUIEnterExitEventInfo(this, false));
+                (new FlexibleUIEnterExitEvent(this, false)).FireEvent();
+            //EventCallbacks.EventSystem.Current.FireEvent(new FlexibleUIEnterExitEvent(this, false));
         }
 
     }

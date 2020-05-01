@@ -9,9 +9,9 @@ namespace MyFolk
 	{
 		public int maxInteractionsPossible = 10;
 		public Character owner;
-		public List<(Interaction, InteractableItemClickedEventInfo)> interactionQueue;
+		public List<(Interaction, InteractableItemClickedEvent)> interactionQueue;
 		private bool runningInteraction;
-		public (Interaction, InteractableItemClickedEventInfo) currentInteraction;
+		public (Interaction, InteractableItemClickedEvent) currentInteraction;
 
 		#region current action
 		public ScriptableAction currentAction;
@@ -30,14 +30,15 @@ namespace MyFolk
 		}
 		public void Init()
 		{
-			interactionQueue = new List<(Interaction, InteractableItemClickedEventInfo)>();
+			interactionQueue = new List<(Interaction, InteractableItemClickedEvent)>();
 			runningInteraction = false;
 			currentActionIndex = 0;
 			currentActionState = ActionState.NotStarted;
-			EventSystem.Current.RegisterListener<CharacterSelectedEventInfo>(OnCharacterSelected);
+			CharacterSelectedEvent.RegisterListener(OnCharacterSelected);
+			//EventSystem.Current.RegisterListener<CharacterSelectedEvent>(OnCharacterSelected);
 		}
 
-		public void EnqueueInteraction(Interaction interaction, InteractableItemClickedEventInfo eventInfo)
+		public void EnqueueInteraction(Interaction interaction, InteractableItemClickedEvent eventInfo)
 		{
 			if(interactionQueue.Count >= 10)
 			{
@@ -46,22 +47,23 @@ namespace MyFolk
 				return;
 			}
 			interactionQueue.Add((interaction, eventInfo));
-			EventSystem.Current.FireEvent(new InteractionEnqueueEventInfo(interaction, eventInfo));
+			(new InteractionEnqueueEvent(interaction, eventInfo)).FireEvent();
 		}
 
-		public void OnCharacterSelected(CharacterSelectedEventInfo eventInfo)
+		public void OnCharacterSelected(CharacterSelectedEvent eventInfo)
 		{
 			if (owner.Equals(eventInfo.newCharacter))
 			{
-				EventSystem.Current.RegisterListener<InteractionQueueElementUIClickEventInfo>(OnInteractionQueueElementUIClicked);
+				InteractionQueueElementUIClickEvent.RegisterListener(OnInteractionQueueElementUIClicked);
+				//EventSystem.Current.RegisterListener<InteractionQueueElementUIClickEvent>(OnInteractionQueueElementUIClicked);
 			}
 			else
 			{
-				EventSystem.Current.UnregisterListener<InteractionQueueElementUIClickEventInfo>(OnInteractionQueueElementUIClicked);
+				InteractionQueueElementUIClickEvent.UnregisterListener(OnInteractionQueueElementUIClicked);
 			}
 		}
 
-		public void OnInteractionQueueElementUIClicked(InteractionQueueElementUIClickEventInfo eventInfo)
+		public void OnInteractionQueueElementUIClicked(InteractionQueueElementUIClickEvent eventInfo)
 		{
 			if (interactionQueue == null && interactionQueue.Count < 1)
 				return;
@@ -88,9 +90,9 @@ namespace MyFolk
 			}
 		}
 
-		public (Interaction, InteractableItemClickedEventInfo) DequeueFirst()
+		public (Interaction, InteractableItemClickedEvent) DequeueFirst()
 		{
-			InteractableItemClickedEventInfo info = null;
+			InteractableItemClickedEvent info = null;
 			Interaction i = null;
 			if (interactionQueue != null && interactionQueue.Count > 0)
 			{
@@ -106,7 +108,7 @@ namespace MyFolk
 			currentActionState = ActionState.NotStarted;
 			currentActionIndex = 0;
 			if(currentInteraction != (null, null) && Globals.ins.currentlySelectedCharacter.Equals(owner)) {
-				EventSystem.Current.FireEvent(new InteractionDequeueEventInfo(currentInteraction.Item1, currentInteraction.Item2));
+				(new InteractionDequeueEvent(currentInteraction.Item1, currentInteraction.Item2)).FireEvent();
 			}
 			currentInteraction = DequeueFirst();
 			if(interactionQueue.Count == 0)

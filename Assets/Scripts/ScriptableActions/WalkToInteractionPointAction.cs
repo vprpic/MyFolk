@@ -9,7 +9,7 @@ namespace MyFolk
 	[CreateAssetMenu(menuName = "Actions/Walk To Interaction Point", fileName = "WalkToInteractionPoint_Action")]
 	public class WalkToInteractionPointAction : ScriptableAction
 	{
-		public override bool CheckIfPossible(InteractableItemClickedEventInfo eventInfo)
+		public override bool CheckIfPossible(InteractableItemClickedEvent eventInfo)
 		{
 			NavMeshPath path = new NavMeshPath();
 			eventInfo.character.navMeshAgent.CalculatePath(eventInfo.worldClickPoint, path);
@@ -19,7 +19,7 @@ namespace MyFolk
 				return false;
 		}
 
-		public override void StartAction(InteractableItemClickedEventInfo eventInfo, ReturnCurrentInteractionState returnCurrentInteractionState, StartActionOver startActionOver, ActionCanceled actionCanceled)
+		public override void StartAction(InteractableItemClickedEvent eventInfo, ReturnCurrentInteractionState returnCurrentInteractionState, StartActionOver startActionOver, ActionCanceled actionCanceled)
 		{
 			eventInfo.character.navMeshAgent.SetDestination(eventInfo.worldClickPoint);
 			ActionStateData asd = new ActionStateData(eventInfo);

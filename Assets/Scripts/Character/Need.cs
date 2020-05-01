@@ -44,7 +44,8 @@ namespace MyFolk {
 			this.currentValue = newValue;
 			if (ownerIsCurrentlySelected && amountChanged != 0f)
 			{
-				EventSystem.Current.FireEvent(new CurrentCharacterNeedChangedEventInfo(this, amountChanged));
+				//EventSystem.Current.FireEvent(new CurrentCharacterNeedChangedEvent(this, amountChanged));
+				(new CurrentCharacterNeedChangedEvent(this, amountChanged)).FireEvent();
 			}
 			return this.currentValue;
 		}

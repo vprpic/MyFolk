@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace EventCallbacks
 {
-    public class InteractableItemClickedEventInfo : EventInfo
+    public class InteractableItemClickedEvent : Event<InteractableItemClickedEvent>
     {
         public Character character;
 
@@ -14,9 +14,9 @@ namespace EventCallbacks
 
         public Vector3 screenClickPoint;
 
-        public InteractableItemClickedEventInfo() { }
+        public InteractableItemClickedEvent() { }
 
-        public InteractableItemClickedEventInfo(Character character, InteractableItem iitem, Vector3 wcp, Vector3 scp)
+        public InteractableItemClickedEvent(Character character, InteractableItem iitem, Vector3 wcp, Vector3 scp)
         {
             this.character = character;
             this.EventDescription = iitem.itemName + " was clicked";
@@ -26,12 +26,12 @@ namespace EventCallbacks
         }
     }
     #region Interaction Queue
-    public class InteractionQueueElementUIClickEventInfo : EventInfo
+    public class InteractionQueueElementUIClickEvent : Event<InteractionQueueElementUIClickEvent>
     {
         public InteractionQueueElementUI interactionQueueElementUI;
         public int queueIndex;
-        public InteractionQueueElementUIClickEventInfo() { }
-        public InteractionQueueElementUIClickEventInfo(InteractionQueueElementUI interactionQueueElementUI, int index)
+        public InteractionQueueElementUIClickEvent() { }
+        public InteractionQueueElementUIClickEvent(InteractionQueueElementUI interactionQueueElementUI, int index)
         {
             this.interactionQueueElementUI = interactionQueueElementUI;
             this.queueIndex = index;
@@ -39,12 +39,12 @@ namespace EventCallbacks
         }
     }
 
-    public class InteractionEnqueueEventInfo : EventInfo
+    public class InteractionEnqueueEvent : Event<InteractionEnqueueEvent>
     {
         public Interaction interaction;
-        public InteractableItemClickedEventInfo interactableItemClickedEventInfo;
-        public InteractionEnqueueEventInfo() { }
-        public InteractionEnqueueEventInfo(Interaction interaction, InteractableItemClickedEventInfo interactableItemClickedEventInfo)
+        public InteractableItemClickedEvent interactableItemClickedEventInfo;
+        public InteractionEnqueueEvent() { }
+        public InteractionEnqueueEvent(Interaction interaction, InteractableItemClickedEvent interactableItemClickedEventInfo)
         {
             this.interaction = interaction;
             this.interactableItemClickedEventInfo = interactableItemClickedEventInfo;
@@ -52,12 +52,12 @@ namespace EventCallbacks
         }
     }
 
-    public class InteractionDequeueEventInfo : EventInfo
+    public class InteractionDequeueEvent : Event<InteractionDequeueEvent>
     {
         public Interaction interaction;
-        public InteractableItemClickedEventInfo interactableItemClickedEventInfo;
-        public InteractionDequeueEventInfo() { }
-        public InteractionDequeueEventInfo(Interaction interaction, InteractableItemClickedEventInfo interactableItemClickedEventInfo)
+        public InteractableItemClickedEvent interactableItemClickedEventInfo;
+        public InteractionDequeueEvent() { }
+        public InteractionDequeueEvent(Interaction interaction, InteractableItemClickedEvent interactableItemClickedEventInfo)
         {
             this.interaction = interaction;
             this.interactableItemClickedEventInfo = interactableItemClickedEventInfo;
@@ -65,12 +65,12 @@ namespace EventCallbacks
         }
     }
 
-    public class ActiveInteractionChangedEventInfo : EventInfo
+    public class ActiveInteractionChangedEvent : Event<ActiveInteractionChangedEvent>
     {
         public Interaction interaction;
-        public InteractableItemClickedEventInfo interactableItemClickedEventInfo;
-        public ActiveInteractionChangedEventInfo() { }
-        public ActiveInteractionChangedEventInfo(Interaction interaction, InteractableItemClickedEventInfo interactableItemClickedEventInfo)
+        public InteractableItemClickedEvent interactableItemClickedEventInfo;
+        public ActiveInteractionChangedEvent() { }
+        public ActiveInteractionChangedEvent(Interaction interaction, InteractableItemClickedEvent interactableItemClickedEventInfo)
         {
             this.interaction = interaction;
             this.interactableItemClickedEventInfo = interactableItemClickedEventInfo;

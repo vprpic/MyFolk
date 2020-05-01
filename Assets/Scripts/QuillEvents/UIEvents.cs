@@ -3,23 +3,23 @@ using MyFolk.UI;
 
 namespace EventCallbacks
 {
-    public class FlexibleUIEnterExitEventInfo : EventInfo
+    public class FlexibleUIEnterExitEvent : Event<FlexibleUIEnterExitEvent>
     {
         public FlexibleUI flexibleUI;
         public bool isHovering;
-        public FlexibleUIEnterExitEventInfo() { }
-        public FlexibleUIEnterExitEventInfo(FlexibleUI flexibleUI, bool isHovering)
+        public FlexibleUIEnterExitEvent() { }
+        public FlexibleUIEnterExitEvent(FlexibleUI flexibleUI, bool isHovering)
         {
             this.flexibleUI = flexibleUI;
             this.isHovering = isHovering;
             this.EventDescription = isHovering ? "The mouse IS hovering over this UI" : "The mouse IS NOT hovering over this UI";
         }
     }
-    public class RadialButtonClickEventInfo : EventInfo
+    public class RadialButtonClickEvent : Event<RadialButtonClickEvent>
     {
         public RadialButtonUI radialButtonUI;
-        public RadialButtonClickEventInfo() { }
-        public RadialButtonClickEventInfo(RadialButtonUI radialButton)
+        public RadialButtonClickEvent() { }
+        public RadialButtonClickEvent(RadialButtonUI radialButton)
         {
             this.radialButtonUI = radialButton;
             this.EventDescription = "Radial button was clicked: " + radialButton.text;

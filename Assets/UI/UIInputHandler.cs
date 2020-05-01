@@ -9,7 +9,7 @@ namespace MyFolk.UI
 	{
 		public bool isHovering;
 
-		public void OnEnterExitUI(FlexibleUIEnterExitEventInfo eventInfo)
+		public void OnEnterExitUI(FlexibleUIEnterExitEvent eventInfo)
 		{
 			this.isHovering = eventInfo.isHovering;
 			//Debug.Log("OnEnterExitUI: " + isHovering.ToString());
@@ -17,7 +17,8 @@ namespace MyFolk.UI
 
 		private void Start()
 		{
-			EventSystem.Current.RegisterListener<FlexibleUIEnterExitEventInfo>(OnEnterExitUI);
+			//EventSystem.Current.RegisterListener<FlexibleUIEnterExitEvent>(OnEnterExitUI);
+			FlexibleUIEnterExitEvent.RegisterListener(OnEnterExitUI);
 		}
 
 	}

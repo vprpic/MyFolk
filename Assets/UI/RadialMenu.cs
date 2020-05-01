@@ -10,12 +10,12 @@ namespace MyFolk.UI
 		public Vector3 worldPoint;
 		public RadialButtonUI buttonPrefab;
 
-		public void SpawnButtons(InteractableItemClickedEventInfo obj, List<Interaction> possibleInteractions)
+		public void SpawnButtons(InteractableItemClickedEvent obj, List<Interaction> possibleInteractions)
 		{
 			StartCoroutine(AnimateButtons(obj, possibleInteractions));
 		}
 
-		IEnumerator AnimateButtons(InteractableItemClickedEventInfo eventInfo, List<Interaction> possibleInteractions)
+		IEnumerator AnimateButtons(InteractableItemClickedEvent eventInfo, List<Interaction> possibleInteractions)
 		{
 			for (int i = 0; i < possibleInteractions.Count; i++)
 			{

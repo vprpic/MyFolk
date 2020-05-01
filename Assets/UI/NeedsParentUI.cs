@@ -23,10 +23,11 @@ namespace MyFolk.FlexibleUI
 				needs.Add(item.type, item);
 			}
 			dirtyNeeds = new List<Need>();
-			
 
-			EventSystem.Current.RegisterListener<CurrentCharacterNeedChangedEventInfo>(OnNeedUpdated);
-			EventSystem.Current.RegisterListener<CharacterSelectedEventInfo>(OnCurrentCharacterChanged);
+			CurrentCharacterNeedChangedEvent.RegisterListener(OnNeedUpdated);
+			CharacterSelectedEvent.RegisterListener(OnCurrentCharacterChanged);
+			//EventSystem.Current.RegisterListener<CurrentCharacterNeedChangedEvent>(OnNeedUpdated);
+			//EventSystem.Current.RegisterListener<CharacterSelectedEvent>(OnCurrentCharacterChanged);
 		}
 		
 		public override void Update()
@@ -48,7 +49,7 @@ namespace MyFolk.FlexibleUI
 			}
 		}
 
-		public void OnCurrentCharacterChanged(CharacterSelectedEventInfo eventInfo)
+		public void OnCurrentCharacterChanged(CharacterSelectedEvent eventInfo)
 		{
 			this.currentCharacter = eventInfo.newCharacter;
 			if (currentCharacter != null)
@@ -74,7 +75,7 @@ namespace MyFolk.FlexibleUI
 			}
 		}
 
-		public void OnNeedUpdated(CurrentCharacterNeedChangedEventInfo eventInfo)
+		public void OnNeedUpdated(CurrentCharacterNeedChangedEvent eventInfo)
 		{
 			dirtyNeeds.Add(eventInfo.needChanged);
 		}

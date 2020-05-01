@@ -11,12 +11,12 @@ namespace MyFolk
 		public float lookSpeed;
 		public float maxInteractionTime;
 		
-		public override bool CheckIfPossible(InteractableItemClickedEventInfo eventInfo)
+		public override bool CheckIfPossible(InteractableItemClickedEvent eventInfo)
 		{
 			return true;
 		}
 
-		public override void StartAction(InteractableItemClickedEventInfo eventInfo, ReturnCurrentInteractionState returnCurrentInteractionState, 
+		public override void StartAction(InteractableItemClickedEvent eventInfo, ReturnCurrentInteractionState returnCurrentInteractionState, 
 			StartActionOver startActionOver, ActionCanceled actionCanceled)
 		{
 			Vector3 target = eventInfo.iitem.gameObject.transform.position;

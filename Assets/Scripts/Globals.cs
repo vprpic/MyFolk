@@ -35,7 +35,8 @@ namespace MyFolk
 				Debug.LogWarning("Multiple Globals instances");
 				Destroy(this);
 			}
-			EventSystem.Current.RegisterListener<CharacterSelectedEventInfo>(OnCharacterSelected);
+			//EventSystem.Current.RegisterListener<CharacterSelectedEvent>(OnCharacterSelected);
+			CharacterSelectedEvent.RegisterListener(OnCharacterSelected);
 			//SetSelectedCharacter();
 		}
 
@@ -84,7 +85,7 @@ namespace MyFolk
 				SetSelectedCharacter(c);
 			}
 			if (c != null)
-				EventSystem.Current.FireEvent(new CharacterSelectedEventInfo(null, c));
+				(new CharacterSelectedEvent(null, c)).FireEvent();
 		}
 
 		private Character FindCharacterFromId(int characterId)
@@ -116,7 +117,7 @@ namespace MyFolk
 			data.worldClickPoint = clickPoint;
 		}
 
-		public void OnCharacterSelected(CharacterSelectedEventInfo eventInfo)
+		public void OnCharacterSelected(CharacterSelectedEvent eventInfo)
 		{
 			if(eventInfo.oldCharacter != null)
 				eventInfo.oldCharacter.data.isSelected = false;

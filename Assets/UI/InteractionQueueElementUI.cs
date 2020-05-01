@@ -20,12 +20,12 @@ namespace MyFolk.UI
 		public Image icon;
 		public string title => interaction.interactionName;
 		public float animateSpeed = 8f;
-		public InteractableItemClickedEventInfo interactableItemClickedEventInfo;
+		public InteractableItemClickedEvent interactableItemClickedEventInfo;
 
 		[HideInInspector]
 		public Interaction interaction;
 
-		internal void Init(InteractionQueueUI parent, InteractionEnqueueEventInfo eventInfo)
+		internal void Init(InteractionQueueUI parent, InteractionEnqueueEvent eventInfo)
 		{
 			this.menuParent = parent;
 			this.interactableItemClickedEventInfo = eventInfo.interactableItemClickedEventInfo;
@@ -33,7 +33,7 @@ namespace MyFolk.UI
 			this.icon.sprite = interactableItemClickedEventInfo.iitem.QueueSprite;
 		}
 
-		internal void Init(InteractionQueueUI parent, (Interaction, InteractableItemClickedEventInfo) interactionInfo)
+		internal void Init(InteractionQueueUI parent, (Interaction, InteractableItemClickedEvent) interactionInfo)
 		{
 			this.menuParent = parent;
 			this.interactableItemClickedEventInfo = interactionInfo.Item2;
@@ -65,8 +65,8 @@ namespace MyFolk.UI
 		public void OnElementClick()
 		{
 			int index = menuParent.DequeueElement(this);
-			EventCallbacks.EventSystem.Current.FireEvent(new InteractionQueueElementUIClickEventInfo(this, index));
-			EventCallbacks.EventSystem.Current.FireEvent(new FlexibleUIEnterExitEventInfo(this, false));
+			(new FlexibleUIEnterExitEvent(this, false)).FireEvent();
+			(new InteractionQueueElementUIClickEvent(this, index)).FireEvent();
 		}
 
 	}

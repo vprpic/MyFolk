@@ -12,7 +12,7 @@ namespace MyFolk
 		public Camera mainCamera;
 		public float range = 500f;
 		public InteractableItem currentTargetIItem;
-		public InteractableItemClickedEventInfo currentEventInfo;
+		public InteractableItemClickedEvent currentEventInfo;
 		private bool isHit;
 		RaycastHit whatIHit;
 		public void Init()
@@ -34,14 +34,13 @@ namespace MyFolk
 					//Debug.Log("InteractionRaycasting-Update-whatIHit: " + whatIHit.collider.name+"\n" +
 					//whatIHit.point);
 					currentEventInfo.iitem = currentTargetIItem;
-					EventSystem.Current.FireEvent(
-						new InteractableItemClickedEventInfo(
+					(new InteractableItemClickedEvent(
 							Globals.ins.currentlySelectedCharacter,
 							currentEventInfo.iitem,
 							currentEventInfo.worldClickPoint,
 							currentEventInfo.screenClickPoint
 							)
-					);
+					).FireEvent();
 					currentTargetIItem.OnInteract(currentEventInfo.worldClickPoint); //the interactable doesn't listen to the event, all of them would be activated
 				}
 			}
@@ -51,7 +50,7 @@ namespace MyFolk
 		{
 			if (currentEventInfo == null)
 			{
-				currentEventInfo = new InteractableItemClickedEventInfo();
+				currentEventInfo = new InteractableItemClickedEvent();
 			}
 			InteractableItem interactable = null;
 			Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);

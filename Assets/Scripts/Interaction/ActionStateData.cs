@@ -8,10 +8,10 @@ namespace MyFolk
 
 	public class ActionStateData
 	{
-		public EventCallbacks.InteractableItemClickedEventInfo eventInfo;
+		public EventCallbacks.InteractableItemClickedEvent eventInfo;
 		public ActionStateData() { }
 
-		public ActionStateData(EventCallbacks.InteractableItemClickedEventInfo eventInfo)
+		public ActionStateData(EventCallbacks.InteractableItemClickedEvent eventInfo)
 		{
 			this.eventInfo = eventInfo;
 		}
@@ -28,7 +28,7 @@ namespace MyFolk
 		public Vector3 target;
 		public float timer;
 
-		public LookAtStateData(InteractableItemClickedEventInfo eventInfo, Vector3 target) : base(eventInfo)
+		public LookAtStateData(InteractableItemClickedEvent eventInfo, Vector3 target) : base(eventInfo)
 		{
 			this.target = target;
 		}
@@ -46,7 +46,7 @@ namespace MyFolk
 		public float currentFoodAmountAdded;
 		public float timer;
 
-		public EatFoodStateData(InteractableItemClickedEventInfo eventInfo) : base(eventInfo)
+		public EatFoodStateData(InteractableItemClickedEvent eventInfo) : base(eventInfo)
 		{
 		}
 

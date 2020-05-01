@@ -61,7 +61,7 @@ namespace MyFolk
 			return sa;
 		}
 
-		public bool CheckIfInteractionPossible(InteractableItemClickedEventInfo info)
+		public bool CheckIfInteractionPossible(InteractableItemClickedEvent info)
 		{
 			foreach (ScriptableAction action in actions)
 			{

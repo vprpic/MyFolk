@@ -14,17 +14,20 @@ namespace MyFolk.UI
 
 		public void Awake()
 		{
-			EventCallbacks.EventSystem.Current.RegisterListener<CharacterSelectedEventInfo>(OnCharacterSelected);
-			EventCallbacks.EventSystem.Current.RegisterListener<InteractionEnqueueEventInfo>(OnEnqueuedInteraction);
-			EventCallbacks.EventSystem.Current.RegisterListener<InteractionDequeueEventInfo>(OnDequeuedInteraction);
+			//EventCallbacks.EventSystem.Current.RegisterListener<CharacterSelectedEvent>(OnCharacterSelected);
+			CharacterSelectedEvent.RegisterListener(OnCharacterSelected);
+			//EventCallbacks.EventSystem.Current.RegisterListener<InteractionEnqueueEvent>(OnEnqueuedInteraction);
+			InteractionEnqueueEvent.RegisterListener(OnEnqueuedInteraction);
+			//EventCallbacks.EventSystem.Current.RegisterListener<InteractionDequeueEvent>(OnDequeuedInteraction);
+			InteractionDequeueEvent.RegisterListener(OnDequeuedInteraction);
 		}
 
-		public void OnCharacterSelected(CharacterSelectedEventInfo characterSelectedEventInfo)
+		public void OnCharacterSelected(CharacterSelectedEvent characterSelectedEventInfo)
 		{
 			EnqueueElements(characterSelectedEventInfo.newCharacter.interactionQueue.interactionQueue);
 		}
 
-		private void EnqueueElements(List<(Interaction, InteractableItemClickedEventInfo)> currentQueue)
+		private void EnqueueElements(List<(Interaction, InteractableItemClickedEvent)> currentQueue)
 		{
 			for (int i = this.transform.childCount - 1; i >= 0; i--)
 			{
@@ -38,16 +41,16 @@ namespace MyFolk.UI
 			}
 		}
 
-		public void OnEnqueuedInteraction(InteractionEnqueueEventInfo interactionQueueEnqueuedEventInfo)
+		public void OnEnqueuedInteraction(InteractionEnqueueEvent interactionQueueEnqueuedEventInfo)
 		{
 			EnqueueElement(interactionQueueEnqueuedEventInfo);
 		}
-		public void OnDequeuedInteraction(InteractionDequeueEventInfo interactionDequeueEventInfo)
+		public void OnDequeuedInteraction(InteractionDequeueEvent interactionDequeueEventInfo)
 		{
 			DequeueElement(interactionDequeueEventInfo);
 		}
 
-		public void EnqueueElement((Interaction, InteractableItemClickedEventInfo) interaction)
+		public void EnqueueElement((Interaction, InteractableItemClickedEvent) interaction)
 		{
 			InteractionQueueElementUI newElement = Instantiate(interactionQueueElementUIPrefab) as InteractionQueueElementUI;
 			newElement.transform.SetParent(transform, false);
@@ -58,7 +61,7 @@ namespace MyFolk.UI
 			newElement.Animate();
 		}
 
-		public void EnqueueElement(InteractionEnqueueEventInfo interaction)
+		public void EnqueueElement(InteractionEnqueueEvent interaction)
 		{
 			EnqueueElement((interaction.interaction,interaction.interactableItemClickedEventInfo));
 		}
@@ -71,7 +74,7 @@ namespace MyFolk.UI
 			return UIElements.IndexOf(interactionQueueElementUI);
 		}
 
-		public void DequeueElement((Interaction, InteractableItemClickedEventInfo) interaction)
+		public void DequeueElement((Interaction, InteractableItemClickedEvent) interaction)
 		{
 			foreach (var item in UIElements)
 			{
@@ -95,7 +98,7 @@ namespace MyFolk.UI
 			return i;
 		}
 
-		public void DequeueElement(InteractionDequeueEventInfo interaction)
+		public void DequeueElement(InteractionDequeueEvent interaction)
 		{
 			DequeueElement((interaction.interaction, interaction.interactableItemClickedEventInfo));
 		}

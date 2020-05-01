@@ -9,7 +9,7 @@ namespace MyFolk
 	[CreateAssetMenu(menuName = "Actions/Walk Here", fileName = "WalkHere_Action")]
 	public class WalkHereAction : ScriptableAction
 	{
-		public override bool CheckIfPossible(InteractableItemClickedEventInfo eventInfo)
+		public override bool CheckIfPossible(InteractableItemClickedEvent eventInfo)
 		{
 			NavMeshPath path = new NavMeshPath();
 			eventInfo.character.navMeshAgent.CalculatePath(eventInfo.worldClickPoint, path);
@@ -18,7 +18,7 @@ namespace MyFolk
 			else
 				return false;
 		}
-		public override void StartAction(InteractableItemClickedEventInfo eventInfo, ReturnCurrentInteractionState returnCurrentInteractionState, StartActionOver startActionOver, ActionCanceled actionCanceled)
+		public override void StartAction(InteractableItemClickedEvent eventInfo, ReturnCurrentInteractionState returnCurrentInteractionState, StartActionOver startActionOver, ActionCanceled actionCanceled)
 		{
 			ActionStateData asd = new ActionStateData(eventInfo);
 			eventInfo.character.navMeshAgent.SetDestination(eventInfo.worldClickPoint);

@@ -12,12 +12,12 @@ namespace MyFolk
 		public float maxFoodAmountToAdd;
 		public float foodAmountToAddPerUpdate;
 
-		public override bool CheckIfPossible(InteractableItemClickedEventInfo eventInfo)
+		public override bool CheckIfPossible(InteractableItemClickedEvent eventInfo)
 		{
 			return true;
 		}
 
-		public override void StartAction(InteractableItemClickedEventInfo eventInfo, ReturnCurrentInteractionState returnCurrentInteractionState, StartActionOver startActionOver, ActionCanceled actionCanceled)
+		public override void StartAction(InteractableItemClickedEvent eventInfo, ReturnCurrentInteractionState returnCurrentInteractionState, StartActionOver startActionOver, ActionCanceled actionCanceled)
 		{
 			EatFoodStateData asd = new EatFoodStateData(eventInfo);
 			returnCurrentInteractionState(asd);
