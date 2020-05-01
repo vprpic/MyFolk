@@ -52,13 +52,15 @@ namespace EventCallbacks
         }
     }
 
-    public class InteractionDequeueEvent : Event<InteractionDequeueEvent>
+    public class InteractionDequeuedFromCodeEvent : Event<InteractionDequeuedFromCodeEvent>
     {
         public Interaction interaction;
         public InteractableItemClickedEvent interactableItemClickedEventInfo;
-        public InteractionDequeueEvent() { }
-        public InteractionDequeueEvent(Interaction interaction, InteractableItemClickedEvent interactableItemClickedEventInfo)
+        public int index;
+        public InteractionDequeuedFromCodeEvent() { }
+        public InteractionDequeuedFromCodeEvent(Interaction interaction, InteractableItemClickedEvent interactableItemClickedEventInfo, int index)
         {
+            this.index = index;
             this.interaction = interaction;
             this.interactableItemClickedEventInfo = interactableItemClickedEventInfo;
             this.EventDescription = "Interaction dequeued: " + interaction.interactionName;

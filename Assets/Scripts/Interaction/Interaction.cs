@@ -15,26 +15,6 @@ namespace MyFolk
 		public Sprite radialButtonSprite;
 		public List<ScriptableAction> actions = new List<ScriptableAction>();
 
-		internal void RunCurrentInteraction(Action currentInteractionCompleted, Action currentInteractionCancelled)
-		{
-			//Debug.Log("RunCurrentInteraction: "+this.actionName);
-		}
-
-		//public ScriptableAction StartInteraction(Action<int> setNextAction)
-		//{
-		//	ScriptableAction sa = null;
-		//	if (actions != null && actions.Count > 0)
-		//	{
-		//		sa = actions[0];
-		//		sa.StartAction();
-		//		if(actions.Count > 1)
-		//		{
-		//			setNextAction.Invoke(1);
-		//		}
-		//	}
-
-		//	return sa;
-		//}
 		public ScriptableAction GetFirstAction()
 		{
 			if (actions.Count > 0)
