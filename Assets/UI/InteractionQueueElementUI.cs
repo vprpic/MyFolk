@@ -66,7 +66,7 @@ namespace MyFolk.UI
 		{
 			int index = menuParent.DequeueUIElement(this);
 			(new FlexibleUIEnterExitEvent(this, false)).FireEvent();
-			(new InteractionQueueElementUIClickEvent(this, index)).FireEvent();
+			(new InteractionQueueElementUIClickEvent(this)).FireEvent();
 		}
 
 	}

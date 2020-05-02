@@ -19,32 +19,36 @@ namespace MyFolk.UI
 			InteractionDequeuedFromCodeEvent.RegisterListener(OnDequeuedInteractionFromCode);
 		}
 
+		#region Listeners
 		public void OnCharacterSelected(CharacterSelectedEvent characterSelectedEventInfo)
 		{
 			EnqueueElements(characterSelectedEventInfo.newCharacter.interactionQueue.interactionQueue);
 		}
-
-		private void EnqueueElements(List<(Interaction, InteractableItemClickedEvent)> currentQueue)
-		{
-			for (int i = this.transform.childCount - 1; i >= 0; i--)
-			{
-				GameObject.Destroy(this.transform.GetChild(i).gameObject);
-			}
-			UIElements.Clear();
-			foreach (var item in currentQueue)
-			{
-				EnqueueElement(item);
-			}
-		}
-
 		public void OnEnqueuedInteraction(InteractionEnqueueEvent interactionQueueEnqueuedEventInfo)
 		{
 			EnqueueElement(interactionQueueEnqueuedEventInfo);
 		}
 		public void OnDequeuedInteractionFromCode(InteractionDequeuedFromCodeEvent interactionDequeueEvent)
 		{
-			DequeueUIElement((interactionDequeueEvent.interaction, interactionDequeueEvent.interactableItemClickedEventInfo),interactionDequeueEvent.index);
+			DequeueUIElement((interactionDequeueEvent.interaction, interactionDequeueEvent.interactableItemClickedEventInfo));
 		}
+		#endregion Listeners
+
+
+		private void EnqueueElements(List<(Interaction, InteractableItemClickedEvent)> currentQueue)
+		{
+			UIElements.Clear();
+			for (int i = this.transform.childCount - 1; i >= 0; i--)
+			{
+				GameObject.Destroy(this.transform.GetChild(i).gameObject);
+			}
+			foreach (var item in currentQueue)
+			{
+				EnqueueElement(item);
+			}
+		}
+
+		
 
 		public void EnqueueElement((Interaction, InteractableItemClickedEvent) interaction)
 		{
@@ -67,13 +71,11 @@ namespace MyFolk.UI
 			return UIElements.IndexOf(interactionQueueElementUI);
 		}
 
-		public void DequeueUIElement((Interaction, InteractableItemClickedEvent) interaction, int index)
+		public void DequeueUIElement((Interaction, InteractableItemClickedEvent) interaction)
 		{
-			if (UIElements.Count > index && UIElements[index].interaction.Equals(interaction.Item1) 
-				&& UIElements[index].interactableItemClickedEventInfo.Equals(interaction.Item2))
-			{
-				DequeueUIElement(UIElements[index]);
-			}
+			InteractionQueueElementUI el = UIElements.Find(a => a.interactableItemClickedEventInfo.id == interaction.Item2.id);
+			if (el != null)
+				DequeueUIElement(el);
 			else
 			{
 				for (int i = UIElements.Count - 1; i >= 0; i--)
@@ -85,6 +87,15 @@ namespace MyFolk.UI
 					}
 				}
 			}
+
+			//if (UIElements.Count > index && UIElements[index].interaction.Equals(interaction.Item1) 
+			//	&& UIElements[index].interactableItemClickedEventInfo.Equals(interaction.Item2))
+			//{
+			//	DequeueUIElement(UIElements[index]);
+			//}
+			//else
+			//{
+			////}
 		}
 
 		internal int DequeueUIElement(InteractionQueueElementUI interactionQueueElementUI)

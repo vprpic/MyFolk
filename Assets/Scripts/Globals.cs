@@ -19,7 +19,6 @@ namespace MyFolk
 		public List<Character> allCharacters;
 		public Character currentlySelectedCharacter;
 
-
 		//TODO: remove
 		public MyFolk.UI.FamilyPanelUI familyPanel;
 

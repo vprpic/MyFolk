@@ -27,6 +27,10 @@ namespace MyFolk.UI
 
 		internal void OnCharacterSelectorClicked(CharacterSelectorUI cs)
 		{
+			if (currentlySelectedCharacter.character.Equals(cs.character))
+			{
+				return;
+			}
 			(new EventCallbacks.CharacterSelectedEvent(currentlySelectedCharacter.character, cs.character)).FireEvent();
 			currentlySelectedCharacter.UpdateHighlight();
 			currentlySelectedCharacter = cs;

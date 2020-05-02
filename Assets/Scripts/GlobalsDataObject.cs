@@ -35,5 +35,8 @@ namespace MyFolk
 		public CharacterData currentlySelectedCharacterData;
 		public Vector3 worldClickPoint;
 		public int totalCharactersInstantiated;
+
+		public int interactableItemClickedEventsCount;
+
 	}
 }

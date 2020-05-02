@@ -73,25 +73,19 @@ namespace MyFolk
 			if (interactionQueue == null && interactionQueue.Count < 1)
 				return;
 
-			if(eventInfo.queueIndex == 0)
+			(Interaction, InteractableItemClickedEvent) temp = interactionQueue.Find(
+				a => a.Item2.id == eventInfo.interactionQueueElementUI.interactableItemClickedEventInfo.id);
+			if(temp == (null, null))
 			{
-				//it's the first item
-				CurrentInteractionPlayerCanceled();
+				return;
 			}
-			else if(eventInfo.queueIndex > 0)
+			if(temp.Item2.id == CurrentInteraction.Item2.id)
 			{
-				if((eventInfo.queueIndex-1) > interactionQueue.Count - 1) //-1 bc interactionQueue doesn't hold the currently performing interaction
-				{
-					Debug.Log("Can't remove interaction from queue, index too large: "+
-						eventInfo.interactionQueueElementUI.interaction.interactionName+" "+eventInfo.queueIndex);
-					return;
-				}
-				interactionQueue.RemoveAt(eventInfo.queueIndex - 1);
+				CurrentInteractionPlayerCanceled();
 			}
 			else
 			{
-				//can't be negative
-				return;
+				interactionQueue.Remove(temp);
 			}
 		}
 
@@ -110,12 +104,7 @@ namespace MyFolk
 		public void SetNextInteraction(bool playerCanceled = false)
 		{
 			if(!playerCanceled && CurrentInteraction != (null, null) && Globals.ins.currentlySelectedCharacter.Equals(owner)) {
-				(new InteractionDequeuedFromCodeEvent(CurrentInteraction.Item1, CurrentInteraction.Item2, 0)).FireEvent();
-				Debug.Log("InteractionDequeuedFromCodeEvent");
-			}
-			else
-			{
-				Debug.Log("not from code");
+				(new InteractionDequeuedFromCodeEvent(CurrentInteraction.Item1, CurrentInteraction.Item2)).FireEvent();
 			}
 			RunInteraction(false);
 			currentActionState = ActionState.NotStarted;
@@ -123,7 +112,6 @@ namespace MyFolk
 			DequeueFirst();
 			if(interactionQueue.Count == 0)
 			{
-				//Debug.Log("Interaction Queue is empty");
 				return;
 			}
 
@@ -132,8 +120,6 @@ namespace MyFolk
 				Debug.Log("Current interaction impossible, skipping to next.");
 				SetNextInteraction();
 			}
-			//if (CurrentInteraction.Item1.actions != null && CurrentInteraction.Item1.actions.Count > 0)
-			//	currentAction = CurrentInteraction.Item1.actions[0];
 			RunInteraction(true);
 		}
 
@@ -158,49 +144,31 @@ namespace MyFolk
 
 		public void CurrentInteractionCancelled()
 		{
-			CurrentAction.CancelAction(currentActionStateData, EndActionOver, ActionCanceled);
+			if(CurrentAction == null)
+			{
+				Debug.Log("currentAction == null, can't cancel it");
+			}
+			CurrentAction.CancelAction(currentActionStateData, ActionPlayerCanceled);
 		}
 
-		public void CurrentInteractionCompleted()
+		public void CurrentInteractionCompleted(bool isPlayerCanceled = false)
 		{
-			SetNextInteraction();
+			SetNextInteraction(isPlayerCanceled);
 		}
 
 		public void CurrentInteractionPlayerCanceled()
 		{
 			CurrentInteractionCancelled();
-			SetNextInteraction(true);
 		}
 
 		public void Update()
 		{
-			//if (!runningInteraction)
-			//{
-			//	if (CurrentInteraction.Item1 != null && CurrentInteraction.Item2 != null)
-			//	{
-			//		//currentAction = currentInteraction.Item1.StartInteraction(SetNextAction);
-			//		//why am I not running?
-			//		//Debug.Log("Interaction not running, but selected!");
-			//		RunInteraction(true);
-			//	}
-			//	else
-			//	{
-			//		SetNextInteraction();
-			//		//Debug.Log("No currently active interaction.");
-			//	}
-			//}
-			//else
-			//{
 			if (CurrentInteraction == (null, null))
 			{
-				//RunInteraction(false);
 				SetNextInteraction();
 			}
 			else if (CurrentAction == null)
 			{
-				///*currentAction =*/ CurrentInteraction.Item1.GetFirstAction();
-
-				//currentActionIndex = 0;
 				SetNextAction();
 			}
 			else
@@ -227,7 +195,6 @@ namespace MyFolk
 						break;
 				}
 			}
-			//}
 		}
 
 
@@ -259,6 +226,10 @@ namespace MyFolk
 		public void ActionCanceled()
 		{
 			CurrentInteractionCompleted();
+		}
+		public void ActionPlayerCanceled()
+		{
+			CurrentInteractionCompleted(true);
 		}
 		#endregion Action States
 	}

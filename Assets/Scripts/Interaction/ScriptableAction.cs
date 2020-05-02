@@ -83,6 +83,6 @@ namespace MyFolk
 		public abstract void PerformAction(ActionStateData actionStateData, ReturnCurrentInteractionState returnCurrentInteractionState,
 			PerformActionOver performActionOver, ActionCanceled actionCanceled);
 		public abstract void EndAction(ActionStateData actionStateData, EndActionOver endActionOver, ActionCanceled actionCanceled);
-		public abstract void CancelAction(ActionStateData actionStateData, EndActionOver endActionOver, ActionCanceled actionCanceled);
+		public abstract void CancelAction(ActionStateData actionStateData, ActionCanceled actionCanceled);
 	}
 }

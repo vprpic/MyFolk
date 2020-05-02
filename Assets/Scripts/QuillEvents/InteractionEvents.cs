@@ -6,6 +6,8 @@ namespace EventCallbacks
 {
     public class InteractableItemClickedEvent : Event<InteractableItemClickedEvent>
     {
+        public readonly int id;
+
         public Character character;
 
         public InteractableItem iitem;
@@ -14,9 +16,13 @@ namespace EventCallbacks
 
         public Vector3 screenClickPoint;
 
-        public InteractableItemClickedEvent() { }
 
-        public InteractableItemClickedEvent(Character character, InteractableItem iitem, Vector3 wcp, Vector3 scp)
+        public InteractableItemClickedEvent()
+        {
+            this.id = Globals.ins.data.interactableItemClickedEventsCount++;
+        }
+
+        public InteractableItemClickedEvent(Character character, InteractableItem iitem, Vector3 wcp, Vector3 scp) : this()
         {
             this.character = character;
             this.EventDescription = iitem.itemName + " was clicked";
@@ -29,12 +35,10 @@ namespace EventCallbacks
     public class InteractionQueueElementUIClickEvent : Event<InteractionQueueElementUIClickEvent>
     {
         public InteractionQueueElementUI interactionQueueElementUI;
-        public int queueIndex;
         public InteractionQueueElementUIClickEvent() { }
-        public InteractionQueueElementUIClickEvent(InteractionQueueElementUI interactionQueueElementUI, int index)
+        public InteractionQueueElementUIClickEvent(InteractionQueueElementUI interactionQueueElementUI)
         {
             this.interactionQueueElementUI = interactionQueueElementUI;
-            this.queueIndex = index;
             this.EventDescription = "Interaction queue element was clicked: " + interactionQueueElementUI.name;
         }
     }
@@ -56,11 +60,9 @@ namespace EventCallbacks
     {
         public Interaction interaction;
         public InteractableItemClickedEvent interactableItemClickedEventInfo;
-        public int index;
         public InteractionDequeuedFromCodeEvent() { }
-        public InteractionDequeuedFromCodeEvent(Interaction interaction, InteractableItemClickedEvent interactableItemClickedEventInfo, int index)
+        public InteractionDequeuedFromCodeEvent(Interaction interaction, InteractableItemClickedEvent interactableItemClickedEventInfo)
         {
-            this.index = index;
             this.interaction = interaction;
             this.interactableItemClickedEventInfo = interactableItemClickedEventInfo;
             this.EventDescription = "Interaction dequeued: " + interaction.interactionName;

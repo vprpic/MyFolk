@@ -62,7 +62,7 @@ namespace MyFolk
 			endActionOver();
 		}
 
-		public override void CancelAction(ActionStateData actionStateData, EndActionOver endActionOver, ActionCanceled actionCanceled)
+		public override void CancelAction(ActionStateData actionStateData,  ActionCanceled actionCanceled)
 		{
 			actionCanceled();
 		}
