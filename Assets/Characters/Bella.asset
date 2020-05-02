@@ -17,22 +17,22 @@ MonoBehaviour:
     minValue: 0
     maxValue: 100
     type: 0
-    currentValue: 40.099674
+    currentValue: 75.69852
   energy:
     minValue: 0
     maxValue: 100
     type: 4
-    currentValue: 100
+    currentValue: 95.1
   fun:
     minValue: 0
     maxValue: 100
     type: 1
-    currentValue: 100
+    currentValue: 53.9
   social:
     minValue: 0
     maxValue: 100
     type: 2
-    currentValue: 100
+    currentValue: 89.8
   hygiene:
     minValue: 0
     maxValue: 100
@@ -47,12 +47,12 @@ MonoBehaviour:
     minValue: 0
     maxValue: 100
     type: 6
-    currentValue: 100
+    currentValue: 96.1
   comfort:
     minValue: 0
     maxValue: 100
     type: 8
-    currentValue: 100
+    currentValue: 68.1
   health:
     minValue: 0
     maxValue: 100
