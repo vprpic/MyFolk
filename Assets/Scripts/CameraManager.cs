@@ -161,10 +161,15 @@ public class CameraManager : MonoBehaviour
 		}
 
 		transform.position = Vector3.Lerp(transform.position, newPosition, Time.deltaTime * movementTime);
-		if(newRotation.eulerAngles.x < 45f || newRotation.eulerAngles.x > 320f)
+		Debug.Log("rotation x: " + newRotation.eulerAngles.x);
+		if (newRotation.eulerAngles.x > 45f && newRotation.eulerAngles.x < 320f)
 		{
 			Vector3 eulerRotation = newRotation.eulerAngles;
-			newRotation = Quaternion.Euler(Mathf.Clamp(eulerRotation.x,-40f, 45f), eulerRotation.y, 0);
+			if (newRotation.eulerAngles.x > 137.5f)
+				newRotation = Quaternion.Euler(320f, eulerRotation.y, 0);
+			else
+				newRotation = Quaternion.Euler(45f, eulerRotation.y, 0);
+
 		}
 		if (newRotation.eulerAngles.z != 0f)
 		{

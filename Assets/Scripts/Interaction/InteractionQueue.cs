@@ -126,7 +126,7 @@ namespace MyFolk
 		public void SetNextAction()
 		{
 			int newIndex;
-			/*currentAction = */CurrentInteraction.Item1.GetActionAfter(currentActionIndex, out newIndex);
+			CurrentInteraction.Item1.GetActionAfter(currentActionIndex, out newIndex);
 			if (newIndex == -1)
 			{
 				CurrentInteractionCompleted();

@@ -9,6 +9,7 @@ namespace MyFolk
 	[CreateAssetMenu(menuName = "Actions/Walk Here", fileName = "WalkHere_Action")]
 	public class WalkHereAction : ScriptableAction
 	{
+		public float minRadius;
 		public override bool CheckIfPossible(InteractableItemClickedEvent eventInfo)
 		{
 			NavMeshPath path = new NavMeshPath();
@@ -16,7 +17,12 @@ namespace MyFolk
 			if (path.status == NavMeshPathStatus.PathComplete)
 				return true;
 			else
-				return false;
+			{
+				if (Vector3.Distance(eventInfo.worldClickPoint, eventInfo.character.transform.position) < minRadius)
+					return true;
+				else
+					return false;
+			}
 		}
 		public override void StartAction(InteractableItemClickedEvent eventInfo, ReturnCurrentInteractionState returnCurrentInteractionState, StartActionOver startActionOver, ActionCanceled actionCanceled)
 		{
