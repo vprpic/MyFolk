@@ -161,7 +161,7 @@ public class CameraManager : MonoBehaviour
 		}
 
 		transform.position = Vector3.Lerp(transform.position, newPosition, Time.deltaTime * movementTime);
-		Debug.Log("rotation x: " + newRotation.eulerAngles.x);
+		//Debug.Log("rotation x: " + newRotation.eulerAngles.x);
 		if (newRotation.eulerAngles.x > 45f && newRotation.eulerAngles.x < 320f)
 		{
 			Vector3 eulerRotation = newRotation.eulerAngles;

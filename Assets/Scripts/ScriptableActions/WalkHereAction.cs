@@ -10,7 +10,7 @@ namespace MyFolk
 	public class WalkHereAction : ScriptableAction
 	{
 		public float minRadius;
-		public override bool CheckIfPossible(InteractableItemClickedEvent eventInfo)
+		public override bool EarlyCheckIfPossible(InteractableItemClickedEvent eventInfo)
 		{
 			NavMeshPath path = new NavMeshPath();
 			eventInfo.character.navMeshAgent.CalculatePath(eventInfo.worldClickPoint, path);
@@ -24,9 +24,19 @@ namespace MyFolk
 					return false;
 			}
 		}
+		public override bool LateCheckIfPossible(ActionStateData actionStateData)
+		{
+			return EarlyCheckIfPossible(actionStateData.eventInfo);
+		}
+
 		public override void StartAction(InteractableItemClickedEvent eventInfo, ReturnCurrentInteractionState returnCurrentInteractionState, StartActionOver startActionOver, ActionCanceled actionCanceled)
 		{
 			ActionStateData asd = new ActionStateData(eventInfo);
+			if (!LateCheckIfPossible(asd))
+			{
+				CancelAction(asd, actionCanceled);
+				return;
+			}
 			eventInfo.character.navMeshAgent.SetDestination(eventInfo.worldClickPoint);
 			returnCurrentInteractionState(asd);
 			startActionOver();

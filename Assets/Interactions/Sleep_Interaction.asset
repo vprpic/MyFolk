@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 099a4b493d3ce2c4481cfd8415177706, type: 3}
+  m_Name: Sleep_Interaction
+  m_EditorClassIdentifier: 
+  interactionName: Sleep
+  radialButtonSprite: {fileID: 0}
+  actions:
+  - {fileID: 11400000, guid: 0f54904f27a2c0d4da816e5692d90239, type: 2}
+  - {fileID: 11400000, guid: 4348e150255a9d14294b348c6ec4dc83, type: 2}

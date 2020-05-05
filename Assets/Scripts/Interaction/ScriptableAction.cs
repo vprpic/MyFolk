@@ -77,7 +77,8 @@ namespace MyFolk
 		public delegate void ActionCanceled();
 		public delegate void ReturnCurrentInteractionState(ActionStateData actionStateData);
 
-		public abstract bool CheckIfPossible(InteractableItemClickedEvent eventInfo);
+		public abstract bool EarlyCheckIfPossible(InteractableItemClickedEvent eventInfo);
+		public abstract bool LateCheckIfPossible(ActionStateData actionStateData);
 		public abstract void StartAction(InteractableItemClickedEvent eventInfo,
 			ReturnCurrentInteractionState returnCurrentInteractionState, StartActionOver startActionOver, ActionCanceled actionCanceled);
 		public abstract void PerformAction(ActionStateData actionStateData, ReturnCurrentInteractionState returnCurrentInteractionState,

@@ -22,7 +22,7 @@ MonoBehaviour:
     minValue: 0
     maxValue: 100
     type: 4
-    currentValue: 95.1
+    currentValue: 87.75142
   fun:
     minValue: 0
     maxValue: 100

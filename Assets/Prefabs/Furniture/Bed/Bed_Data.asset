@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Bed_Data
   m_EditorClassIdentifier: 
   itemName: Bed
-  interactions: []
-  interactionPoint: {x: 0, y: 0, z: 0}
+  interactions:
+  - {fileID: 11400000, guid: a8edeeaf8d305b04aaa2144e23585250, type: 2}
   queueSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}

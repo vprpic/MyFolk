@@ -4,6 +4,12 @@ using UnityEngine;
 
 namespace MyFolk
 {
+    [System.Serializable]
+    public class InteractionPoint
+    {
+        public Vector3 point;
+        public Character occupiedBy;
+    }
     public class InteractableItem : MonoBehaviour
     {
         private Vector3 _clickPoint;
@@ -13,13 +19,35 @@ namespace MyFolk
 
         public string itemName => data.itemName;
         public Interaction[] Interactions => data.interactions;
-        public Vector3 InteractionPoint => data.interactionPoint;
         public Sprite QueueSprite => data.queueSprite;
+
+        public Character isCurrentlyBeingUsedBy;
+
+        public List<InteractionPoint> interactionPoints;
+
         private void Awake()
         {
             if (data == null)
             {
                 Debug.LogError("InteractableItem's data isn't set: " + this.name);
+            }
+            this.isCurrentlyBeingUsedBy = null;
+            this.interactionPoints = new List<InteractionPoint>();
+            Transform interactionPointsParent = this.transform.Find("interactionPoints");
+            if (interactionPointsParent != null)
+            {
+                foreach (Transform item in interactionPointsParent)
+                {
+                    InteractionPoint ip = new InteractionPoint();
+                    ip.occupiedBy = null;
+                    ip.point = item.transform.position;
+                    this.interactionPoints.Add(ip);
+                    //Debug.Log(this.name + ": interaction point added: " + item.ToString());
+                }
+            }
+            else
+            {
+                //Debug.Log(this.name + ": doesn't have interaction points set.");
             }
         }
 
@@ -30,8 +58,6 @@ namespace MyFolk
         public void OnInteract(Vector3 clickPoint)
         {
             this._clickPoint = clickPoint;
-            //if (!clickPoint.Equals(Vector3.zero))
-            //    onInteractable.Raise(this);
         }
 
         public void OnEndHover()

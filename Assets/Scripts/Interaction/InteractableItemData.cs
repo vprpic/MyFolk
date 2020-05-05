@@ -10,7 +10,6 @@ namespace MyFolk
     {
         public string itemName;
         public Interaction[] interactions;
-		public Vector3 interactionPoint;
         public Sprite queueSprite;
 	}
 }

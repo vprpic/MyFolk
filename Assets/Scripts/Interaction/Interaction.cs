@@ -50,7 +50,7 @@ namespace MyFolk
 					Debug.LogError("Action not set correctly for interaction: " + this.interactionName);
 					return false;
 				}
-				if (!action.CheckIfPossible(info))
+				if (!action.EarlyCheckIfPossible(info))
 				{
 					return false;
 				}

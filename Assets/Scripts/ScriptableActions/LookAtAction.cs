@@ -5,24 +5,53 @@ using UnityEngine;
 
 namespace MyFolk
 {
+	public class LookAtStateData : ActionStateData
+	{
+		public Quaternion firstCharacterRotation;
+		public Vector3 target;
+		public float timer;
+
+		public LookAtStateData(InteractableItemClickedEvent eventInfo, Vector3 target) : base(eventInfo)
+		{
+			this.target = target;
+		}
+
+		//public override void ResetValues()
+		//{
+		//	base.ResetValues();
+		//	this.target = Vector3.zero;
+		//	this.timer = 0f;
+		//}
+	}
+
+
 	[CreateAssetMenu(menuName = "Actions/Look At", fileName = "LookAt_Action")]
 	public class LookAtAction : ScriptableAction
 	{
 		public float lookSpeed;
 		public float maxInteractionTime;
 		
-		public override bool CheckIfPossible(InteractableItemClickedEvent eventInfo)
+		public override bool EarlyCheckIfPossible(InteractableItemClickedEvent eventInfo)
 		{
 			return true;
 		}
 
-		public override void StartAction(InteractableItemClickedEvent eventInfo, ReturnCurrentInteractionState returnCurrentInteractionState, 
-			StartActionOver startActionOver, ActionCanceled actionCanceled)
+		public override bool LateCheckIfPossible(ActionStateData actionStateData)
+		{
+			return true;
+		}
+
+		public override void StartAction(InteractableItemClickedEvent eventInfo, ReturnCurrentInteractionState returnCurrentInteractionState, StartActionOver startActionOver, ActionCanceled actionCanceled)
 		{
 			Vector3 target = eventInfo.iitem.gameObject.transform.position;
+			LookAtStateData asd = new LookAtStateData(eventInfo, target);
+			if (!LateCheckIfPossible(asd))
+			{
+				CancelAction(asd, actionCanceled);
+				return;
+			}
 			//Vector3 target = new Vector3(eventInfo.character.gameObject.transform.forward.x, 
 				//eventInfo.iitem.gameObject.transform.position.y, eventInfo.character.gameObject.transform.forward.z);
-			LookAtStateData asd = new LookAtStateData(eventInfo, target);
 			asd.firstCharacterRotation = eventInfo.character.transform.rotation;
 			//Debug.Log("Starting to look at item");
 			returnCurrentInteractionState(asd);
@@ -37,7 +66,7 @@ namespace MyFolk
 			if (asd == null)
 			{
 				Debug.LogError("LookAtStateData not found in actionStateData");
-				actionCanceled();
+				CancelAction(actionStateData, actionCanceled);
 				return;
 			}
 

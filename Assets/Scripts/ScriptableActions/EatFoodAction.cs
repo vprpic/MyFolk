@@ -6,13 +6,35 @@ using UnityEngine.AI;
 
 namespace MyFolk
 {
+	public class EatFoodStateData : ActionStateData
+	{
+		public float currentFoodAmountAdded;
+		public float timer;
+
+		public EatFoodStateData(InteractableItemClickedEvent eventInfo) : base(eventInfo)
+		{
+		}
+
+		//public override void ResetValues()
+		//{
+		//	base.ResetValues();
+		//	this.timer = 0f;
+		//	this.currentFoodAmountAdded = 0f;
+		//}
+	}
+
 	[CreateAssetMenu(menuName = "Actions/Get Food", fileName = "GetFood_Action")]
 	public class EatFoodAction : ScriptableAction
 	{
 		public float maxFoodAmountToAdd;
 		public float foodAmountToAddPerUpdate;
 
-		public override bool CheckIfPossible(InteractableItemClickedEvent eventInfo)
+		public override bool EarlyCheckIfPossible(InteractableItemClickedEvent eventInfo)
+		{
+			return true;
+		}
+
+		public override bool LateCheckIfPossible(ActionStateData actionStateData)
 		{
 			return true;
 		}
@@ -20,6 +42,11 @@ namespace MyFolk
 		public override void StartAction(InteractableItemClickedEvent eventInfo, ReturnCurrentInteractionState returnCurrentInteractionState, StartActionOver startActionOver, ActionCanceled actionCanceled)
 		{
 			EatFoodStateData asd = new EatFoodStateData(eventInfo);
+			if (!LateCheckIfPossible(asd))
+			{
+				CancelAction(asd, actionCanceled);
+				return;
+			}
 			returnCurrentInteractionState(asd);
 			startActionOver();
 		}
@@ -30,7 +57,7 @@ namespace MyFolk
 			if(asd == null)
 			{
 				Debug.LogError("ASD is not EatFoodStateData");
-				actionCanceled();
+				CancelAction(actionStateData, actionCanceled);
 				return;
 			}
 			asd.currentFoodAmountAdded += this.foodAmountToAddPerUpdate;
@@ -48,5 +75,6 @@ namespace MyFolk
 		{
 			actionCanceled();
 		}
+
 	}
 }
