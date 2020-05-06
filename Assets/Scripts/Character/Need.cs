@@ -36,7 +36,7 @@ namespace MyFolk {
 			this.currentValue = max;
 		}
 
-		public float AddToCurrentValue(float amount, bool ownerIsCurrentlySelected = false)
+		public float AddToCurrentValue(float amount, bool ownerIsCurrentlySelected)
 		{
 			float newValue = Mathf.Clamp(this.currentValue + amount, this.minValue, this.maxValue);
 			float amountChanged = Mathf.Abs(newValue - this.currentValue);

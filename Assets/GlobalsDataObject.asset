@@ -15,4 +15,14 @@ MonoBehaviour:
   currentlySelectedCharacterData: {fileID: 11400000, guid: 517a995f187dfe7438826bd2dfcf4727,
     type: 2}
   worldClickPoint: {x: 3.9620042, y: 1.8079772, z: 11.632768}
-  totalCharactersInstantiated: 1
+  totalCharactersInstantiated: 3
+  interactableItemClickedEventsCount: 103
+  hungerDecreaseRate: 0.0001
+  funDecreaseRate: 0.0001
+  socialDecreaseRate: 0.00001
+  hygieneDecreaseRate: 0.0001
+  energyDecreaseRate: 0.00001
+  bladderDecreaseRate: 0.0001
+  fulfillmentDecreaseRate: 0.0000001
+  healthDecreaseRate: 0
+  comfortDecreaseRate: 0

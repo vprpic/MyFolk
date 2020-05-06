@@ -85,5 +85,18 @@ namespace MyFolk
 			PerformActionOver performActionOver, ActionCanceled actionCanceled);
 		public abstract void EndAction(ActionStateData actionStateData, EndActionOver endActionOver, ActionCanceled actionCanceled);
 		public abstract void CancelAction(ActionStateData actionStateData, ActionCanceled actionCanceled);
+
+
+		#region Checks
+
+		public bool IsInRangeOfItem(Character character, Vector3 position, float range)
+		{
+			float distance = Vector3.Distance(character.transform.position, position);
+			if (distance < range)
+				return true;
+			return false;
+		}
+
+		#endregion Checks
 	}
 }

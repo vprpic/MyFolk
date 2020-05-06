@@ -38,5 +38,17 @@ namespace MyFolk
 
 		public int interactableItemClickedEventsCount;
 
+		[Header("Needs")]
+		public float hungerDecreaseRate;
+		public float funDecreaseRate;
+		public float socialDecreaseRate;
+		public float hygieneDecreaseRate;
+		public float energyDecreaseRate;
+		public float bladderDecreaseRate;
+		public float fulfillmentDecreaseRate;
+		public float healthDecreaseRate;
+		public float comfortDecreaseRate;
+
+
 	}
 }

@@ -17,42 +17,42 @@ MonoBehaviour:
     minValue: 0
     maxValue: 100
     type: 0
-    currentValue: 75.69852
+    currentValue: 99.745895
   energy:
     minValue: 0
     maxValue: 100
     type: 4
-    currentValue: 87.75142
+    currentValue: 99.98045
   fun:
     minValue: 0
     maxValue: 100
     type: 1
-    currentValue: 53.9
+    currentValue: 99.745895
   social:
     minValue: 0
     maxValue: 100
     type: 2
-    currentValue: 89.8
+    currentValue: 99.98045
   hygiene:
     minValue: 0
     maxValue: 100
     type: 3
-    currentValue: 100
+    currentValue: 99.745895
   bladder:
     minValue: 0
     maxValue: 100
     type: 5
-    currentValue: 100
+    currentValue: 99.745895
   fulfillment:
     minValue: 0
     maxValue: 100
     type: 6
-    currentValue: 96.1
+    currentValue: 100
   comfort:
     minValue: 0
     maxValue: 100
     type: 8
-    currentValue: 68.1
+    currentValue: 100
   health:
     minValue: 0
     maxValue: 100
@@ -62,3 +62,5 @@ MonoBehaviour:
   characterFirstName: Bella
   characterLastName: Bob
   isSelected: 1
+  leftHand: {fileID: 0}
+  rightHand: {fileID: 0}

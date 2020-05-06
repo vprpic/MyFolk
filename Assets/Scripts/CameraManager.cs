@@ -5,33 +5,47 @@ using UnityEngine;
 public class CameraManager : MonoBehaviour
 {
 	public Transform followTransform;
+	public Transform cameraRig;
 	public Transform rotateRig;
 	public Camera mainCam;
 
 	public float normalSpeed;
-	public float fastSpeed;
 	public float movementSpeed;
 	public float movementTime;
 	public float rotationAmount;
 	public Vector3 zoomAmount;
 
+	[HideInInspector]
 	public Vector3 newPosition;
-	public Quaternion newRotation;
-	public Vector3 newZoom;
 
+	public Vector3 _LocalRotation;
+
+	[HideInInspector]
 	public Vector3 dragStartPosition;
+	[HideInInspector]
 	public Vector3 dragCurrentPosition;
+	[HideInInspector]
 	public Vector3 rotateStartPosition;
+	[HideInInspector]
 	public Vector3 rotateCurrentPosition;
 
 	bool isHit = false;
 
+	protected float _CameraDistance = 10f;
+
+	public float MouseSensitivity;
+	public float ScrollSensitvity;
+	public float OrbitDampening;
+	public float ScrollDampening;
+
+
 	private void Start()
 	{
+
+
 		mainCam = Camera.main;
 		newPosition = transform.position;
-		newRotation = rotateRig.rotation;
-		newZoom = mainCam.transform.localPosition;
+		_LocalRotation.y = rotateRig.eulerAngles.x;
 	}
 
 	private void Update()
@@ -45,19 +59,10 @@ public class CameraManager : MonoBehaviour
 			HandleMouseInput();
 			HandleMovementInput();
 		}
-
-		if (Input.GetKeyDown(KeyCode.Escape))
-		{
-			followTransform = null;
-		}
 	}
 
 	void HandleMouseInput()
 	{
-		if (Input.mouseScrollDelta.y != 0)
-		{
-			newZoom += Input.mouseScrollDelta.y * zoomAmount;
-		}
 		if (Input.GetMouseButtonDown(1))
 		{
 			Plane plane = new Plane(Vector3.up, Vector3.zero);
@@ -83,100 +88,102 @@ public class CameraManager : MonoBehaviour
 				newPosition = transform.position + dragStartPosition - dragCurrentPosition;
 			}
 		}
-		if (!isHit && Input.GetMouseButtonDown(2))
+
+		if (Input.GetMouseButton(2))
 		{
-			Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
-			RaycastHit hit;
-			isHit = Physics.Raycast(ray, out hit, 100f);
-			if(isHit)
+			//Rotation of the Camera based on Mouse Coordinates
+			if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
 			{
-				if (Input.GetKey(KeyCode.LeftShift))
-				{
-					newPosition = hit.point;
-					newPosition.y = 0f;
-				}
+				_LocalRotation.x += Input.GetAxis("Mouse X") * MouseSensitivity;
+				_LocalRotation.y -= Input.GetAxis("Mouse Y") * MouseSensitivity;
+
+				//Clamp the y Rotation to horizon and not flipping over at the top
+				if (_LocalRotation.y < 10f)
+					_LocalRotation.y = 10f;
+				else if (_LocalRotation.y > 80f)
+					_LocalRotation.y = 80f;
 			}
-			isHit = true;
-			rotateStartPosition = Input.mousePosition;
-
 		}
-		if (isHit && Input.GetMouseButton(2))
+		//Zooming Input from our Mouse Scroll Wheel
+		if (Input.GetAxis("Mouse ScrollWheel") != 0f)
 		{
-			rotateCurrentPosition = Input.mousePosition;
-			Vector3 difference = rotateStartPosition - rotateCurrentPosition;
-			rotateStartPosition = rotateCurrentPosition;
-			newRotation *= Quaternion.Euler(rotateRig.right * (difference.y / 5f));
-			newRotation *= Quaternion.Euler(rotateRig.up * (-difference.x / 5f));
+			float ScrollAmount = Input.GetAxis("Mouse ScrollWheel") * ScrollSensitvity;
 
-		}
-		if (Input.GetMouseButtonUp(2))
-		{
-			isHit = false;
+			ScrollAmount *= (this._CameraDistance * 0.3f);
+
+			this._CameraDistance += ScrollAmount * -1f;
+
+			this._CameraDistance = Mathf.Clamp(this._CameraDistance, 1.5f, 100f);
 		}
 	}
 
 	void HandleMovementInput()
 	{
-		if (Input.GetKey(KeyCode.LeftShift))
-		{
-			movementSpeed = fastSpeed;
-		}
-		else
-		{
-			movementSpeed = normalSpeed;
-		}
+		#region position
+
+		Vector3 temp;
+		movementSpeed = normalSpeed * (this._CameraDistance * 0.3f);
 		if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
 		{
-			newPosition += (transform.forward * movementSpeed);
+			temp = (rotateRig.rotation * transform.forward).normalized;
+			temp.y = 0f;
+			newPosition += (temp * movementSpeed);
 		}
 		if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
 		{
-			newPosition += (transform.forward * -movementSpeed);
+			temp = (rotateRig.rotation * transform.forward).normalized;
+			temp.y = 0f;
+			newPosition += (temp * -movementSpeed);
 		}
 		if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
 		{
-			newPosition += (transform.right * movementSpeed);
+			temp = (rotateRig.transform.right * movementSpeed);
+			temp.y = 0f;
+			newPosition += temp;
 		}
 		if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
 		{
-			newPosition += (transform.right * -movementSpeed);
+			temp = (rotateRig.transform.right * -movementSpeed);
+			temp.y = 0f;
+			newPosition += temp;
 		}
+		#endregion position
 
 		if (Input.GetKey(KeyCode.Q))
 		{
-			newRotation *= Quaternion.Euler(Vector3.up * rotationAmount);
+			_LocalRotation.x += rotationAmount;
 		}
 		else if (Input.GetKey(KeyCode.E))
 		{
-			newRotation *= Quaternion.Euler(Vector3.up * -rotationAmount);
+			_LocalRotation.x -= rotationAmount;
 		}
 
-		if (Input.GetKey(KeyCode.R))
-		{
-			newZoom += zoomAmount;
-		}
-		if (Input.GetKey(KeyCode.F))
-		{
-			newZoom -= zoomAmount;
-		}
+		//if (Input.GetKey(KeyCode.R))
+		//{
+		//	newZoom += zoomAmount;
+		//}
+		//if (Input.GetKey(KeyCode.F))
+		//{
+		//	newZoom -= zoomAmount;
+		//}
 
 		transform.position = Vector3.Lerp(transform.position, newPosition, Time.deltaTime * movementTime);
-		//Debug.Log("rotation x: " + newRotation.eulerAngles.x);
-		if (newRotation.eulerAngles.x > 45f && newRotation.eulerAngles.x < 320f)
-		{
-			Vector3 eulerRotation = newRotation.eulerAngles;
-			if (newRotation.eulerAngles.x > 137.5f)
-				newRotation = Quaternion.Euler(320f, eulerRotation.y, 0);
-			else
-				newRotation = Quaternion.Euler(45f, eulerRotation.y, 0);
+	}
 
-		}
-		if (newRotation.eulerAngles.z != 0f)
+	void LateUpdate()
+	{
+		//Actual Camera Rig Transformations
+		Quaternion QT = Quaternion.Euler(_LocalRotation.y, _LocalRotation.x, 0);
+		this.rotateRig.rotation = Quaternion.Lerp(this.rotateRig.rotation, QT, Time.deltaTime * OrbitDampening);
+
+		if (this.mainCam.transform.localPosition.z != this._CameraDistance * -1f)
 		{
-			Vector3 eulerRotation = newRotation.eulerAngles;
-			newRotation = Quaternion.Euler(eulerRotation.x, eulerRotation.y, 0);
+			this.mainCam.transform.localPosition = new Vector3(0f, 0f, Mathf.Lerp(this.mainCam.transform.localPosition.z, this._CameraDistance * -1f, Time.deltaTime * ScrollDampening));
 		}
-		rotateRig.rotation = Quaternion.Lerp(rotateRig.rotation, newRotation, Time.deltaTime * movementTime);
-		mainCam.transform.localPosition = Vector3.Lerp(mainCam.transform.localPosition, newZoom, Time.deltaTime * movementTime);
+	}
+
+	public void RemoveFollow()
+	{
+		this.followTransform = null;
 	}
 }

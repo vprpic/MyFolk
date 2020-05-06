@@ -6,24 +6,16 @@ using UnityEngine.AI;
 
 namespace MyFolk
 {
-	public class SleepStateData : ActionStateData
+	public class GrabFoodStateData : ActionStateData
 	{
-		public SleepStateData(InteractableItemClickedEvent eventInfo) : base(eventInfo)
+		public GrabFoodStateData(InteractableItemClickedEvent eventInfo) : base(eventInfo)
 		{
 		}
-
-		//public override void ResetValues()
-		//{
-		//	base.ResetValues();
-		//	this.timer = 0f;
-		//	this.currentFoodAmountAdded = 0f;
-		//}
 	}
 
-	[CreateAssetMenu(menuName = "Actions/Sleep", fileName = "Sleep_Action")]
-	public class SleepAction : ScriptableAction
+	[CreateAssetMenu(menuName = "Actions/Grab food", fileName = "GrabFood_Action")]
+	public class GrabFoodAction : ScriptableAction
 	{
-		public float sleepAmountToAddPerUpdate;
 
 		public override bool EarlyCheckIfPossible(InteractableItemClickedEvent eventInfo)
 		{
@@ -33,13 +25,15 @@ namespace MyFolk
 		public override bool LateCheckIfPossible(ActionStateData actionStateData)
 		{
 			if (actionStateData == null)
-			{
 				return false;
-			}
 			if (actionStateData.eventInfo.iitem.isCurrentlyBeingUsedBy != null)
-			{
 				return false;
-			}
+
+			if (!this.IsInRangeOfItem(actionStateData.eventInfo.character, actionStateData.eventInfo.iitem.transform.position, 10f))
+				return false;
+			if (!actionStateData.eventInfo.character.AreBothHandsFree())
+				return false;
+
 			return true;
 		}
 
@@ -66,7 +60,7 @@ namespace MyFolk
 				CancelAction(asd, actionCanceled);
 				return;
 			}
-			asd.eventInfo.character.data.energy.AddToCurrentValue(this.sleepAmountToAddPerUpdate, asd.eventInfo.character.isSelected);
+			//asd.eventInfo.character.data.energy.AddToCurrentValue(this.sleepAmountToAddPerUpdate, asd.eventInfo.character.isSelected);
 			if(asd.eventInfo.character.data.energy.currentValue == asd.eventInfo.character.data.energy.maxValue)
 				performActionOver();
 		}

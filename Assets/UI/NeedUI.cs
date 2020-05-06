@@ -54,7 +54,9 @@ namespace MyFolk.FlexibleUI {
 			float max = 2 * sixth;
 			if (need.currentValue >= 5 * sixth)
 			{
-				this.sliderFill.color = skinData.thirdThirdBarColor;
+				r = skinData.thirdThirdBarColor.r;
+				g = skinData.thirdThirdBarColor.g;
+				b = skinData.thirdThirdBarColor.b;
 			}
 			else if (need.currentValue >= 3 * sixth)
 			{
@@ -63,7 +65,6 @@ namespace MyFolk.FlexibleUI {
 				r = Mathf.Lerp(skinData.secondThirdBarColor.r, skinData.thirdThirdBarColor.r, perc);
 				g = Mathf.Lerp(skinData.secondThirdBarColor.g, skinData.thirdThirdBarColor.g, perc);
 				b = Mathf.Lerp(skinData.secondThirdBarColor.b, skinData.thirdThirdBarColor.b, perc);
-				this.sliderFill.color = new Color(r, g, b);
 			}
 			else if(need.currentValue >= sixth)
 			{
@@ -72,12 +73,25 @@ namespace MyFolk.FlexibleUI {
 				r = Mathf.Lerp(skinData.firstThirdBarColor.r, skinData.secondThirdBarColor.r, perc);
 				g = Mathf.Lerp(skinData.firstThirdBarColor.g, skinData.secondThirdBarColor.g, perc);
 				b = Mathf.Lerp(skinData.firstThirdBarColor.b, skinData.secondThirdBarColor.b, perc);
-				this.sliderFill.color = new Color(r, g, b);
 			}
 			else
 			{
-				this.sliderFill.color = skinData.firstThirdBarColor;
+				r = skinData.firstThirdBarColor.r;
+				g = skinData.firstThirdBarColor.g;
+				b = skinData.firstThirdBarColor.b;
 			}
+			float tempPerc = (need.currentValue % 0.5f)*2f;
+			r -= 0.1f;
+			g -= 0.1f;
+			b -= 0.1f;
+			float tempColor = Mathf.Clamp01(r + 0.2f);
+			r = Mathf.Lerp(r, tempColor, tempPerc);
+			tempColor = Mathf.Clamp01(g + 0.2f);
+			g = Mathf.Lerp(g, tempColor, tempPerc);
+			tempColor = Mathf.Clamp01(b + 0.2f);
+			b = Mathf.Lerp(b, tempColor, tempPerc);
+
+			this.sliderFill.color = new Color(r, g, b);
 		}
 
 		protected override void OnSkinUI()

@@ -17,32 +17,32 @@ MonoBehaviour:
     minValue: 0
     maxValue: 100
     type: 0
-    currentValue: 100
+    currentValue: 96.48082
   energy:
     minValue: 0
     maxValue: 100
     type: 4
-    currentValue: 97.04631
+    currentValue: 99.72299
   fun:
     minValue: 0
     maxValue: 100
     type: 1
-    currentValue: 100
+    currentValue: 64.21191
   social:
     minValue: 0
     maxValue: 100
     type: 2
-    currentValue: 100
+    currentValue: 98.75149
   hygiene:
     minValue: 0
     maxValue: 100
     type: 3
-    currentValue: 100
+    currentValue: 83.76934
   bladder:
     minValue: 0
     maxValue: 100
     type: 5
-    currentValue: 100
+    currentValue: 86.17947
   fulfillment:
     minValue: 0
     maxValue: 100
@@ -62,3 +62,5 @@ MonoBehaviour:
   characterFirstName: Bobby
   characterLastName: Bob
   isSelected: 0
+  leftHand: {fileID: 0}
+  rightHand: {fileID: 0}

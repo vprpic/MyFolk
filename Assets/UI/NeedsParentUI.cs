@@ -26,8 +26,6 @@ namespace MyFolk.FlexibleUI
 
 			CurrentCharacterNeedChangedEvent.RegisterListener(OnNeedUpdated);
 			CharacterSelectedEvent.RegisterListener(OnCurrentCharacterChanged);
-			//EventSystem.Current.RegisterListener<CurrentCharacterNeedChangedEvent>(OnNeedUpdated);
-			//EventSystem.Current.RegisterListener<CharacterSelectedEvent>(OnCurrentCharacterChanged);
 		}
 		
 		public override void Update()

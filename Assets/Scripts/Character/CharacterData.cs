@@ -59,5 +59,8 @@ namespace MyFolk
 		public string characterLastName;
 
 		public bool isSelected;
+
+		public GameObject leftHand;
+		public GameObject rightHand;
 	}
 }
