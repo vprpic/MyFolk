@@ -1,5 +1,6 @@
 ﻿using MyFolk;
 using MyFolk.UI;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace EventCallbacks
@@ -12,9 +13,12 @@ namespace EventCallbacks
 
         public InteractableItem iitem;
 
-        public Vector3 worldClickPoint;
+        public Vector3 worldClickPoint => hit.point;
+        public RaycastHit hit;
 
         public Vector3 screenClickPoint;
+
+        public List<Interaction> tempCharacterInteractions;
 
 
         public InteractableItemClickedEvent()
@@ -22,12 +26,13 @@ namespace EventCallbacks
             this.id = Globals.ins.data.interactableItemClickedEventsCount++;
         }
 
-        public InteractableItemClickedEvent(Character character, InteractableItem iitem, Vector3 wcp, Vector3 scp) : this()
+        public InteractableItemClickedEvent(Character character, InteractableItem iitem, RaycastHit hit, Vector3 scp) : this()
         {
             this.character = character;
+            this.tempCharacterInteractions = character.tempCharacterInteractions;
             this.EventDescription = iitem.itemName + " was clicked";
             this.iitem = iitem;
-            this.worldClickPoint = wcp;
+            this.hit = hit;
             this.screenClickPoint = scp;
         }
     }

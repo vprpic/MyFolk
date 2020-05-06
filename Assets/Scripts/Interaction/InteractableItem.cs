@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace MyFolk
@@ -18,7 +19,8 @@ namespace MyFolk
         public float RaycastRange => 100f;
 
         public string itemName => data.itemName;
-        public Interaction[] Interactions => data.interactions;
+        private List<Interaction> tempInteractions;
+        public List<Interaction> Interactions => data.interactions.Concat(tempInteractions).ToList();
         public Sprite QueueSprite => data.queueSprite;
 
         public Character isCurrentlyBeingUsedBy;
@@ -31,7 +33,13 @@ namespace MyFolk
             {
                 Debug.LogError("InteractableItem's data isn't set: " + this.name);
             }
+            this.tempInteractions = new List<Interaction>();
             this.isCurrentlyBeingUsedBy = null;
+            SetInteractionPoints();
+        }
+
+        private void SetInteractionPoints()
+        {
             this.interactionPoints = new List<InteractionPoint>();
             Transform interactionPointsParent = this.transform.Find("interactionPoints");
             if (interactionPointsParent != null)
@@ -64,5 +72,27 @@ namespace MyFolk
         {
         }
 
+        public void AddInteraction(Interaction interaction)
+        {
+            this.tempInteractions.Add(interaction);
+        }
+
+        public void AddInteractions(List<Interaction> interactions)
+        {
+            this.tempInteractions.AddRange(interactions);
+        }
+
+        public bool RemoveInteraction(Interaction interaction)
+        {
+            return this.tempInteractions.Remove(interaction);
+        }
+
+        public void RemoveInteractions(List<Interaction> interactions)
+        {
+            foreach (Interaction interaction in interactions)
+            {
+                this.tempInteractions.Remove(interaction);
+            }
+        }
     }
 }

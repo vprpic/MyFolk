@@ -13,7 +13,13 @@ namespace MyFolk
 		public CharacterData data;
 		public NavMeshAgent navMeshAgent;
 		public InteractionQueue interactionQueue;
+
+
+		public HeldableItem leftHand;
+		public HeldableItem rightHand;
 		public bool isSelected => data.isSelected;
+
+		public List<Interaction> tempCharacterInteractions;
 
 		private void Awake()
 		{
@@ -53,18 +59,55 @@ namespace MyFolk
 		#region Hands
 		public bool AreBothHandsFree()
 		{
-			if (this.data.leftHand != null && this.data.rightHand != null)
+			if (this.leftHand == null && this.rightHand == null)
 			{
 				return true;
 			}
 			return false;
 		}
 
-		public void PickUpItemBothHands(GameObject gameObject)
+		public void PickUpItemBothHands(HeldableItem item)
 		{
-			this.data.leftHand = gameObject;
-			this.data.rightHand = gameObject;
+			this.leftHand = item;
+			this.rightHand = item;
+			this.tempCharacterInteractions.Add(item.putDownInteraction);
+		}
+
+		public HeldableItem PutDownBothHandsSameItem()
+		{
+			HeldableItem item;
+			if (this.leftHand != null)
+			{
+				item = this.leftHand;
+				this.leftHand = null;
+				if (this.rightHand.Equals(item))
+					this.rightHand = null;
+			}
+			else
+			{
+				item = this.rightHand;
+				this.rightHand = null;
+			}
+			this.tempCharacterInteractions.Remove(item.putDownInteraction);
+			return item;
+		}
+		public HeldableItem GetHeldItemBothHands()
+		{
+			if (this.rightHand != null && this.rightHand.Equals(this.leftHand))
+			{
+				return this.rightHand;
+			}
+			return null;
 		}
 		#endregion Hands
+
+		public void AddInteraction(Interaction interaction)
+		{
+			this.tempCharacterInteractions.Add(interaction);
+		}
+		public bool RemoveInteraction(Interaction interaction)
+		{
+			return this.tempCharacterInteractions.Remove(interaction);
+		}
 	}
 }

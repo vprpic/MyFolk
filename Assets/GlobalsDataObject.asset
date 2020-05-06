@@ -15,8 +15,8 @@ MonoBehaviour:
   currentlySelectedCharacterData: {fileID: 11400000, guid: 517a995f187dfe7438826bd2dfcf4727,
     type: 2}
   worldClickPoint: {x: 3.9620042, y: 1.8079772, z: 11.632768}
-  totalCharactersInstantiated: 3
-  interactableItemClickedEventsCount: 103
+  totalCharactersInstantiated: 7
+  interactableItemClickedEventsCount: 367
   hungerDecreaseRate: 0.0001
   funDecreaseRate: 0.0001
   socialDecreaseRate: 0.00001
@@ -26,3 +26,5 @@ MonoBehaviour:
   fulfillmentDecreaseRate: 0.0000001
   healthDecreaseRate: 0
   comfortDecreaseRate: 0
+  pickUpInteraction: {fileID: 11400000, guid: 09a0d57694de1324db509025696e9590, type: 2}
+  putDownInteraction: {fileID: 11400000, guid: 803e58cdea3ac40478a838a4fbb0e53f, type: 2}

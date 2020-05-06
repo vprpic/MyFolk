@@ -49,6 +49,8 @@ namespace MyFolk
 		public float healthDecreaseRate;
 		public float comfortDecreaseRate;
 
-
+		[Header("Scriptable objects")]
+		public Interaction pickUpInteraction;
+		public Interaction putDownInteraction;
 	}
 }

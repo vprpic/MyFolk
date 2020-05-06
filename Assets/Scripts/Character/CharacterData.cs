@@ -60,7 +60,5 @@ namespace MyFolk
 
 		public bool isSelected;
 
-		public GameObject leftHand;
-		public GameObject rightHand;
 	}
 }

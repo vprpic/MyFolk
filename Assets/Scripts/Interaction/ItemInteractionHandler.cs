@@ -31,17 +31,16 @@ namespace MyFolk
 			{
 				if (currentTargetIItem != null)
 				{
-					//Debug.Log("InteractionRaycasting-Update-whatIHit: " + whatIHit.collider.name+"\n" +
-					//whatIHit.point);
 					currentEventInfo.iitem = currentTargetIItem;
+					//currentEventInfo.iitem.AddInteractions(Globals.ins.currentlySelectedCharacter.tempCharacterInteractions);
 					(new InteractableItemClickedEvent(
 							Globals.ins.currentlySelectedCharacter,
 							currentEventInfo.iitem,
-							currentEventInfo.worldClickPoint,
+							currentEventInfo.hit,
 							currentEventInfo.screenClickPoint
 							)
 					).FireEvent();
-					currentTargetIItem.OnInteract(currentEventInfo.worldClickPoint); //the interactable doesn't listen to the event, all of them would be activated
+					currentTargetIItem.OnInteract(currentEventInfo.hit.point); //the interactable doesn't listen to the event, all of them would be activated
 				}
 			}
 		}
@@ -58,7 +57,7 @@ namespace MyFolk
 			if (isHit)
 			{
 				currentEventInfo.screenClickPoint = Input.mousePosition;
-				currentEventInfo.worldClickPoint = whatIHit.point;
+				currentEventInfo.hit = whatIHit;
 				interactable = whatIHit.collider.GetComponent<InteractableItem>();
 
 				if (interactable != null)

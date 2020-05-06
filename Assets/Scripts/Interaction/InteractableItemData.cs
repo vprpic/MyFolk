@@ -9,7 +9,7 @@ namespace MyFolk
     public class InteractableItemData : ScriptableObject
     {
         public string itemName;
-        public Interaction[] interactions;
+        public List<Interaction> interactions;
         public Sprite queueSprite;
 	}
 }
