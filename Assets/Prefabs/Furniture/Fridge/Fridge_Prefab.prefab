@@ -1030,9 +1030,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8701321536719212530}
-  - component: {fileID: 2639989156357173184}
   - component: {fileID: 9077755875029628912}
   - component: {fileID: 1968601842548641866}
+  - component: {fileID: 5750908071403642410}
+  - component: {fileID: 1501880311637676262}
   m_Layer: 0
   m_Name: Fridge_Prefab
   m_TagString: Untagged
@@ -1055,21 +1056,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2639989156357173184
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5663861535610256865}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b1a6a07fd8b78643a0e4c9cf2ef26b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: 6edf82ba7702406449e2a644c15a107e, type: 2}
-  isCurrentlyBeingUsedBy: {fileID: 0}
-  interactionPoints: []
 --- !u!95 &9077755875029628912
 Animator:
   serializedVersion: 3
@@ -1102,6 +1088,38 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.8224554, z: 0.828436}
   m_Center: {x: 0, y: 0.9098458, z: 0}
+--- !u!114 &5750908071403642410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5663861535610256865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4381946e12cf935489df47aba5aa1ffa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 6edf82ba7702406449e2a644c15a107e, type: 2}
+  isCurrentlyBeingUsedBy: {fileID: 0}
+  interactionPoints: []
+  ItemPlacementType: 0
+--- !u!208 &1501880311637676262
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5663861535610256865}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &7432211601707550371
 GameObject:
   m_ObjectHideFlags: 0

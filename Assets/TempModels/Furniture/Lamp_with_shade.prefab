@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2392920009429293123}
   - component: {fileID: 6170122825398225859}
   - component: {fileID: 3334034351802653345}
+  - component: {fileID: -8099748750948688669}
   m_Layer: 0
   m_Name: Lamp_with_shade
   m_TagString: Untagged
@@ -58,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: a186bab0a0e59994fa513234203e48b0, type: 3}
+  - {fileID: 2100000, guid: c0a934f905b7e8b4da547d0f3eda3de6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -79,3 +80,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &-8099748750948688669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3963015293478284982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4381946e12cf935489df47aba5aa1ffa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 6b79169d7fb023a49a8744ae563a0178, type: 2}
+  isCurrentlyBeingUsedBy: {fileID: 0}
+  interactionPoints: []
+  ItemPlacementType: 0

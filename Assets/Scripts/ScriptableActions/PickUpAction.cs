@@ -8,10 +8,10 @@ namespace MyFolk
 {
 	public class PickUpStateData : ActionStateData
 	{
-		public HeldableItem item;
+		public CarriableItem item;
 		public PickUpStateData(InteractableItemClickedEvent eventInfo) : base(eventInfo)
 		{
-			this.item = eventInfo.iitem.GetComponent<HeldableItem>();
+			this.item = eventInfo.iitem.GetComponent<CarriableItem>();
 		}
 	}
 
@@ -20,12 +20,18 @@ namespace MyFolk
 	{
 		public override bool EarlyCheckIfPossible(InteractableItemClickedEvent eventInfo)
 		{
-			return eventInfo.iitem.GetComponent<HeldableItem>() != null;
+			return eventInfo.iitem.GetComponent<CarriableItem>() != null;
 		}
 
 		public override bool LateCheckIfPossible(ActionStateData actionStateData)
 		{
-			return actionStateData.eventInfo.character.AreBothHandsFree();
+
+			PickUpStateData asd = (PickUpStateData)actionStateData;
+			if (asd.item == null)
+			{
+				return false;
+			}
+			return asd.item.CanBeCarriedBy(asd.eventInfo.character);
 		}
 
 		public override void StartAction(InteractableItemClickedEvent eventInfo, ReturnCurrentInteractionState returnCurrentInteractionState, StartActionOver startActionOver, ActionCanceled actionCanceled)
@@ -49,7 +55,7 @@ namespace MyFolk
 				CancelAction(actionStateData, actionCanceled);
 				return;
 			}
-			asd.eventInfo.character.PickUpItemBothHands(asd.item.PickUpItem());
+			asd.item.PickUpItem(asd.eventInfo.character);
 			performActionOver();
 		}
 

@@ -46,6 +46,7 @@ public class CameraManager : MonoBehaviour
 		mainCam = Camera.main;
 		newPosition = transform.position;
 		_LocalRotation.y = rotateRig.eulerAngles.x;
+		_LocalRotation.x = rotateRig.eulerAngles.y;
 	}
 
 	private void Update()

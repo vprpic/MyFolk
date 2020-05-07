@@ -6,28 +6,61 @@ using UnityEngine.AI;
 
 namespace MyFolk
 {
+	public class PutDownStateData : ActionStateData
+	{
+		public CarriableItem item;
+		public PutDownStateData(InteractableItemClickedEvent eventInfo, CarriableItem item) : base(eventInfo)
+		{
+			this.item = item;
+		}
+	}
+
 	[CreateAssetMenu(menuName = "Actions/Put down", fileName = "PutDown_Action")]
 	public class PutDownAction : ScriptableAction
 	{
 		public override bool EarlyCheckIfPossible(InteractableItemClickedEvent eventInfo)
 		{
-			bool possible = true;
-			if(eventInfo.hit.normal.y < 0.9f)
-				possible = false;
-			if (eventInfo.character.GetHeldItemBothHands() == null)
-				possible = false;
-			return possible;
+			//Debug.Log("place normal: " + eventInfo.hit.normal.ToString());
+			if(eventInfo.iitem.ItemPlacementType.Equals(CarriableItem.ItemPlacementType.None))
+			{
+				return false;
+			}
+			if (eventInfo.character.AreAllHandsFree())
+			{
+				return false;
+			}
+			return true;
+			
 		}
 
 		public override bool LateCheckIfPossible(ActionStateData actionStateData)
 		{
-			return actionStateData.eventInfo.character.GetHeldItemBothHands() != null;
+			if(!EarlyCheckIfPossible(actionStateData.eventInfo))
+			{
+				return false;
+			}
+			PutDownStateData asd = (PutDownStateData)actionStateData;
+			if (asd == null)
+			{
+				Debug.Log("ASD is not PutDownStateData");
+				return false;
+			}
+			if(asd.item != null)
+				return asd.item.CanPlaceItem(asd.eventInfo.iitem, asd.eventInfo.hit);
+			return false;
 		}
 
 		public override void StartAction(InteractableItemClickedEvent eventInfo, ReturnCurrentInteractionState returnCurrentInteractionState, StartActionOver startActionOver, ActionCanceled actionCanceled)
 		{
-			ActionStateData asd = new ActionStateData(eventInfo);
-			if (!LateCheckIfPossible(asd))
+			CarriableItem.ItemPlacementType clickedOn = CarriableItem.ItemPlacementType.None;
+
+			if (eventInfo.hit.normal.y <= 0.1f && eventInfo.hit.normal.y >= -0.1f)
+				clickedOn = CarriableItem.ItemPlacementType.Wall;
+			else if (eventInfo.hit.normal.y >= 0.9f)
+				clickedOn = CarriableItem.ItemPlacementType.Surface;
+
+			PutDownStateData asd = new PutDownStateData(eventInfo, eventInfo.character.GetPlaceableCarriableItem(clickedOn));
+			if(asd.item == null || !LateCheckIfPossible(asd))
 			{
 				CancelAction(asd, actionCanceled);
 				return;
@@ -36,16 +69,17 @@ namespace MyFolk
 			startActionOver();
 		}
 
-		public override void PerformAction(ActionStateData asd, ReturnCurrentInteractionState returnCurrentInteractionState, PerformActionOver performActionOver, ActionCanceled actionCanceled)
+		public override void PerformAction(ActionStateData actionStateData, ReturnCurrentInteractionState returnCurrentInteractionState, PerformActionOver performActionOver, ActionCanceled actionCanceled)
 		{
+			PutDownStateData asd = (PutDownStateData)actionStateData;
 			if (asd == null)
 			{
+				Debug.Log("ASD is not PutDownStateData");
 				CancelAction(asd, actionCanceled);
 				return;
 			}
-			HeldableItem hi = asd.eventInfo.character.PutDownBothHandsSameItem();
-			if (hi != null)
-				hi.PutItemDown(asd.eventInfo.worldClickPoint);
+			if (asd.item != null)
+				asd.item.PutItemDown(asd.eventInfo.character, asd.eventInfo.iitem, asd.eventInfo.hit);
 			performActionOver();
 		}
 

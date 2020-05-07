@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: WalkHere_Action
   m_EditorClassIdentifier: 
   actionName: Walk Here
-  minRadius: 10
+  minRadius: 2

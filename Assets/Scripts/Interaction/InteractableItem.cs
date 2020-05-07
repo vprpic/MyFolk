@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace MyFolk
 {
@@ -26,6 +27,7 @@ namespace MyFolk
         public Character isCurrentlyBeingUsedBy;
 
         public List<InteractionPoint> interactionPoints;
+        public CarriableItem.ItemPlacementType ItemPlacementType;
 
         private void Awake()
         {
@@ -35,6 +37,19 @@ namespace MyFolk
             }
             this.tempInteractions = new List<Interaction>();
             this.isCurrentlyBeingUsedBy = null;
+            if (gameObject.GetComponent<CarriableItem>() == null && this.data.isObstacle)
+            {
+                NavMeshObstacle nmo = gameObject.GetComponent<NavMeshObstacle>();
+                if (nmo != null)
+                {
+                    nmo.carving = true;
+                    nmo.carveOnlyStationary = true;
+                }
+                else
+                {
+                    Debug.LogError("Missing component NavMeshObstacle! "+itemName);
+                }
+            }
             SetInteractionPoints();
         }
 
