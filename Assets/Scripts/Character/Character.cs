@@ -18,6 +18,7 @@ namespace MyFolk
 		public CharacterData data;
 		public NavMeshAgent agent;
 		public InteractionQueue interactionQueue;
+		public LocomotionSimpleAgent motion;
 
 		public CarriableItem leftHand;
 		public CarriableItem rightHand;
@@ -29,6 +30,7 @@ namespace MyFolk
 		private void Awake()
 		{
 			agent = GetComponent<NavMeshAgent>();
+			motion = GetComponent<LocomotionSimpleAgent>();
 			interactionQueue = new InteractionQueue(this);
 			if (this.data == null)
 				Debug.LogError("Data not set for character: " + this.name);

@@ -6542,6 +6542,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1329011779}
     m_Modifications:
+    - target: {fileID: 1879533523391440009, guid: 010b6cf2a40264645850847aa57580bb,
+        type: 3}
+      propertyPath: _turnDumpTime
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1879533523391440009, guid: 010b6cf2a40264645850847aa57580bb,
+        type: 3}
+      propertyPath: rotateSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1879533523391440009, guid: 010b6cf2a40264645850847aa57580bb,
+        type: 3}
+      propertyPath: maxAnimatorRotateSpeed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2147842592182309414, guid: 010b6cf2a40264645850847aa57580bb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6616,6 +6631,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AutoTraverseOffMeshLink
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7957913644451017520, guid: 010b6cf2a40264645850847aa57580bb,
+        type: 3}
+      propertyPath: m_StoppingDistance
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7957913644451017520, guid: 010b6cf2a40264645850847aa57580bb,
+        type: 3}
+      propertyPath: m_AutoBraking
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7957913644451017520, guid: 010b6cf2a40264645850847aa57580bb,
+        type: 3}
+      propertyPath: m_Acceleration
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7957913644451017520, guid: 010b6cf2a40264645850847aa57580bb,
+        type: 3}
+      propertyPath: m_Height
+      value: 1.9
       objectReference: {fileID: 0}
     - target: {fileID: 8166263534819298532, guid: 010b6cf2a40264645850847aa57580bb,
         type: 3}

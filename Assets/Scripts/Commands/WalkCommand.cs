@@ -16,7 +16,8 @@ public class WalkCommand : ICommand
 
 	public void Execute()
 	{
-		Debug.Log("WalkCommand: " + point.ToString());
-		agent.SetDestination(point);
+		Debug.Log("???????????????????WalkCommand: " + point.ToString());
+		Debug.LogError("NOT USED??");
+		//agent.SetDestination(point);
 	}
 }

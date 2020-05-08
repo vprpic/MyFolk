@@ -59,7 +59,7 @@ namespace MyFolk
 			InteractionPoint tempPoint = getClosestPoint(asd.eventInfo);
 			tempPoint.occupiedBy = asd.eventInfo.character;
 			asd.currentInteractionPoint = tempPoint;
-			eventInfo.character.agent.SetDestination(tempPoint.point);
+			eventInfo.character.motion.MoveTo(tempPoint.point);
 			returnCurrentInteractionState(asd);
 			startActionOver();
 		}
@@ -107,7 +107,7 @@ namespace MyFolk
 				}
 				asd.currentInteractionPoint.occupiedBy = null;
 			}
-			actionStateData.eventInfo.character.agent.ResetPath();
+			actionStateData.eventInfo.character.motion.StopMoving();
 			actionCanceled();
 		}
 

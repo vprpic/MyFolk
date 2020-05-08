@@ -38,7 +38,7 @@ namespace MyFolk
 				CancelAction(asd, actionCanceled);
 				return;
 			}
-			eventInfo.character.agent.SetDestination(eventInfo.worldClickPoint);
+			eventInfo.character.motion.MoveTo(eventInfo.worldClickPoint);
 			returnCurrentInteractionState(asd);
 			startActionOver();
 		}
@@ -60,8 +60,8 @@ namespace MyFolk
 
 			if (agent != null && (agent.remainingDistance < stoppingRadius + agent.stoppingDistance || !agent.pathPending && !agent.hasPath))
 			{
-				agent.ResetPath();
-				agent.velocity = Vector3.zero;
+				actionStateData.eventInfo.character.motion.StopMoving();
+				//agent.velocity = Vector3.zero;
 				performActionOver();
 			}
 		}
@@ -70,13 +70,13 @@ namespace MyFolk
 			NavMeshAgent agent = actionStateData.eventInfo.character.agent;
 			if (agent != null && (agent.pathPending || agent.hasPath))
 			{
-				agent.ResetPath();
+				actionStateData.eventInfo.character.motion.StopMoving();
 			}
 			endActionOver();
 		}
 		public override void CancelAction(ActionStateData actionStateData, ActionCanceled actionCanceled)
 		{
-			actionStateData.eventInfo.character.agent.ResetPath();
+			actionStateData.eventInfo.character.motion.StopMoving();
 			actionCanceled();
 		}
 	}

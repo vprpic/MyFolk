@@ -37,7 +37,8 @@ namespace MyFolk
 				CancelAction(asd, actionCanceled);
 				return;
 			}
-			eventInfo.character.agent.SetDestination(eventInfo.worldClickPoint);
+			eventInfo.character.motion.StopMoving();
+			eventInfo.character.motion.MoveTo(eventInfo.worldClickPoint);
 			returnCurrentInteractionState(asd);
 			startActionOver();
 		}
@@ -69,7 +70,7 @@ namespace MyFolk
 		}
 		public override void CancelAction(ActionStateData actionStateData, ActionCanceled actionCanceled)
 		{
-			actionStateData.eventInfo.character.agent.ResetPath();
+			actionStateData.eventInfo.character.motion.StopMoving();
 			actionCanceled();
 		}
 	}

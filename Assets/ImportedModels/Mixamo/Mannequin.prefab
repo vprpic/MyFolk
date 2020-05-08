@@ -631,6 +631,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e71c417c2b364645b4c0e7bbf3174d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isRotating: 0
+  _stationaryTurnSpeed: 180
+  _movingTurnSpeed: 360
+  _forwardDumpTime: 0.3
+  _turnDumpTime: 0.1
 --- !u!136 &8245772333155800989
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -664,6 +669,7 @@ MonoBehaviour:
     owner: {fileID: 0}
     currentActionIndex: 0
     currentActionState: 0
+  locomotionSimpleAgent: {fileID: 0}
   leftHand: {fileID: 0}
   rightHand: {fileID: 0}
   bothHands: {fileID: 0}
