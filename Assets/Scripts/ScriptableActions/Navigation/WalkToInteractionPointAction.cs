@@ -27,7 +27,7 @@ namespace MyFolk
 			{
 				return false;
 			}
-			eventInfo.character.navMeshAgent.CalculatePath(tempPoint.point, path);
+			eventInfo.character.agent.CalculatePath(tempPoint.point, path);
 			if (path.status == NavMeshPathStatus.PathComplete)
 				return true;
 			else
@@ -41,7 +41,7 @@ namespace MyFolk
 			if (tempPoint == null)
 				return false;
 
-			actionStateData.eventInfo.character.navMeshAgent.CalculatePath(tempPoint.point, path);
+			actionStateData.eventInfo.character.agent.CalculatePath(tempPoint.point, path);
 			if (path.status == NavMeshPathStatus.PathComplete)
 				return true;
 			else
@@ -59,14 +59,26 @@ namespace MyFolk
 			InteractionPoint tempPoint = getClosestPoint(asd.eventInfo);
 			tempPoint.occupiedBy = asd.eventInfo.character;
 			asd.currentInteractionPoint = tempPoint;
-			eventInfo.character.navMeshAgent.SetDestination(tempPoint.point);
+			eventInfo.character.agent.SetDestination(tempPoint.point);
 			returnCurrentInteractionState(asd);
 			startActionOver();
 		}
 
 		public override void PerformAction(ActionStateData actionStateData, ReturnCurrentInteractionState returnCurrentInteractionState, PerformActionOver performActionOver, ActionCanceled actionCanceled)
 		{
-			NavMeshAgent agent = actionStateData.eventInfo.character.navMeshAgent;
+			//NavMeshAgent agent = actionStateData.eventInfo.character.agent;
+
+			//if (agent.remainingDistance > agent.stoppingDistance)
+			//{
+			//	actionStateData.eventInfo.character.thirdPersonCharacter.Move(agent.desiredVelocity, false, false);
+			//}
+			//else
+			//{
+			//	actionStateData.eventInfo.character.thirdPersonCharacter.Move(Vector3.zero, false, false);
+			//	agent.ResetPath();
+			//	performActionOver();
+			//}
+			NavMeshAgent agent = actionStateData.eventInfo.character.agent;
 			if (!agent.pathPending && !agent.hasPath)
 			{
 				performActionOver();
@@ -95,6 +107,7 @@ namespace MyFolk
 				}
 				asd.currentInteractionPoint.occupiedBy = null;
 			}
+			actionStateData.eventInfo.character.agent.ResetPath();
 			actionCanceled();
 		}
 

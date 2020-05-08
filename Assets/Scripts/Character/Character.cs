@@ -3,17 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityStandardAssets.Characters.ThirdPerson;
 
 namespace MyFolk
 {
 	[System.Serializable]
 	[RequireComponent(typeof(NavMeshAgent))]
+	[RequireComponent(typeof(LookAt))]
+	[RequireComponent(typeof(LocomotionSimpleAgent))]
+	[RequireComponent(typeof(CapsuleCollider))]
+	[RequireComponent(typeof(Animator))]
 	public class Character : MonoBehaviour
 	{
 		public CharacterData data;
-		public NavMeshAgent navMeshAgent;
+		public NavMeshAgent agent;
 		public InteractionQueue interactionQueue;
-
 
 		public CarriableItem leftHand;
 		public CarriableItem rightHand;
@@ -24,8 +28,10 @@ namespace MyFolk
 
 		private void Awake()
 		{
-			navMeshAgent = GetComponent<NavMeshAgent>();
+			agent = GetComponent<NavMeshAgent>();
 			interactionQueue = new InteractionQueue(this);
+			if (this.data == null)
+				Debug.LogError("Data not set for character: " + this.name);
 		}
 
 		private void Start()

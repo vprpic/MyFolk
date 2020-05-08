@@ -14,7 +14,7 @@ namespace MyFolk
 		public override bool EarlyCheckIfPossible(InteractableItemClickedEvent eventInfo)
 		{
 			NavMeshPath path = new NavMeshPath();
-			eventInfo.character.navMeshAgent.CalculatePath(eventInfo.worldClickPoint, path);
+			eventInfo.character.agent.CalculatePath(eventInfo.worldClickPoint, path);
 			if (path.status == NavMeshPathStatus.PathComplete)
 				return true;
 			else
@@ -38,13 +38,26 @@ namespace MyFolk
 				CancelAction(asd, actionCanceled);
 				return;
 			}
-			eventInfo.character.navMeshAgent.SetDestination(eventInfo.worldClickPoint);
+			eventInfo.character.agent.SetDestination(eventInfo.worldClickPoint);
 			returnCurrentInteractionState(asd);
 			startActionOver();
 		}
 		public override void PerformAction(ActionStateData actionStateData, ReturnCurrentInteractionState returnCurrentInteractionState, PerformActionOver performActionOver, ActionCanceled actionCanceled)
 		{
-			NavMeshAgent agent = actionStateData.eventInfo.character.navMeshAgent;
+			NavMeshAgent agent = actionStateData.eventInfo.character.agent;
+
+			//if (agent.remainingDistance > agent.stoppingDistance + stoppingRadius)
+			//{
+			//	actionStateData.eventInfo.character.thirdPersonCharacter.Move(agent.desiredVelocity, false, false);
+			//}
+			//else
+			//{
+			//	actionStateData.eventInfo.character.thirdPersonCharacter.Move(Vector3.zero, false, false);
+			//	agent.ResetPath();
+			//	performActionOver();
+			//}
+
+
 			if (agent != null && (agent.remainingDistance < stoppingRadius + agent.stoppingDistance || !agent.pathPending && !agent.hasPath))
 			{
 				agent.ResetPath();
@@ -54,7 +67,7 @@ namespace MyFolk
 		}
 		public override void EndAction(ActionStateData actionStateData, EndActionOver endActionOver, ActionCanceled actionCanceled)
 		{
-			NavMeshAgent agent = actionStateData.eventInfo.character.navMeshAgent;
+			NavMeshAgent agent = actionStateData.eventInfo.character.agent;
 			if (agent != null && (agent.pathPending || agent.hasPath))
 			{
 				agent.ResetPath();
@@ -63,7 +76,7 @@ namespace MyFolk
 		}
 		public override void CancelAction(ActionStateData actionStateData, ActionCanceled actionCanceled)
 		{
-			actionStateData.eventInfo.character.navMeshAgent.ResetPath();
+			actionStateData.eventInfo.character.agent.ResetPath();
 			actionCanceled();
 		}
 	}
