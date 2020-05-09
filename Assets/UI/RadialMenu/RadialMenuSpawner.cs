@@ -31,7 +31,7 @@ namespace MyFolk.UI
 
 		public void SpawnMenu(InteractableItemClickedEvent eventInfo, List<Interaction> possibleInteractions)
 		{
-			if (eventInfo.iitem.Interactions.Count != 0)
+			if (possibleInteractions.Count > 0)
 			{
 				RadialMenu newMenu = Instantiate(menuPrefab) as RadialMenu;
 				newMenu.transform.SetParent(transform, false);

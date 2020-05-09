@@ -20,6 +20,7 @@ namespace MyFolk
         public float RaycastRange => 100f;
 
         public string itemName => data.itemName;
+        [SerializeField]
         private List<Interaction> tempInteractions;
         public List<Interaction> Interactions => data.interactions.Concat(tempInteractions).ToList();
         public Sprite QueueSprite => data.queueSprite;

@@ -12,6 +12,9 @@ GameObject:
   - component: {fileID: 8182686524150606147}
   - component: {fileID: 8706105410362098187}
   - component: {fileID: 2177768894615183362}
+  - component: {fileID: 4987360007721818015}
+  - component: {fileID: 3179814023195420772}
+  - component: {fileID: 5211980087830796732}
   m_Layer: 0
   m_Name: Rubber_duck
   m_TagString: Untagged
@@ -93,3 +96,51 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.018753689, y: 0.023444088, z: 0.025858747}
   m_Center: {x: 0.00010721012, y: 0.011722014, z: -0.0026642948}
+--- !u!114 &4987360007721818015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1912000636669496341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4381946e12cf935489df47aba5aa1ffa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 4b9ca8f8ca89efa44ac228f2748cb760, type: 2}
+  isCurrentlyBeingUsedBy: {fileID: 0}
+  interactionPoints: []
+  ItemPlacementType: 3
+--- !u!208 &3179814023195420772
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1912000636669496341}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.011000001, y: 0.012, z: 0.013}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.012, z: -0.003}
+  m_TimeToStationary: 0.5
+--- !u!114 &5211980087830796732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1912000636669496341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba79e670ab5fee43b4c05b2b7dcd537, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickUpInteraction: {fileID: 0}
+  putDownInteraction: {fileID: 0}
+  itemPlacementType: 0
+  itemSizeType: 0

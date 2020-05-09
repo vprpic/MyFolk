@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 7364824551377258870}
   - component: {fileID: 9139806582996218928}
   - component: {fileID: 1291647626058738450}
-  - component: {fileID: 1037907175664568314}
   - component: {fileID: -2146967962932755045}
+  - component: {fileID: 462594456}
   m_Layer: 0
   m_Name: piggy_bank
   m_TagString: Untagged
@@ -29,13 +29,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4926896414042417972}
-  m_LocalRotation: {x: 0.000000057601174, y: -0.70710677, z: 0.00000005760117, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -4.320875, y: 0.00051902886, z: 2.1182039}
-  m_LocalScale: {x: 10.943602, y: 10.943602, z: 10.943602}
+  m_LocalScale: {x: 16.32797, y: 16.327972, z: 16.32797}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90.00001, z: 0}
 --- !u!33 &8057195515013716962
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -109,25 +109,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: b6b0aa9fe1feac14f95c2cfad8b59816, type: 2}
+  tempInteractions: []
   isCurrentlyBeingUsedBy: {fileID: 0}
   interactionPoints: []
   ItemPlacementType: 0
---- !u!208 &1037907175664568314
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4926896414042417972}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.008, y: 0.0050000004, z: 0.006}
-  m_MoveThreshold: 0.1
-  m_Carve: 0
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0.0050000004, z: 0}
-  m_TimeToStationary: 0.5
 --- !u!114 &-2146967962932755045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,3 +129,19 @@ MonoBehaviour:
   putDownInteraction: {fileID: 0}
   itemPlacementType: 0
   itemSizeType: 0
+--- !u!208 &462594456
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4926896414042417972}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.008, y: 0.0050000004, z: 0.006}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.0050000004, z: 0}
+  m_TimeToStationary: 0.5

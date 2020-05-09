@@ -15,6 +15,6 @@ MonoBehaviour:
   interactionName: Pick up
   radialButtonSprite: {fileID: 21300000, guid: 0ab32fdceb25aaf45b866baec470bba9, type: 3}
   actions:
-  - {fileID: 11400000, guid: 0656c92280fa1e44d94d02112fef6856, type: 2}
+  - {fileID: 11400000, guid: c4cf8264587c13440b25fda008a9b098, type: 2}
   - {fileID: 11400000, guid: 1e5c5ffa4280bbf4880d66b5afb52a12, type: 2}
   - {fileID: 11400000, guid: 5425d318e85089441ae8e3c9f624526e, type: 2}

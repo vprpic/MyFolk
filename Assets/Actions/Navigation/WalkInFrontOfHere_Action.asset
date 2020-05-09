@@ -13,5 +13,4 @@ MonoBehaviour:
   m_Name: WalkInFrontOfHere_Action
   m_EditorClassIdentifier: 
   actionName: WalkInFrontOfHere
-  minRadius: 2
-  stoppingRadius: 0.9
+  minRadius: 1

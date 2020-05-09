@@ -156,11 +156,13 @@ namespace MyFolk
 		{
 			this.meshRenderer.enabled = false;
 			this._collider.enabled = false;
+			this.navMeshObstacle.carving = false;
 		}
 		private void ShowObject()
 		{
 			this.meshRenderer.enabled = true;
 			this._collider.enabled = true;
+			this.navMeshObstacle.carving = true;
 		}
 	}
 }

@@ -10,19 +10,35 @@ namespace MyFolk
 	public class WalkToIntearctionPointStateData : ActionStateData
 	{
 		public InteractionPoint currentInteractionPoint;
+		public bool hasSetTheWalkingPoint;
+		public bool hasWalkingStopped;
+		public ScriptableAction.ActionCanceled actionCanceled;
 
-		public WalkToIntearctionPointStateData(InteractableItemClickedEvent eventInfo) : base(eventInfo)
+		public WalkToIntearctionPointStateData(InteractableItemClickedEvent eventInfo, ScriptableAction.ActionCanceled actionCanceled) : base(eventInfo)
 		{
+			this.hasSetTheWalkingPoint = false;
+			this.hasWalkingStopped = false;
+			this.actionCanceled = actionCanceled;
 		}
 	}
 
 	[CreateAssetMenu(menuName = "Actions/Navigation/Walk To Interaction Point", fileName = "WalkToInteractionPoint_Action")]
 	public class WalkToInteractionPointAction : ScriptableAction
 	{
+		public void StoppedMoving(ActionStateData actionStateData)
+		{
+			WalkToIntearctionPointStateData asd = (WalkToIntearctionPointStateData)actionStateData;
+			if (asd == null || asd.currentInteractionPoint.Equals(Vector3.zero))
+			{
+				CancelAction(actionStateData, asd.actionCanceled);
+			}
+			asd.hasWalkingStopped = true;
+		}
+
 		public override bool EarlyCheckIfPossible(InteractableItemClickedEvent eventInfo)
 		{
 			NavMeshPath path = new NavMeshPath();
-			InteractionPoint tempPoint = getClosestPoint(eventInfo, false);
+			InteractionPoint tempPoint = GetClosestPoint(eventInfo, false);
 			if(tempPoint == null)
 			{
 				return false;
@@ -37,7 +53,7 @@ namespace MyFolk
 		public override bool LateCheckIfPossible(ActionStateData actionStateData)
 		{
 			NavMeshPath path = new NavMeshPath();
-			InteractionPoint tempPoint = getClosestPoint(actionStateData.eventInfo);
+			InteractionPoint tempPoint = GetClosestPoint(actionStateData.eventInfo);
 			if (tempPoint == null)
 				return false;
 
@@ -50,36 +66,36 @@ namespace MyFolk
 
 		public override void StartAction(InteractableItemClickedEvent eventInfo, ReturnCurrentInteractionState returnCurrentInteractionState, StartActionOver startActionOver, ActionCanceled actionCanceled)
 		{
-			WalkToIntearctionPointStateData asd = new WalkToIntearctionPointStateData(eventInfo);
+			WalkToIntearctionPointStateData asd = new WalkToIntearctionPointStateData(eventInfo, actionCanceled);
 			if (!LateCheckIfPossible(asd))
 			{
 				CancelAction(asd, actionCanceled);
 				return;
 			}
-			InteractionPoint tempPoint = getClosestPoint(asd.eventInfo);
+
+			InteractionPoint tempPoint = GetClosestPoint(asd.eventInfo);
 			tempPoint.occupiedBy = asd.eventInfo.character;
 			asd.currentInteractionPoint = tempPoint;
-			eventInfo.character.motion.MoveTo(tempPoint.point);
+			asd.hasSetTheWalkingPoint = true;
 			returnCurrentInteractionState(asd);
 			startActionOver();
 		}
 
 		public override void PerformAction(ActionStateData actionStateData, ReturnCurrentInteractionState returnCurrentInteractionState, PerformActionOver performActionOver, ActionCanceled actionCanceled)
 		{
-			//NavMeshAgent agent = actionStateData.eventInfo.character.agent;
+			WalkToIntearctionPointStateData asd = (WalkToIntearctionPointStateData)actionStateData;
+			if (asd == null || asd.currentInteractionPoint.Equals(Vector3.zero))
+			{
+				CancelAction(actionStateData, actionCanceled);
+			}
 
-			//if (agent.remainingDistance > agent.stoppingDistance)
-			//{
-			//	actionStateData.eventInfo.character.thirdPersonCharacter.Move(agent.desiredVelocity, false, false);
-			//}
-			//else
-			//{
-			//	actionStateData.eventInfo.character.thirdPersonCharacter.Move(Vector3.zero, false, false);
-			//	agent.ResetPath();
-			//	performActionOver();
-			//}
-			NavMeshAgent agent = actionStateData.eventInfo.character.agent;
-			if (!agent.pathPending && !agent.hasPath)
+			if (asd.hasSetTheWalkingPoint && asd.eventInfo.character.motion.CanStartMoving())
+			{
+				asd.hasSetTheWalkingPoint = true;
+				asd.eventInfo.character.motion.MoveTo(asd.currentInteractionPoint.point, StoppedMoving, asd);
+			}
+
+			if (asd.hasWalkingStopped)
 			{
 				performActionOver();
 			}
@@ -111,7 +127,7 @@ namespace MyFolk
 			actionCanceled();
 		}
 
-		public InteractionPoint getClosestPoint(InteractableItemClickedEvent eventInfo, bool isFree = true)
+		public InteractionPoint GetClosestPoint(InteractableItemClickedEvent eventInfo, bool isFree = true)
 		{
 			if(eventInfo.iitem.interactionPoints.Count < 1)
 			{

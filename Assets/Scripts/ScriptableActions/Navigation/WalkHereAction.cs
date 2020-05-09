@@ -6,10 +6,37 @@ using UnityEngine.AI;
 
 namespace MyFolk
 {
+	public class WalkHereStateData : ActionStateData
+	{
+		public Vector3 walkToPoint;
+		public bool hasSetTheWalkingPoint;
+		public bool hasWalkingStopped;
+		public ScriptableAction.ActionCanceled actionCanceled;
+		public WalkHereStateData(InteractableItemClickedEvent eventInfo, ScriptableAction.ActionCanceled actionCanceled) : base(eventInfo)
+		{
+			this.walkToPoint = Vector3.zero;
+			this.hasSetTheWalkingPoint = false;
+			this.hasWalkingStopped = false;
+			this.actionCanceled = actionCanceled;
+		}
+	}
+
 	[CreateAssetMenu(menuName = "Actions/Navigation/Walk Here", fileName = "WalkHere_Action")]
 	public class WalkHereAction : ScriptableAction
 	{
 		public float minRadius;
+
+		public void StoppedMoving(ActionStateData actionStateData)
+		{
+			WalkHereStateData asd = (WalkHereStateData)actionStateData;
+			if (asd == null || asd.walkToPoint.Equals(Vector3.zero))
+			{
+				CancelAction(actionStateData, asd.actionCanceled);
+			}
+			asd.hasWalkingStopped = true;
+		}
+
+
 		public override bool EarlyCheckIfPossible(InteractableItemClickedEvent eventInfo)
 		{
 			NavMeshPath path = new NavMeshPath();
@@ -31,35 +58,33 @@ namespace MyFolk
 
 		public override void StartAction(InteractableItemClickedEvent eventInfo, ReturnCurrentInteractionState returnCurrentInteractionState, StartActionOver startActionOver, ActionCanceled actionCanceled)
 		{
-			ActionStateData asd = new ActionStateData(eventInfo);
+			WalkHereStateData asd = new WalkHereStateData(eventInfo, actionCanceled);
 			if (!LateCheckIfPossible(asd))
 			{
 				CancelAction(asd, actionCanceled);
 				return;
 			}
-			eventInfo.character.motion.StopMoving();
-			eventInfo.character.motion.MoveTo(eventInfo.worldClickPoint);
+
+			asd.walkToPoint = eventInfo.worldClickPoint;
+			asd.hasSetTheWalkingPoint = true;
 			returnCurrentInteractionState(asd);
 			startActionOver();
 		}
 		public override void PerformAction(ActionStateData actionStateData, ReturnCurrentInteractionState returnCurrentInteractionState, PerformActionOver performActionOver, ActionCanceled actionCanceled)
 		{
-			NavMeshAgent agent = actionStateData.eventInfo.character.agent;
+			WalkHereStateData asd = (WalkHereStateData)actionStateData;
+			if (asd == null || asd.walkToPoint.Equals(Vector3.zero))
+			{
+				CancelAction(actionStateData, actionCanceled);
+			}
 
-			//if (agent.remainingDistance > agent.stoppingDistance)
-			//{
-			//	actionStateData.eventInfo.character.thirdPersonCharacter.Move(agent.desiredVelocity, false, false);
-			//}
-			//else
-			//{
-			//	actionStateData.eventInfo.character.thirdPersonCharacter.Move(Vector3.zero, false, false);
-			//	agent.velocity = Vector3.zero;
-			//	agent.ResetPath();
-			//	performActionOver();
-			//}
+			if (asd.hasSetTheWalkingPoint && asd.eventInfo.character.motion.CanStartMoving())
+			{
+				asd.hasSetTheWalkingPoint = true;
+				asd.eventInfo.character.motion.MoveTo(asd.walkToPoint, StoppedMoving, asd);
+			}
 
-
-			if (!agent.pathPending && !agent.hasPath)
+			if (asd.hasWalkingStopped)
 			{
 				performActionOver();
 			}
