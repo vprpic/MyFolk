@@ -2,6 +2,9 @@
 using UnityEngine;
 using UnityEngine.AI;
 
+//https://docs.unity3d.com/Manual/nav-CouplingAnimationAndNavigation.html
+//https://gist.github.com/gekidoslair/a37267c1402ab6ee5ad1929c8be86ea1
+//https://www.reddit.com/r/Unity3D/comments/ccttbj/how_to_rotate_the_navmesh_agent_before_start/
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Animator))]
 public class LocomotionSimpleAgent : MonoBehaviour
@@ -17,7 +20,7 @@ public class LocomotionSimpleAgent : MonoBehaviour
     int turnHash = Animator.StringToHash("Turn");
     int forwardHash = Animator.StringToHash("Forward");
 
-    bool moving;
+    bool isMoving;
 
     public float maxAnimatorRotateSpeed;
 
@@ -29,7 +32,7 @@ public class LocomotionSimpleAgent : MonoBehaviour
         //agent.updatePosition = false;
         agent.updateRotation = false;
 
-        moving = false;
+        isMoving = false;
         lookAt = GetComponent<LookAt>();
     }
 
@@ -63,6 +66,7 @@ public class LocomotionSimpleAgent : MonoBehaviour
 
 
     public bool _isRotating;
+    public bool isStopping;
     public float _stationaryTurnSpeed;
     public float _movingTurnSpeed;
     public float _forwardDumpTime;
@@ -84,6 +88,10 @@ public class LocomotionSimpleAgent : MonoBehaviour
             }
         }
 
+        if (isStopping)
+        {
+            SlowDownBeforeStopping();
+        }
         //if (agent.remainingDistance < agent.stoppingDistance)
         //    agent.ResetPath();
 
@@ -151,20 +159,40 @@ public class LocomotionSimpleAgent : MonoBehaviour
 
     public void StopMoving()
     {
-        if (!moving)
+        if (!isMoving)
             return;
+        isStopping = true;
+        agent.ResetPath();
+        //isMoving = false;
+    }
 
+    private void SlowDownBeforeStopping()
+    {
+        animator.SetFloat(forwardHash, 0f, _forwardDumpTime * 100, Time.deltaTime);
+        //animator.SetFloat(turnHash, 0f, _turnDumpTime * 100, Time.deltaTime);
+        if (animator.GetFloat(forwardHash) < 0.1f) //&& animator.GetFloat(turnHash) < 0.1f)
+        {
+            StopMovingSudden();
+        }
+    }
+
+    private void StopMovingSudden()
+    {
+        if (!isMoving)
+            return;
         agent.ResetPath();
         //TODO: is there a less harsh way to do this? now it instantly stops
         animator.SetFloat(forwardHash, 0f);
         animator.SetFloat(turnHash, 0f);
-        moving = false;
+        isStopping = false;
+        isMoving = false;
     }
+
     public void MoveTo(Vector3 target)
     {
-        if (moving)
+        if (isMoving)
             StopMoving();
-        moving = true;
+        isMoving = true;
         agent.SetDestination(target);
         //animator.SetBool(moveHash, true);
         StartCoroutine(RotateToNextPosition());
