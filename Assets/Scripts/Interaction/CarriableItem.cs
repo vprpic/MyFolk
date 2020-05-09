@@ -104,7 +104,7 @@ namespace MyFolk
 				this.transform.position = hit.point;
 				character.PutItemDown(this);
 				this.ShowObject();
-				character.RemoveInteraction(this.putDownInteraction);
+				//character.RemoveInteraction(this.putDownInteraction);
 				return this;
 			}
 			return null;

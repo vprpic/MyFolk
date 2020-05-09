@@ -47,7 +47,7 @@ namespace MyFolk.UI
 			float timer = 0f;
 			while (timer < 1 / animateSpeed)
 			{
-				timer += Time.deltaTime;
+				timer += UnityEngine.Time.deltaTime;// * Globals.ins.timeManager.currentTimeScale
 				transform.localScale = Vector3.one * timer * animateSpeed;
 				yield return null;
 			}

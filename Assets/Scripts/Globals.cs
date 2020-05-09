@@ -1,4 +1,5 @@
 ﻿using EventCallbacks;
+using MyFolk.Time;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,6 +9,9 @@ using UnityEngine.AI;
 
 namespace MyFolk
 {
+	[RequireComponent(typeof(MyFolk.Time.TimeManager))]
+	[RequireComponent(typeof(InputHandler))]
+	[RequireComponent(typeof(UI.UIInputHandler))]
 	public class Globals : MonoBehaviour
 	{
 		public static Globals ins;
@@ -18,15 +22,22 @@ namespace MyFolk
 		//public CharactersRuntimeSet allCharacters;
 		public List<Character> allCharacters;
 		public Character currentlySelectedCharacter;
+		public MyFolk.Time.GameMode currentGameMode;
+
+		[HideInInspector]
+		public MyFolk.Time.TimeManager timeManager;
+
 
 		//TODO: remove
 		public MyFolk.UI.FamilyPanelUI familyPanel;
+		private float currentTimeScale;
 
 		private void Awake()
 		{
 			if (ins == null)
 			{
 				ins = this;
+				this.timeManager = GetComponent<MyFolk.Time.TimeManager>();
 				//SetSelectedCharacter();
 			}
 			else
@@ -36,6 +47,7 @@ namespace MyFolk
 			}
 			//EventSystem.Current.RegisterListener<CharacterSelectedEvent>(OnCharacterSelected);
 			CharacterSelectedEvent.RegisterListener(OnCharacterSelected);
+			GameModeChangedEvent.RegisterListener(OnGameModeChanged);
 			//SetSelectedCharacter();
 		}
 
@@ -121,6 +133,16 @@ namespace MyFolk
 			if(eventInfo.oldCharacter != null)
 				eventInfo.oldCharacter.data.isSelected = false;
 			SetSelectedCharacter(eventInfo.newCharacter);
+		}
+
+		public void OnGameModeChanged(GameModeChangedEvent eventInfo)
+		{
+			this.currentGameMode = eventInfo.newGameMode;
+		}
+
+		public void OnTimeScaleChanged(TimeScaleChangedEvent eventInfo)
+		{
+			this.currentTimeScale = eventInfo.newTimeScale;
 		}
 	}
 }

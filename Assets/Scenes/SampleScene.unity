@@ -2471,6 +2471,27 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1483406818}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1057709417 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3140683143693852725, guid: 010b6cf2a40264645850847aa57580bb,
+    type: 3}
+  m_PrefabInstance: {fileID: 6752657322607388306}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1057709424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1057709417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5782019304e3a094da5213f32a3ae184, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  prevTimeScale: 0
+  currentTimeScale: 0
 --- !u!4 &1066646580 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4877731070835218392, guid: c54fbb1757f41b849b263fc41d214785,
@@ -4882,6 +4903,7 @@ GameObject:
   - component: {fileID: 2005291529}
   - component: {fileID: 2005291526}
   - component: {fileID: 2005291527}
+  - component: {fileID: 2005291524}
   m_Layer: 0
   m_Name: Handler
   m_TagString: Untagged
@@ -4889,6 +4911,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &2005291524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2005291523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78ce1d9b499079f43b63ff3a1ed3b044, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prevGameMode: 0
+  currentGameMode: 0
+  prevTimeScale: 0
+  currentTimeScale: 0
+  realTimePassed: 0
 --- !u!4 &2005291525
 Transform:
   m_ObjectHideFlags: 0
@@ -4944,6 +4983,8 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: 4c95696c1e9bf914eaea96d5d1b7b0bc, type: 2}
   allCharacters: []
   currentlySelectedCharacter: {fileID: 0}
+  currentGameMode: 0
+  timeManager: {fileID: 0}
   familyPanel: {fileID: 1451093598}
 --- !u!4 &2012744630 stripped
 Transform:

@@ -74,7 +74,7 @@ namespace MyFolk
 			tempTarget.y = 0;
 
 			Quaternion lookRotation = Quaternion.LookRotation((tempTarget).normalized);
-			asd.timer += Time.deltaTime * lookSpeed;
+			asd.timer += UnityEngine.Time.deltaTime * Globals.ins.timeManager.currentTimeScale * lookSpeed;
 			float tempPerc = asd.timer / maxInteractionTime;
 			asd.eventInfo.character.gameObject.transform.rotation = Quaternion.Slerp(asd.firstCharacterRotation, lookRotation, tempPerc);
 

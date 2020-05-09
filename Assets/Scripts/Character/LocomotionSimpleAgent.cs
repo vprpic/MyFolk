@@ -160,11 +160,11 @@ namespace MyFolk
                 forwardAmount = velocity.z;
                 float turnSpeed = Mathf.Lerp(_stationaryTurnSpeed, _movingTurnSpeed, forwardAmount);
 
-                transform.Rotate(0, turnAmount * turnSpeed * Time.deltaTime, 0f);
+                transform.Rotate(0, turnAmount * turnSpeed * UnityEngine.Time.deltaTime * Globals.ins.timeManager.currentTimeScale, 0f);
             }
 
-            animator.SetFloat(forwardHash, forwardAmount, _forwardDumpTime, Time.deltaTime);
-            animator.SetFloat(turnHash, turnAmount, _turnDumpTime, Time.deltaTime);
+            animator.SetFloat(forwardHash, forwardAmount, _forwardDumpTime, UnityEngine.Time.deltaTime * Globals.ins.timeManager.currentTimeScale);
+            animator.SetFloat(turnHash, turnAmount, _turnDumpTime, UnityEngine.Time.deltaTime * Globals.ins.timeManager.currentTimeScale);
         }
 
         public void StopMoving()
@@ -179,7 +179,7 @@ namespace MyFolk
 
         private void SlowDownBeforeStopping()
         {
-            animator.SetFloat(forwardHash, 0f, _forwardDumpTime * 100, Time.deltaTime);
+            animator.SetFloat(forwardHash, 0f, _forwardDumpTime * 100, UnityEngine.Time.deltaTime * Globals.ins.timeManager.currentTimeScale);
             //animator.SetFloat(turnHash, 0f, _turnDumpTime * 100, Time.deltaTime);
             if (animator.GetFloat(forwardHash) < 0.1f) //&& animator.GetFloat(turnHash) < 0.1f)
             {

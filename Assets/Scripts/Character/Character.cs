@@ -158,12 +158,14 @@ namespace MyFolk
 			}
 			if (this.leftHand != null && this.leftHand.Equals(carriableItem))
 			{
-				this.RemoveInteraction(carriableItem.putDownInteraction);
+				if(this.rightHand == null)
+					this.RemoveInteraction(carriableItem.putDownInteraction);
 				this.leftHand = null;
 			}
 			if (this.rightHand != null && this.rightHand.Equals(carriableItem))
 			{
-				this.RemoveInteraction(carriableItem.putDownInteraction);
+				if (this.leftHand == null)
+					this.RemoveInteraction(carriableItem.putDownInteraction);
 				this.rightHand = null;
 			}
 		}
