@@ -8,6 +8,7 @@ namespace MyFolk.Time
 {
     public enum GameMode
     {
+        None,
         Play,
         Build,
         Menu
@@ -20,7 +21,7 @@ namespace MyFolk.Time
         public GameMode prevGameMode;
         public GameMode currentGameMode;
 
-        [HideInInspector]
+        [Range(0f,4f)]
         public float prevTimeScale;
         [Range(0f,4f)]
         public float currentTimeScale;
@@ -40,14 +41,12 @@ namespace MyFolk.Time
         void Start()
         {
             realTimePassed = 0f;
-            this.prevGameMode = GameMode.Play;
-            this.currentGameMode = GameMode.Play;
+            this.prevGameMode = GameMode.None;
+            this.currentGameMode = GameMode.None;
             this.currentTimeScale = 1f;
             SetGameModeEvent.RegisterListener(SetGameMode);
             SetTimeScaleEvent.RegisterListener(SetTimeScale);
             PauseTimeScaleEvent.RegisterListener(PauseTimeScale);
-            (new SetGameModeEvent(GameMode.Play)).FireEvent();
-            (new SetTimeScaleEvent(0f)).FireEvent();
         }
 
         void Update()
@@ -60,6 +59,9 @@ namespace MyFolk.Time
                 case GameMode.Build:
                     break;
                 case GameMode.Menu:
+                    break;
+                case GameMode.None:
+                    (new SetGameModeEvent(GameMode.Menu)).FireEvent();
                     break;
             }
         }
@@ -78,17 +80,18 @@ namespace MyFolk.Time
             this.currentGameMode = eventInfo.newGameMode;
             if(this.currentGameMode == GameMode.Build || this.currentGameMode == GameMode.Menu)
             {
-                if (currentTimeScale > 0f)
-                    PauseGame();
+                //if (currentTimeScale > 0f)
+                    SetTimeScale(0f);
+                    //PauseGame();
             }
             else if(this.currentGameMode == GameMode.Play)
             {
-                if (currentTimeScale <= 0f && prevTimeScale > 0f)
+                //if (currentTimeScale <= 0f)// && prevTimeScale > 0f)
                     SetPrevTimeScale();
-                else if(prevTimeScale <= 0f)
-                {
-                    SetTimeScale(1f);
-                }
+                //else if(prevTimeScale <= 0f)
+                //{
+                //    SetTimeScale(1f);
+                //}
             }
             (new EventCallbacks.GameModeChangedEvent(this.prevGameMode, this.currentGameMode)).FireEvent();
         }
@@ -107,7 +110,11 @@ namespace MyFolk.Time
 		private void SetTimeScale(float timescale)
         {
             if (Mathf.Approximately(timescale, this.currentTimeScale))
+            {
+                this.prevTimeScale = this.currentTimeScale;
+                this.currentTimeScale = timescale;
                 return;
+            }
             this.prevTimeScale = this.currentTimeScale;
             this.currentTimeScale = timescale;
             (new TimeScaleChangedEvent(this.prevTimeScale, this.currentTimeScale)).FireEvent();
@@ -137,6 +144,6 @@ namespace MyFolk.Time
         {
             return realTimePassed;
         }
-		#endregion timescale
+        #endregion timescale
     }
 }

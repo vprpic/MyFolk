@@ -17,6 +17,7 @@ namespace MyFolk.UI
 		private void Awake()
 		{
 			GameModeChangedEvent.RegisterListener(OnGameModeChanged);
+			SetMenuMode();
 		}
 
 		public void OnBuildModeClick()
@@ -34,6 +35,8 @@ namespace MyFolk.UI
 
 		public void OnGameModeChanged(GameModeChangedEvent eventInfo)
 		{
+			if (this.currentGameMode.Equals(eventInfo.newGameMode))
+				return;
 			this.currentGameMode = eventInfo.newGameMode;
 			switch (currentGameMode)
 			{
@@ -52,19 +55,35 @@ namespace MyFolk.UI
 		private void SetPlayMode()
 		{
 			buildMode.canvasGroup.alpha = 0f;
+			buildMode.canvasGroup.interactable = false;
+			buildMode.canvasGroup.blocksRaycasts = false;
 			menuMode.canvasGroup.alpha = 0f;
+			menuMode.canvasGroup.interactable = false;
+			menuMode.canvasGroup.blocksRaycasts = false;
 			playMode.canvasGroup.alpha = 1f;
+			playMode.canvasGroup.interactable = true;
+			playMode.canvasGroup.blocksRaycasts = true;
 		}
 
 		private void SetBuildMode()
 		{
 			playMode.canvasGroup.alpha = 0f;
+			playMode.canvasGroup.interactable = false;
+			playMode.canvasGroup.blocksRaycasts = false;
 			menuMode.canvasGroup.alpha = 0f;
+			menuMode.canvasGroup.interactable = false;
+			menuMode.canvasGroup.blocksRaycasts = false;
 			buildMode.canvasGroup.alpha = 1f;
+			buildMode.canvasGroup.interactable = true;
+			buildMode.canvasGroup.blocksRaycasts = true;
 		}
 		private void SetMenuMode()
 		{
+			playMode.canvasGroup.interactable = false;
+			buildMode.canvasGroup.interactable = false;
 			menuMode.canvasGroup.alpha = 1f;
+			menuMode.canvasGroup.interactable = true;
+			menuMode.canvasGroup.blocksRaycasts = true;
 		}
 	}
 }

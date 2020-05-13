@@ -28,6 +28,8 @@ namespace MyFolk
 
             buildManager = new BuildManager();
             buildManager.Init();
+
+            EventCallbacks.GameModeChangedEvent.RegisterListener(OnGameModeChanged);
         }
 
         private void Update()
@@ -44,6 +46,12 @@ namespace MyFolk
                 case GameMode.Menu:
                     break;
             }
+        }
+
+
+        public void OnGameModeChanged(EventCallbacks.GameModeChangedEvent eventInfo)
+        {
+            this.currentGameMode = eventInfo.newGameMode;
         }
     }
 }

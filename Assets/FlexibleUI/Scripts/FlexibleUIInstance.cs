@@ -14,6 +14,12 @@ namespace MyFolk.FlexibleUI
             Create("button");
         }
 
+        [MenuItem("GameObject/Flexible UI/Panel", priority = 0)]
+        public static void AddPanel()
+        {
+            Create("panel");
+        }
+
         static GameObject clickedObject;
 
         private static GameObject Create(string objectName)
