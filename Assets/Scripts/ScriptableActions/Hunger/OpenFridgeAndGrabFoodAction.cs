@@ -1,4 +1,5 @@
 ﻿using EventCallbacks;
+using MyFolk.Time;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,8 @@ namespace MyFolk
 	public class OpenFridgeAndGrabFoodStateData : ActionStateData
 	{
 		public bool startedWait;
+		public float startedWaitingAt;
+		public float waitingTill;
 		public OpenFridgeAndGrabFoodStateData(InteractableItemClickedEvent eventInfo) : base(eventInfo)
 		{
 		}
@@ -65,18 +68,19 @@ namespace MyFolk
 				CancelAction(actionStateData, actionCanceled);
 				return;
 			}
-			//asd.eventInfo.character.data.energy.AddToCurrentValue(this.sleepAmountToAddPerUpdate, asd.eventInfo.character.isSelected);
-			//if(asd.eventInfo.character.data.energy.currentValue == asd.eventInfo.character.data.energy.maxValue)
-			//performActionOver();
 			if (!asd.startedWait)
 			{
-				Globals.ins.timeManager.WaitForSeconds(5f, WaitingOver, performActionOver);
+				asd.startedWaitingAt = TimeManager.GetTime();
+				asd.waitingTill = asd.startedWaitingAt + 5f;
 				asd.startedWait = true;
 			}
-		}
-		public void WaitingOver(PerformActionOver performActionOver)
-		{
-			performActionOver();
+			else
+			{
+				if(TimeManager.GetTime() >= asd.waitingTill)
+				{
+					performActionOver();
+				}
+			}
 		}
 
 		public override void EndAction(ActionStateData actionStateData, EndActionOver endActionOver, ActionCanceled actionCanceled)
@@ -122,7 +126,6 @@ namespace MyFolk
 					item.occupiedBy = null;
 				}
 			}
-			Globals.ins.timeManager.CancelWaiting();
 			actionCanceled();
 		}
 

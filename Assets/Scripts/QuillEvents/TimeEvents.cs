@@ -14,6 +14,15 @@ namespace EventCallbacks
             this.newGameMode = newGameMode;
         }
     }
+    public class SetGameModeEvent : Event<SetGameModeEvent>
+    {
+        public GameMode newGameMode;
+
+        public SetGameModeEvent(GameMode newGameMode)
+        {
+            this.newGameMode = newGameMode;
+        }
+    }
 
     public class TimeScaleChangedEvent : Event<TimeScaleChangedEvent>
     {
@@ -25,6 +34,18 @@ namespace EventCallbacks
             this.oldTimeScale = oldTimeScale;
             this.newTimeScale = newTimeScale;
         }
+    }
+    public class SetTimeScaleEvent : Event<SetTimeScaleEvent>
+    {
+        public float newTimeScale;
+
+        public SetTimeScaleEvent(float newTimeScale)
+        {
+            this.newTimeScale = newTimeScale;
+        }
+    }
+    public class PauseTimeScaleEvent : Event<PauseTimeScaleEvent>
+    {
     }
 
     public class DayPassedEvent : Event<DayPassedEvent>

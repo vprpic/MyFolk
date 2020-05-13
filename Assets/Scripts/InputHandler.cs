@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using MyFolk.UI;
+using MyFolk.Time;
 
 namespace MyFolk
 {
@@ -13,6 +14,7 @@ namespace MyFolk
         public UIInputHandler uIInteractionHandler;
         [HideInInspector]
         public ItemInteractionHandler itemInteractionHandler;
+        public GameMode currentGameMode;
 
         private void Awake()
         {
@@ -24,6 +26,21 @@ namespace MyFolk
 
         private void Update()
         {
+
+            switch (this.currentGameMode)
+            {
+                case GameMode.Play:
+                    PlayMode();
+                    break;
+                case GameMode.Build:
+                    break;
+                case GameMode.Menu:
+                    break;
+            }
+        }
+
+        private void PlayMode()
+        {
             if (!uIInteractionHandler.isHovering)
             {
                 itemInteractionHandler.CheckForHit();
@@ -32,29 +49,29 @@ namespace MyFolk
             #region Time Management
             if (Input.GetKeyDown(KeyCode.Tilde) || Input.GetKeyDown(KeyCode.Alpha0))
             {
-                Globals.ins.timeManager.SetTimeScale(0f);
+                (new EventCallbacks.SetTimeScaleEvent(0f)).FireEvent();
             }
-            if(Input.GetKeyDown(KeyCode.Alpha1))
+            if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                Globals.ins.timeManager.SetTimeScale(1f);
+                (new EventCallbacks.SetTimeScaleEvent(1f)).FireEvent();
             }
             if (Input.GetKeyDown(KeyCode.P))
             {
-                Globals.ins.timeManager.PauseGame();
+                (new EventCallbacks.PauseTimeScaleEvent()).FireEvent();
             }
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                Globals.ins.timeManager.SetTimeScale(2f);
+                (new EventCallbacks.SetTimeScaleEvent(2f)).FireEvent();
             }
             if (Input.GetKeyDown(KeyCode.Alpha3))
             {
-                Globals.ins.timeManager.SetTimeScale(3f);
+                (new EventCallbacks.SetTimeScaleEvent(3f)).FireEvent();
             }
             if (Input.GetKeyDown(KeyCode.Alpha4))
             {
-                Globals.ins.timeManager.SetTimeScale(4f);
+                (new EventCallbacks.SetTimeScaleEvent(4f)).FireEvent();
             }
-			#endregion Time Management
+            #endregion Time Management
         }
     }
 }

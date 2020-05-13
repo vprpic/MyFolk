@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EventCallbacks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,23 +26,26 @@ namespace MyFolk.Time
         public float currentTimeScale;
 
         [Header("Other")]
-        public float realTimePassed;
+        public static float realTimePassed;
 
 		#region waiting
-		public WaitingOver waitingOver;
-        private ScriptableAction.PerformActionOver performActionOver;
+		public static WaitingOver waitingOver;
+        private static ScriptableAction.PerformActionOver performActionOver;
 
         public delegate void WaitingOver(ScriptableAction.PerformActionOver performActionOver);
-        public float waitingCounter;
-        public float waitingAmount;
+        public static float waitingCounter;
+        public static float waitingAmount;
 		#endregion waiting
 
         void Start()
         {
-            this.realTimePassed = 0f;
+            realTimePassed = 0f;
             this.prevGameMode = GameMode.Play;
             this.currentGameMode = GameMode.Play;
             this.currentTimeScale = 1f;
+            SetGameModeEvent.RegisterListener(SetGameMode);
+            SetTimeScaleEvent.RegisterListener(SetTimeScale);
+            PauseTimeScaleEvent.RegisterListener(PauseTimeScale);
         }
 
         void Update()
@@ -73,46 +77,48 @@ namespace MyFolk.Time
 
         private void PlayMode()
         {
-            this.realTimePassed += UnityEngine.Time.deltaTime * this.currentTimeScale;
-            if(this.waitingAmount > 0f)
-            {
-                if (this.waitingCounter < this.waitingAmount)
-                    this.waitingCounter += UnityEngine.Time.deltaTime * this.currentTimeScale;
-                else
-                    StopWaiting();
-            }
+            realTimePassed += UnityEngine.Time.deltaTime * this.currentTimeScale;
         }
 
-        public void SetGameMode(GameMode gm)
+		#region events
+		public void SetGameMode(SetGameModeEvent eventInfo)
         {
-            if (gm == this.currentGameMode)
+            if (eventInfo.newGameMode == this.currentGameMode)
                 return;
             this.prevGameMode = this.currentGameMode;
-            this.currentGameMode = gm;
+            this.currentGameMode = eventInfo.newGameMode;
             (new EventCallbacks.GameModeChangedEvent(this.prevGameMode, this.currentGameMode)).FireEvent();
         }
+        public void SetTimeScale(SetTimeScaleEvent eventInfo)
+        {
+            SetTimeScale(eventInfo.newTimeScale);
+        }
 
-        public void SetTimeScale(float timescale)
+        public void PauseTimeScale(PauseTimeScaleEvent eventInfo)
+        {
+            PauseGame();
+        }
+		#endregion events
+
+
+        private void SetTimeScale(float timescale)
         {
             if (Mathf.Approximately(timescale, this.currentTimeScale))
                 return;
             this.prevTimeScale = this.currentTimeScale;
             this.currentTimeScale = timescale;
-            //UnityEngine.Time.timeScale = this.currentTimeScale;
-            (new EventCallbacks.TimeScaleChangedEvent(this.prevTimeScale, this.currentTimeScale)).FireEvent();
+            (new TimeScaleChangedEvent(this.prevTimeScale, this.currentTimeScale)).FireEvent();
         }
 
-
-        public void SetPrevTimeScale()
+        private void SetPrevTimeScale()
         {
             float temp = this.prevTimeScale;
             this.prevTimeScale = this.currentTimeScale;
             this.currentTimeScale = temp;
-            //UnityEngine.Time.timeScale = this.currentTimeScale;
-            (new EventCallbacks.TimeScaleChangedEvent(this.prevTimeScale, this.currentTimeScale)).FireEvent();
+            (new TimeScaleChangedEvent(this.prevTimeScale, this.currentTimeScale)).FireEvent();
         }
 
-        public void PauseGame()
+        private void PauseGame()
         {
             if(this.currentTimeScale > 0f)
             {
@@ -124,27 +130,9 @@ namespace MyFolk.Time
             }
         }
 
-        public void WaitForSeconds(float seconds, WaitingOver _waitingOver, ScriptableAction.PerformActionOver _performActionOver)
+        public static float GetTime()
         {
-            this.waitingAmount = seconds;
-            this.waitingCounter = 0f;
-            this.waitingOver = _waitingOver;
-            this.performActionOver = _performActionOver;
-        }
-
-        private void StopWaiting()
-        {
-            this.waitingAmount = 0f;
-            this.waitingCounter = 0f;
-            this.waitingOver(this.performActionOver);
-            this.waitingOver = null;
-        }
-
-        public void CancelWaiting()
-        {
-            this.waitingAmount = 0f;
-            this.waitingCounter = 0f;
-            this.waitingOver = null;
+            return realTimePassed;
         }
     }
 }
