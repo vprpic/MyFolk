@@ -15,6 +15,7 @@ MonoBehaviour:
   interactionName: Get Food
   radialButtonSprite: {fileID: 21300000, guid: 0ab32fdceb25aaf45b866baec470bba9, type: 3}
   actions:
-  - {fileID: 11400000, guid: 0656c92280fa1e44d94d02112fef6856, type: 2}
+  - {fileID: 11400000, guid: 0f54904f27a2c0d4da816e5692d90239, type: 2}
   - {fileID: 11400000, guid: 1e5c5ffa4280bbf4880d66b5afb52a12, type: 2}
+  - {fileID: 11400000, guid: 0b5020e0633a755449ca2514824722ee, type: 2}
   - {fileID: 11400000, guid: afe824ead9c904c4b88b55176f567a82, type: 2}

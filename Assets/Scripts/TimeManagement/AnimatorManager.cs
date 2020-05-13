@@ -42,8 +42,8 @@ namespace MyFolk
         {
             this.prevTimeScale = this.currentTimeScale;
             this.currentTimeScale = newTimeScale;
-            if (newTimeScale == 0f)
-                Debug.Log("Pause animator");
+            //if (newTimeScale == 0f)
+            //    Debug.Log("Pause animator");
             animator.speed = newTimeScale;
         }
     }

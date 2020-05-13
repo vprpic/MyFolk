@@ -6,15 +6,16 @@ using UnityEngine.AI;
 
 namespace MyFolk
 {
-	public class GrabFoodStateData : ActionStateData
+	public class OpenFridgeAndGrabFoodStateData : ActionStateData
 	{
-		public GrabFoodStateData(InteractableItemClickedEvent eventInfo) : base(eventInfo)
+		public bool startedWait;
+		public OpenFridgeAndGrabFoodStateData(InteractableItemClickedEvent eventInfo) : base(eventInfo)
 		{
 		}
 	}
 
-	[CreateAssetMenu(menuName = "Actions/Hunger/Grab food", fileName = "GrabFood_Action")]
-	public class GrabFoodAction : ScriptableAction
+	[CreateAssetMenu(menuName = "Actions/Hunger/Open Fridge and Grab Food", fileName = "OpenFridgeAndGrabFood_Action")]
+	public class OpenFridgeAndGrabFoodAction : ScriptableAction
 	{
 
 		public override bool EarlyCheckIfPossible(InteractableItemClickedEvent eventInfo)
@@ -39,13 +40,17 @@ namespace MyFolk
 
 		public override void StartAction(InteractableItemClickedEvent eventInfo, ReturnCurrentInteractionState returnCurrentInteractionState, StartActionOver startActionOver, ActionCanceled actionCanceled)
 		{
-			SleepStateData asd = new SleepStateData(eventInfo);
+			OpenFridgeAndGrabFoodStateData asd = new OpenFridgeAndGrabFoodStateData(eventInfo);
+			asd.startedWait = false;
 			if (!LateCheckIfPossible(asd))
 			{
 				//NEEDS TO BE CALLED IN OREDER TO PROPERLY CANCEL THE ACTION
 				CancelAction(asd, actionCanceled);
 				return;
 			}
+			Animator a = eventInfo.iitem.GetComponent<Animator>();
+			if (a != null)
+				a.SetBool("StartOpenDoor", true);
 			asd.eventInfo.iitem.isCurrentlyBeingUsedBy = eventInfo.character;
 			returnCurrentInteractionState(asd);
 			startActionOver();
@@ -53,16 +58,25 @@ namespace MyFolk
 
 		public override void PerformAction(ActionStateData actionStateData, ReturnCurrentInteractionState returnCurrentInteractionState, PerformActionOver performActionOver, ActionCanceled actionCanceled)
 		{
-			SleepStateData asd = (SleepStateData)actionStateData;
-			if(asd == null)
+			OpenFridgeAndGrabFoodStateData asd = (OpenFridgeAndGrabFoodStateData)actionStateData;
+			if (asd == null)
 			{
-				Debug.LogError("ASD is not SleepStateData");
-				CancelAction(asd, actionCanceled);
+				Debug.LogError("ASD is not OpenFridgeAndGrabFoodStateData");
+				CancelAction(actionStateData, actionCanceled);
 				return;
 			}
 			//asd.eventInfo.character.data.energy.AddToCurrentValue(this.sleepAmountToAddPerUpdate, asd.eventInfo.character.isSelected);
-			if(asd.eventInfo.character.data.energy.currentValue == asd.eventInfo.character.data.energy.maxValue)
-				performActionOver();
+			//if(asd.eventInfo.character.data.energy.currentValue == asd.eventInfo.character.data.energy.maxValue)
+			//performActionOver();
+			if (!asd.startedWait)
+			{
+				Globals.ins.timeManager.WaitForSeconds(5f, WaitingOver, performActionOver);
+				asd.startedWait = true;
+			}
+		}
+		public void WaitingOver(PerformActionOver performActionOver)
+		{
+			performActionOver();
 		}
 
 		public override void EndAction(ActionStateData actionStateData, EndActionOver endActionOver, ActionCanceled actionCanceled)
@@ -84,6 +98,9 @@ namespace MyFolk
 					item.occupiedBy = null;
 				}
 			}
+			Animator a = actionStateData.eventInfo.iitem.GetComponent<Animator>();
+			if (a != null)
+				a.SetBool("StartOpenDoor", false);
 			endActionOver();
 		}
 
@@ -105,6 +122,7 @@ namespace MyFolk
 					item.occupiedBy = null;
 				}
 			}
+			Globals.ins.timeManager.CancelWaiting();
 			actionCanceled();
 		}
 

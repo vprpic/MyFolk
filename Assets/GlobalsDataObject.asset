@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad7d5735eec829444ae5c22b47c49723, type: 3}
   m_Name: GlobalsDataObject
   m_EditorClassIdentifier: 
-  currentlySelectedCharacterData: {fileID: 11400000, guid: 517a995f187dfe7438826bd2dfcf4727,
+  currentlySelectedCharacterData: {fileID: 11400000, guid: 673b3d4c79a71204f9516a98ffe3ac03,
     type: 2}
   worldClickPoint: {x: 3.9620042, y: 1.8079772, z: 11.632768}
-  totalCharactersInstantiated: 7
-  interactableItemClickedEventsCount: 367
-  hungerDecreaseRate: 0.0001
+  totalCharactersInstantiated: 8
+  interactableItemClickedEventsCount: 450
+  hungerDecreaseRate: 0.001
   funDecreaseRate: 0.0001
   socialDecreaseRate: 0.00001
   hygieneDecreaseRate: 0.0001

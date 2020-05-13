@@ -38,6 +38,7 @@ namespace MyFolk {
 
 		public float AddToCurrentValue(float amount, bool ownerIsCurrentlySelected)
 		{
+			amount *= Globals.ins.timeManager.currentTimeScale;
 			float newValue = Mathf.Clamp(this.currentValue + amount, this.minValue, this.maxValue);
 			float amountChanged = Mathf.Abs(newValue - this.currentValue);
 			amountChanged *= amount < 0 ? -1 : 1;

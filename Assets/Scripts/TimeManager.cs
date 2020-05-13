@@ -27,6 +27,15 @@ namespace MyFolk.Time
         [Header("Other")]
         public float realTimePassed;
 
+		#region waiting
+		public WaitingOver waitingOver;
+        private ScriptableAction.PerformActionOver performActionOver;
+
+        public delegate void WaitingOver(ScriptableAction.PerformActionOver performActionOver);
+        public float waitingCounter;
+        public float waitingAmount;
+		#endregion waiting
+
         void Start()
         {
             this.realTimePassed = 0f;
@@ -65,6 +74,13 @@ namespace MyFolk.Time
         private void PlayMode()
         {
             this.realTimePassed += UnityEngine.Time.deltaTime * this.currentTimeScale;
+            if(this.waitingAmount > 0f)
+            {
+                if (this.waitingCounter < this.waitingAmount)
+                    this.waitingCounter += UnityEngine.Time.deltaTime * this.currentTimeScale;
+                else
+                    StopWaiting();
+            }
         }
 
         public void SetGameMode(GameMode gm)
@@ -85,6 +101,8 @@ namespace MyFolk.Time
             //UnityEngine.Time.timeScale = this.currentTimeScale;
             (new EventCallbacks.TimeScaleChangedEvent(this.prevTimeScale, this.currentTimeScale)).FireEvent();
         }
+
+
         public void SetPrevTimeScale()
         {
             float temp = this.prevTimeScale;
@@ -93,7 +111,6 @@ namespace MyFolk.Time
             //UnityEngine.Time.timeScale = this.currentTimeScale;
             (new EventCallbacks.TimeScaleChangedEvent(this.prevTimeScale, this.currentTimeScale)).FireEvent();
         }
-
 
         public void PauseGame()
         {
@@ -105,6 +122,29 @@ namespace MyFolk.Time
             {
                 this.SetPrevTimeScale();
             }
+        }
+
+        public void WaitForSeconds(float seconds, WaitingOver _waitingOver, ScriptableAction.PerformActionOver _performActionOver)
+        {
+            this.waitingAmount = seconds;
+            this.waitingCounter = 0f;
+            this.waitingOver = _waitingOver;
+            this.performActionOver = _performActionOver;
+        }
+
+        private void StopWaiting()
+        {
+            this.waitingAmount = 0f;
+            this.waitingCounter = 0f;
+            this.waitingOver(this.performActionOver);
+            this.waitingOver = null;
+        }
+
+        public void CancelWaiting()
+        {
+            this.waitingAmount = 0f;
+            this.waitingCounter = 0f;
+            this.waitingOver = null;
         }
     }
 }

@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38520123f5fb393429c8d7c7a1ecc273, type: 3}
+  m_Name: BasicCalendar
+  m_EditorClassIdentifier: 
+  ingameSecond: 6
+  daysOfTheWeek:
+  - Monday
+  - Tuesday
+  - Wednesday
+  - Thursday
+  - Friday
+  - Saturday
+  - Sunday
+  months:
+  - name: January
+    numOfDays: 31
+  - name: February
+    numOfDays: 28
+  - name: March
+    numOfDays: 31
+  - name: April
+    numOfDays: 30
+  - name: May
+    numOfDays: 31
+  - name: June
+    numOfDays: 30
+  - name: July
+    numOfDays: 31
+  - name: August
+    numOfDays: 31
+  - name: September
+    numOfDays: 30
+  - name: October
+    numOfDays: 31
+  - name: November
+    numOfDays: 30
+  - name: December
+    numOfDays: 31
+  dayStartOfFirstSeasonInList: 80
+  seasons:
+  - {fileID: 11400000, guid: 19b6a522dbbd6ec48889edad9a3215c2, type: 2}
+  - {fileID: 11400000, guid: b804486b1ffbfbc4793df14336fb4553, type: 2}
+  - {fileID: 11400000, guid: cf041f672e9aef54a8a73012cfbc33af, type: 2}
+  - {fileID: 11400000, guid: 083628cb589df184f8d422cb96c9e4d5, type: 2}
