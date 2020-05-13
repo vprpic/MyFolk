@@ -5,37 +5,43 @@ using UnityEngine;
 
 namespace MyFolk.Building
 {
+	public enum BuildTool
+	{
+		None,
+		StraightWall,
+		CurvedWall,
+		Floor,
+		Window,
+		Door,
+	}
+
 	public class BuildManager
 	{
-		public enum BuildTool
-		{
-			None,
-			StraightWall,
-			CurvedWall,
-			Floor,
-			Window,
-			Door,
-		}
 
-		public BuildTool selectedBuildTool;
+		public BuildTool currentBuildTool;
 		private Camera mainCamera;
 		private bool isHit;
 		private RaycastHit whatIHit;
 		private float range = 500f;
 
-		#region straight wall
+		private BuildSurface buildSurface;
 
-		#endregion straight wall
+		#region straight wall build
+		private RaycastHit point1;
+		private RaycastHit point2;
+		#endregion straight wall build
+
 
 		internal void Init()
 		{
 			mainCamera = Camera.main;
-			selectedBuildTool = BuildTool.None;
+			currentBuildTool = BuildTool.None;
+			EventCallbacks.SetBuildToolEvent.RegisterListener(OnBuildToolSet);
 		}
 
 		public void Update()
 		{
-			switch (selectedBuildTool)
+			switch (currentBuildTool)
 			{
 				case BuildTool.None:
 					break;
@@ -53,9 +59,14 @@ namespace MyFolk.Building
 			}
 		}
 
+		private void HandleClick()
+		{
+			
+		}
+
 		private void CheckForBuildSurfaceHit()
 		{
-			BuildSurface buildSurface = null;
+			buildSurface = null;
 			Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 			isHit = Physics.Raycast(ray, out whatIHit, range);
 			if (isHit)
@@ -66,57 +77,53 @@ namespace MyFolk.Building
 
 				if (buildSurface != null)
 				{
-					//if (whatIHit.distance <= buildSurface.RaycastRange)
-					//{
-					//	if (buildSurface == currentTargetIItem)
-					//	{
-					//		return;
-					//	}
-					//	else if (currentTargetIItem != null)
-					//	{
-					//		currentTargetIItem.OnEndHover();
-					//		currentTargetIItem = buildSurface;
-					//		currentTargetIItem.OnStartHover();
-					//		return;
-					//	}
-					//	else
-					//	{
-					//		currentTargetIItem = buildSurface;
-					//		currentTargetIItem.OnStartHover();
-					//		return;
-					//	}
-					//}
-					//else
-					//{
-					//	if (currentTargetIItem != null)
-					//	{
-					//		currentTargetIItem.OnEndHover();
-					//		currentTargetIItem = null;
-					//		return;
-					//	}
-					//}
-					buildSurface.OnBuild();
+					if (Input.GetMouseButtonDown(0))
+					{
+						Debug.Log("clicked on build surface");
+						//buildSurface.wallPaths.Add();
+						//buildSurface.OnBuild();
+						//GameObject go = new GameObject("point1");
+						//go.transform.SetParent(buildSurface.gameObject.transform);
+						//go.transform.position = whatIHit.point;
+						point1 = whatIHit;
+					}
+					if (Input.GetMouseButton(0))
+					{
+					}
+					if (Input.GetMouseButtonUp(0))
+					{
+						//GameObject go = new GameObject("point2");
+						//go.transform.SetParent(buildSurface.gameObject.transform);
+						//go.transform.position = whatIHit.point;
+						point2 = whatIHit;
+
+						StraightWallNode node1 = new StraightWallNode();
+						StraightWallNode node2 = new StraightWallNode();
+
+						StraightWallPath wall = new StraightWallPath();
+						node1.position = point1.point;
+						node2.position = point2.point;
+
+						wall.point1 = node1;
+						wall.point2 = node2;
+
+						node1.wallsConnectedToThis.Add(wall);
+						node2.wallsConnectedToThis.Add(wall);
+
+						buildSurface.AddWall(wall);
+					}
 				}
-				else
-				{
-					//if (currentTargetIItem != null)
-					//{
-					//	currentTargetIItem.OnEndHover();
-					//	currentTargetIItem = null;
-					//	return;
-					//}
-				}
-			}
-			else
-			{
-				//if (currentTargetIItem != null)
-				//{
-				//	currentTargetIItem.OnEndHover();
-				//	currentTargetIItem = null;
-				//	return;
-				//}
 			}
 		}
+
+		#region events
+		public void OnBuildToolSet(EventCallbacks.SetBuildToolEvent eventInfo)
+		{
+			if (this.currentBuildTool.Equals(eventInfo.newBuildTool))
+				return;
+			this.currentBuildTool = eventInfo.newBuildTool;
+		}
+		#endregion events
 
 	}
 }

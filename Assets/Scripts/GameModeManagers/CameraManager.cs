@@ -38,11 +38,15 @@ public class CameraManager : MonoBehaviour
 	public float OrbitDampening;
 	public float ScrollDampening;
 
+	private MyFolk.Time.GameMode currentGameMode;
+
+	private void Awake()
+	{
+		EventCallbacks.GameModeChangedEvent.RegisterListener(OnGameModeChanged);
+	}
 
 	private void Start()
 	{
-
-
 		mainCam = Camera.main;
 		newPosition = transform.position;
 		_LocalRotation.y = rotateRig.eulerAngles.x;
@@ -51,14 +55,17 @@ public class CameraManager : MonoBehaviour
 
 	private void Update()
 	{
-		if (followTransform != null)
+		if (this.currentGameMode != MyFolk.Time.GameMode.Menu)
 		{
-			transform.position = followTransform.position;
-		}
-		else
-		{
-			HandleMouseInput();
-			HandleMovementInput();
+			if (followTransform != null)
+			{
+				transform.position = followTransform.position;
+			}
+			else
+			{
+				HandleMouseInput();
+				HandleMovementInput();
+			}
 		}
 	}
 
@@ -187,4 +194,11 @@ public class CameraManager : MonoBehaviour
 	{
 		this.followTransform = null;
 	}
+
+	#region events
+	public void OnGameModeChanged(EventCallbacks.GameModeChangedEvent eventInfo)
+	{
+		this.currentGameMode = eventInfo.newGameMode;
+	}
+	#endregion events
 }

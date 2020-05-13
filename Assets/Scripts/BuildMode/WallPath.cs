@@ -5,11 +5,14 @@ using UnityEngine;
 
 namespace MyFolk.Building
 {
+	[System.Serializable]
 	public class WallPath
 	{
 		public float height;
 		public float width;
 
 		internal virtual void Draw(GameObject parent) { }
+
+		internal virtual void GizmosDraw() { }
 	}
 }
