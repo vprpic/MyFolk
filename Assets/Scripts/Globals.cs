@@ -10,8 +10,8 @@ using UnityEngine.AI;
 namespace MyFolk
 {
 	[RequireComponent(typeof(MyFolk.Time.TimeManager))]
-	[RequireComponent(typeof(InputHandler))]
-	[RequireComponent(typeof(UI.UIInputHandler))]
+	[RequireComponent(typeof(GameModeManager))]
+	[RequireComponent(typeof(UI.UIInputManager))]
 	public class Globals : MonoBehaviour
 	{
 		public static Globals ins;

@@ -32,7 +32,6 @@ namespace MyFolk
 				if (currentTargetIItem != null)
 				{
 					currentEventInfo.iitem = currentTargetIItem;
-					//currentEventInfo.iitem.AddInteractions(Globals.ins.currentlySelectedCharacter.tempCharacterInteractions);
 					(new InteractableItemClickedEvent(
 							Globals.ins.currentlySelectedCharacter,
 							currentEventInfo.iitem,

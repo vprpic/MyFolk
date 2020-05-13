@@ -1,50 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
-using MyFolk.UI;
-using MyFolk.Time;
 
 namespace MyFolk
 {
-    [RequireComponent(typeof(UIInputHandler))]
-    public class InputHandler : MonoBehaviour
+    public class PlayManager
     {
-        [HideInInspector]
-        public UIInputHandler uIInteractionHandler;
+
         [HideInInspector]
         public ItemInteractionHandler itemInteractionHandler;
-        public GameMode currentGameMode;
 
-        private void Awake()
+        public void Init()
         {
-            uIInteractionHandler = GetComponent<UIInputHandler>();
-
             itemInteractionHandler = new ItemInteractionHandler();
             itemInteractionHandler.Init();
         }
 
-        private void Update()
+        public void Update()
         {
-
-            switch (this.currentGameMode)
-            {
-                case GameMode.Play:
-                    PlayMode();
-                    break;
-                case GameMode.Build:
-                    break;
-                case GameMode.Menu:
-                    break;
-            }
-        }
-
-        private void PlayMode()
-        {
-            if (!uIInteractionHandler.isHovering)
-            {
+            //if (!UI.UIInputManager.isHovering)
+            //{
                 itemInteractionHandler.CheckForHit();
-            }
+            //}
 
             #region Time Management
             if (Input.GetKeyDown(KeyCode.Tilde) || Input.GetKeyDown(KeyCode.Alpha0))

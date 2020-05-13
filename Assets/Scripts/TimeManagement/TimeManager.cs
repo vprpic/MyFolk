@@ -46,23 +46,12 @@ namespace MyFolk.Time
             SetGameModeEvent.RegisterListener(SetGameMode);
             SetTimeScaleEvent.RegisterListener(SetTimeScale);
             PauseTimeScaleEvent.RegisterListener(PauseTimeScale);
+            (new SetGameModeEvent(GameMode.Play)).FireEvent();
+            (new SetTimeScaleEvent(0f)).FireEvent();
         }
 
         void Update()
         {
-#if UNITY_EDITOR
-            ////TODO: remove
-            //if (!this.currentGameMode.Equals(this.prevGameMode))
-            //    (new EventCallbacks.GameModeChangedEvent(this.prevGameMode, this.currentGameMode)).FireEvent();
-
-            ////TODO: remove
-            //if (!this.currentTimeScale.Equals(this.prevTimeScale))
-            //{
-            //    //UnityEngine.Time.timeScale = this.currentTimeScale;
-            //    (new EventCallbacks.TimeScaleChangedEvent(this.prevTimeScale, this.currentTimeScale)).FireEvent();
-            //}
-#endif
-
             switch (this.currentGameMode)
             {
                 case GameMode.Play:
@@ -87,6 +76,20 @@ namespace MyFolk.Time
                 return;
             this.prevGameMode = this.currentGameMode;
             this.currentGameMode = eventInfo.newGameMode;
+            if(this.currentGameMode == GameMode.Build || this.currentGameMode == GameMode.Menu)
+            {
+                if (currentTimeScale > 0f)
+                    PauseGame();
+            }
+            else if(this.currentGameMode == GameMode.Play)
+            {
+                if (currentTimeScale <= 0f && prevTimeScale > 0f)
+                    SetPrevTimeScale();
+                else if(prevTimeScale <= 0f)
+                {
+                    SetTimeScale(1f);
+                }
+            }
             (new EventCallbacks.GameModeChangedEvent(this.prevGameMode, this.currentGameMode)).FireEvent();
         }
         public void SetTimeScale(SetTimeScaleEvent eventInfo)
@@ -100,8 +103,8 @@ namespace MyFolk.Time
         }
 		#endregion events
 
-
-        private void SetTimeScale(float timescale)
+		#region timescale
+		private void SetTimeScale(float timescale)
         {
             if (Mathf.Approximately(timescale, this.currentTimeScale))
                 return;
@@ -134,5 +137,6 @@ namespace MyFolk.Time
         {
             return realTimePassed;
         }
+		#endregion timescale
     }
 }

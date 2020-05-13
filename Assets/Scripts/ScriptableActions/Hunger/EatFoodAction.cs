@@ -62,7 +62,7 @@ namespace MyFolk
 			}
 			asd.currentFoodAmountAdded += this.foodAmountToAddPerUpdate;
 			asd.eventInfo.character.data.hunger.AddToCurrentValue(this.foodAmountToAddPerUpdate, asd.eventInfo.character.isSelected);
-			if(Mathf.Abs(asd.currentFoodAmountAdded) >= Mathf.Abs(this.maxFoodAmountToAdd))
+			if(Mathf.Abs(asd.currentFoodAmountAdded) >= Mathf.Abs(this.maxFoodAmountToAdd) || asd.eventInfo.character.data.hunger.currentValue >= asd.eventInfo.character.data.hunger.maxValue)
 				performActionOver();
 		}
 

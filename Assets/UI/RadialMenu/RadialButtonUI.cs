@@ -60,7 +60,6 @@ namespace MyFolk.UI
 		public void OnRadialButtonClick()
 		{
 			Globals.ins.currentlySelectedCharacter.interactionQueue.EnqueueInteraction(this.buttonInteraction, this.interactableItemEventInfo);
-			//EventCallbacks.EventSystem.Current.FireEvent(new RadialButtonClickEvent(this));
 			(new RadialButtonClickEvent(this)).FireEvent();
 		}
 

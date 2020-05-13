@@ -23,10 +23,18 @@ namespace MyFolk.UI
 		private void Awake()
 		{
 			mainCamera = Camera.main;
-			//EventSystem.Current.RegisterListener<InteractableItemClickedEvent>(OnInteractableClick);
+		}
+
+		private void OnEnable()
+		{
 			InteractableItemClickedEvent.RegisterListener(OnInteractableClick);
 			RadialButtonClickEvent.RegisterListener(OnRadialButtonClicked);
-			//EventSystem.Current.RegisterListener<RadialButtonClickEvent>(OnRadialButtonClicked);
+		}
+
+		private void OnDisable()
+		{
+			InteractableItemClickedEvent.UnregisterListener(OnInteractableClick);
+			RadialButtonClickEvent.UnregisterListener(OnRadialButtonClicked);
 		}
 
 		public void SpawnMenu(InteractableItemClickedEvent eventInfo, List<Interaction> possibleInteractions)
@@ -54,13 +62,13 @@ namespace MyFolk.UI
 		void OnInteractableClick(InteractableItemClickedEvent interactableItemClickedInfo)
 		{
 			//Debug.Log("Alerted about interactable clicked: " + interactableItemClickedInfo.iitem.itemName);
-			if (spawnedMenu == null)
+			if (spawnedMenu == null && !UI.UIInputManager.isHovering)
 			{
 				List<Interaction> possibleInteractions = GetCurrentlyPossibleActions(interactableItemClickedInfo);
 				if(possibleInteractions.Count > 0)
 					SpawnMenu(interactableItemClickedInfo, possibleInteractions);
 			}
-			else
+			else if(spawnedMenu != null && !UI.UIInputManager.isHoveringOverRadialMenuButton)
 			{
 				DestroyMenu();
 			}

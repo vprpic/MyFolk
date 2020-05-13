@@ -17,32 +17,32 @@ MonoBehaviour:
     minValue: 0
     maxValue: 100
     type: 0
-    currentValue: 26.848335
+    currentValue: 88.690216
   energy:
     minValue: 0
     maxValue: 100
     type: 4
-    currentValue: 98.7477
+    currentValue: 98.377625
   fun:
     minValue: 0
     maxValue: 100
     type: 1
-    currentValue: 78.98202
+    currentValue: 74.6669
   social:
     minValue: 0
     maxValue: 100
     type: 2
-    currentValue: 98.19431
+    currentValue: 97.824234
   hygiene:
     minValue: 0
     maxValue: 100
     type: 3
-    currentValue: 78.98202
+    currentValue: 74.6669
   bladder:
     minValue: 0
     maxValue: 100
     type: 5
-    currentValue: 78.98202
+    currentValue: 74.6669
   fulfillment:
     minValue: 0
     maxValue: 100

@@ -10,16 +10,7 @@ namespace MyFolk.FlexibleUI
     {
         public FlexibleUIData skinData;
 
-        /// <summary>
-        /// Must be attached in the editor for every UI element, used in the UIInputHandler component
-        /// </summary>
-        //public BoolEvent onEnterExitUI;
-
-        protected virtual void OnSkinUI()
-        {
-
-        }
-
+        protected virtual void OnSkinUI() { }
         public virtual void Update() { }
         public virtual void Awake()
         {
@@ -28,18 +19,20 @@ namespace MyFolk.FlexibleUI
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            //Debug.Log("OnPointerEnter");
             if (eventData != null)
+            {
+                //Debug.Log("OnPointerEnter: " + eventData.pointerCurrentRaycast.gameObject.name);
                 (new FlexibleUIEnterExitEvent(this, true)).FireEvent();
-                //EventCallbacks.EventSystem.Current.FireEvent(new FlexibleUIEnterExitEvent(this, true));
+            }
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            //Debug.Log("OnPointerExit");
             if (eventData != null)
+            {
+                    //Debug.Log("OnPointerExit");
                 (new FlexibleUIEnterExitEvent(this, false)).FireEvent();
-            //EventCallbacks.EventSystem.Current.FireEvent(new FlexibleUIEnterExitEvent(this, false));
+            }
         }
 
     }

@@ -23,7 +23,6 @@ namespace MyFolk.FlexibleUI
 				needs.Add(item.type, item);
 			}
 			dirtyNeeds = new List<Need>();
-
 			CurrentCharacterNeedChangedEvent.RegisterListener(OnNeedUpdated);
 			CharacterSelectedEvent.RegisterListener(OnCurrentCharacterChanged);
 		}
