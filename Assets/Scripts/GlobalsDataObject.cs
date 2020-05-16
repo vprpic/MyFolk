@@ -52,5 +52,9 @@ namespace MyFolk
 		[Header("Scriptable objects")]
 		public Interaction pickUpInteraction;
 		public Interaction putDownInteraction;
+
+
+		[Header("Build mode")]
+		public GameObject buildTooltipPreviewPrefab;
 	}
 }

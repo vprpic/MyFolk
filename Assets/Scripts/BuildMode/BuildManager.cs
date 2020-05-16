@@ -27,6 +27,7 @@ namespace MyFolk.Building
 		private BuildSurface buildSurface;
 
 		#region straight wall build
+		public GameObject toolTipPreview;
 		private RaycastHit point1;
 		private RaycastHit point2;
 		#endregion straight wall build
@@ -36,6 +37,8 @@ namespace MyFolk.Building
 		{
 			mainCamera = Camera.main;
 			currentBuildTool = BuildTool.None;
+			toolTipPreview = GameObject.Instantiate(Globals.ins.data.buildTooltipPreviewPrefab);
+			toolTipPreview.SetActive(false);
 			EventCallbacks.SetBuildToolEvent.RegisterListener(OnBuildToolSet);
 		}
 
@@ -77,6 +80,9 @@ namespace MyFolk.Building
 
 				if (buildSurface != null)
 				{
+					//if(!toolTipPreview.activeSelf)
+					//toolTipPreview.SetActive(true);
+					//toolTipPreview.transform.position = whatIHit.point;
 					if (Input.GetMouseButtonDown(0))
 					{
 						Debug.Log("clicked on build surface");
@@ -113,6 +119,23 @@ namespace MyFolk.Building
 						buildSurface.AddWall(wall);
 					}
 				}
+			}
+			//else
+			//{
+			//	toolTipPreview.SetActive(false);
+			//}
+		}
+
+		internal void FixedUpdate()
+		{
+			if (buildSurface != null)
+			{
+				toolTipPreview.SetActive(true);
+				toolTipPreview.transform.position = whatIHit.point;
+			}
+			else
+			{
+				toolTipPreview.SetActive(true);
 			}
 		}
 

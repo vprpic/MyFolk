@@ -32,6 +32,7 @@ namespace MyFolk
 		public MyFolk.UI.FamilyPanelUI familyPanel;
 		private float currentTimeScale;
 
+
 		private void Awake()
 		{
 			if (ins == null)

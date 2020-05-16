@@ -17,6 +17,9 @@ namespace MyFolk.UI
 		private void Awake()
 		{
 			GameModeChangedEvent.RegisterListener(OnGameModeChanged);
+		}
+		private void Start()
+		{
 			SetMenuMode();
 		}
 
@@ -26,6 +29,7 @@ namespace MyFolk.UI
 		}
 		public void OnPlayModeClick()
 		{
+			UpdateSkinnedMeshRendererColliders.UpdateAllSkinnedMeshRendererColliders();
 			(new SetGameModeEvent(Time.GameMode.Play)).FireEvent();
 		}
 		public void OnMenuModeClick()

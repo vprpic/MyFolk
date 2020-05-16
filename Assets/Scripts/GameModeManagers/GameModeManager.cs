@@ -22,14 +22,16 @@ namespace MyFolk
         private void Awake()
         {
             uIInputManager = GetComponent<UIInputManager>();
+            EventCallbacks.GameModeChangedEvent.RegisterListener(OnGameModeChanged);
+        }
 
+        private void Start()
+        {
             playManager = new PlayManager();
             playManager.Init();
 
             buildManager = new BuildManager();
             buildManager.Init();
-
-            EventCallbacks.GameModeChangedEvent.RegisterListener(OnGameModeChanged);
         }
 
         private void Update()
@@ -42,6 +44,21 @@ namespace MyFolk
                     break;
                 case GameMode.Build:
                     buildManager.Update();
+                    break;
+                case GameMode.Menu:
+                    break;
+            }
+        }
+
+        private void FixedUpdate()
+        {
+            switch (this.currentGameMode)
+            {
+                case GameMode.Play:
+                    //playManager.FixedUpdate();
+                    break;
+                case GameMode.Build:
+                    buildManager.FixedUpdate();
                     break;
                 case GameMode.Menu:
                     break;
