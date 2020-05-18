@@ -106,6 +106,7 @@ namespace MyFolk
 			}
 			foreach (var item in actionStateData.eventInfo.iitem.interactionPoints)
 			{
+				//TO DO: error during canceling
 				if (item.occupiedBy.Equals(actionStateData.eventInfo.character))
 				{
 					item.occupiedBy = null;
