@@ -6,7 +6,7 @@ using UnityEngine;
 namespace MyFolk.Building
 {
 	[System.Serializable]
-	public class WallPath
+	public class WallPath : MonoBehaviour
 	{
 		public float height;
 		public float width;

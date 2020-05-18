@@ -28,6 +28,7 @@ namespace MyFolk.Building
 
 		#region straight wall build
 		public GameObject toolTipPreview;
+		public MeshCubeBuilder meshCubeBuilder;
 		private RaycastHit point1;
 		private RaycastHit point2;
 		#endregion straight wall build
@@ -40,6 +41,9 @@ namespace MyFolk.Building
 			toolTipPreview = GameObject.Instantiate(Globals.ins.data.buildTooltipPreviewPrefab);
 			toolTipPreview.SetActive(false);
 			EventCallbacks.SetBuildToolEvent.RegisterListener(OnBuildToolSet);
+			this.meshCubeBuilder = new MeshCubeBuilder();
+			this.meshCubeBuilder.xSize = this.meshCubeBuilder.ySize = 2;
+			this.meshCubeBuilder.zSize = 3;
 		}
 
 		public void Update()
@@ -106,7 +110,7 @@ namespace MyFolk.Building
 						StraightWallNode node1 = new StraightWallNode();
 						StraightWallNode node2 = new StraightWallNode();
 
-						StraightWallPath wall = new StraightWallPath();
+						StraightWallPath wall = GameObject.Instantiate(Globals.ins.straightWallPathPrefab, buildSurface.transform);
 						node1.position = point1.point;
 						node2.position = point2.point;
 
@@ -116,6 +120,28 @@ namespace MyFolk.Building
 						node1.wallsConnectedToThis.Add(wall);
 						node2.wallsConnectedToThis.Add(wall);
 
+						wall.transform.position = node1.position;
+						//int temp = (int)Vector3.Distance(node1.position, node2.position);
+						//if(temp < 2)
+						//	this.meshCubeBuilder.xSize = 2;
+						//else
+						//	this.meshCubeBuilder.xSize = temp;
+
+						//temp = (int)wall.height;
+						//if (temp < 2)
+						//	this.meshCubeBuilder.ySize = 2;
+						//else
+						//	this.meshCubeBuilder.ySize = temp;
+
+
+						//temp = (int)wall.width;
+
+						//if (temp < 2)
+						//	this.meshCubeBuilder.zSize = 2;
+						//else
+						//	this.meshCubeBuilder.zSize = temp;
+
+						this.meshCubeBuilder.Generate(ref wall.meshFilter, wall.width, wall.height, Vector3.Distance(node1.position, node2.position));
 						buildSurface.AddWall(wall);
 					}
 				}

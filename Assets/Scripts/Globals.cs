@@ -1,4 +1,5 @@
 ﻿using EventCallbacks;
+using MyFolk.Building;
 using MyFolk.Time;
 using System;
 using System.Collections;
@@ -23,6 +24,7 @@ namespace MyFolk
 		public List<Character> allCharacters;
 		public Character currentlySelectedCharacter;
 		public MyFolk.Time.GameMode currentGameMode;
+		public StraightWallPath straightWallPathPrefab;
 
 		[HideInInspector]
 		public MyFolk.Time.TimeManager timeManager;

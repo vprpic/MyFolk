@@ -4,8 +4,11 @@ using UnityEngine;
 
 namespace MyFolk.Building
 {
+	[RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 	public class StraightWallPath : WallPath
 	{
+		public MeshFilter meshFilter;
+
 		public StraightWallNode point1;
 		public StraightWallNode point2;
 
@@ -17,6 +20,11 @@ namespace MyFolk.Building
 		//	this.point1 = new StraightWallNode();
 		//	//this.point2 = p2;
 		//}
+
+		private void Awake()
+		{
+			this.meshFilter = GetComponent<MeshFilter>();
+		}
 
 		internal override void Draw(GameObject parent)
 		{
