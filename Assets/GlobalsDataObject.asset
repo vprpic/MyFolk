@@ -15,8 +15,8 @@ MonoBehaviour:
   currentlySelectedCharacterData: {fileID: 11400000, guid: 673b3d4c79a71204f9516a98ffe3ac03,
     type: 2}
   worldClickPoint: {x: 3.9620042, y: 1.8079772, z: 11.632768}
-  totalCharactersInstantiated: 9
-  interactableItemClickedEventsCount: 487
+  totalCharactersInstantiated: 10
+  interactableItemClickedEventsCount: 489
   hungerDecreaseRate: 0.001
   funDecreaseRate: 0.0001
   socialDecreaseRate: 0.00001
@@ -30,3 +30,7 @@ MonoBehaviour:
   putDownInteraction: {fileID: 11400000, guid: 803e58cdea3ac40478a838a4fbb0e53f, type: 2}
   buildTooltipPreviewPrefab: {fileID: 5745596892029649313, guid: a81b55489916eee469a5f15e6a3c8d63,
     type: 3}
+  straightWallPathPrefab: {fileID: 5466179164288050096, guid: f426a01ce041d0642864e857a58d1113,
+    type: 3}
+  builtWallMaterial: {fileID: 2100000, guid: c68c149e3aba02944a3d6dc6b9c80470, type: 2}
+  ghostWallMaterial: {fileID: 2100000, guid: 361681d9651503e44a16ee195b92012a, type: 2}

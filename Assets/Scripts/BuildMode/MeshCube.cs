@@ -6,6 +6,8 @@ public class MeshCubeBuilder //: MonoBehaviour
 
 	public float xSize, ySize, zSize;
 	int xInt, yInt, zInt;
+	bool xLessThanTwo, yLessThanTwo, zLessThanTwo;
+	Vector3 offset;
 
 	private Mesh mesh;
 	private Vector3[] vertices;
@@ -33,12 +35,31 @@ public class MeshCubeBuilder //: MonoBehaviour
 		yInt = Mathf.CeilToInt(ySize);
 		zInt = Mathf.CeilToInt(zSize);
 
+		offset = new Vector3(-xSize * 0.5f, 0, -xSize * 0.5f);
+
 		if (xInt < 2)
+		{
 			xInt = 2;
+			xLessThanTwo = true;
+		}
+		else
+			xLessThanTwo = false;
 		if (yInt < 2)
+		{
 			yInt = 2;
+			yLessThanTwo = true;
+		}
+		else
+		{
+			yLessThanTwo = false;
+		}
 		if (zInt < 2)
+		{
 			zInt = 2;
+			zLessThanTwo = true;
+		}
+		else
+			zLessThanTwo = false;
 
 		meshFilter.mesh = mesh = new Mesh();
 		mesh.name = "Generated wall mesh test";
@@ -63,47 +84,130 @@ public class MeshCubeBuilder //: MonoBehaviour
 			float yTemp = y;
 			if (y == yInt)
 				yTemp = ySize;
-			for (int x = 0; x <= xInt; x++)
+			if (yLessThanTwo)
 			{
-				float xTemp = x;
-				if (x == xInt)
-					xTemp = xSize;
-				vertices[v++] = new Vector3(xTemp, yTemp, 0);
+				//y is less than 2, add 3 vertices, at origin, middle and ySize
+				switch (y)
+				{
+					case 0:
+						yTemp = 0;
+						break;
+					case 1:
+						yTemp = ySize * 0.5f;
+						break;
+					case 2:
+						yTemp = ySize;
+						break;
+				}
 			}
-			for (int z = 1; z <= zInt; z++)
+
+
+			if (!xLessThanTwo)
 			{
-				float zTemp = z;
-				if (z == zInt)
-					zTemp = zSize;
-				vertices[v++] = new Vector3(xSize, yTemp, zTemp);
+				for (int x = 0; x <= xInt; x++)
+				{
+					float xTemp = x;
+					if (x == xInt)
+						xTemp = xSize;
+					vertices[v++] = new Vector3(xTemp, yTemp, 0);
+				}
 			}
-			for (int x = xInt - 1; x >= 0; x--)
+			else
 			{
-				float xTemp = x;
-				if (x == xInt)
-					xTemp = xSize;
-				vertices[v++] = new Vector3(xTemp, yTemp, zSize);
+				//x is less than 2, add 3 vertices, at origin, middle and xSize
+				vertices[v++] = new Vector3(0, yTemp, 0);
+				vertices[v++] = new Vector3(xSize * 0.5f, yTemp, 0);
+				vertices[v++] = new Vector3(xSize, yTemp, 0);
 			}
-			for (int z = zInt - 1; z > 0; z--)
+
+			if (!zLessThanTwo)
 			{
-				float zTemp = z;
-				if (z == zInt)
-					zTemp = zSize;
-				vertices[v++] = new Vector3(0, yTemp, zTemp);
+				for (int z = 1; z <= zInt; z++)
+				{
+					float zTemp = z;
+					if (z == zInt)
+						zTemp = zSize;
+					vertices[v++] = new Vector3(xSize, yTemp, zTemp);
+				}
+			}
+			else
+			{
+				//z is less than 2, add 3 vertices, at origin, middle and zSize
+				//vertices[v++] = new Vector3(xSize, yTemp, 0); //the first one was already added
+				vertices[v++] = new Vector3(xSize, yTemp, zSize * 0.5f);
+				vertices[v++] = new Vector3(xSize, yTemp, zSize);
+			}
+
+			if (!xLessThanTwo)
+			{
+				for (int x = xInt - 1; x >= 0; x--)
+				{
+					float xTemp = x;
+					if (x == xInt)
+						xTemp = xSize;
+					vertices[v++] = new Vector3(xTemp, yTemp, zSize);
+				}
+			}
+			else
+			{
+				//x is less than 2, add 3 vertices, at origin, middle and xSize
+				//vertices[v++] = new Vector3(xSize, yTemp, zSize);
+				vertices[v++] = new Vector3(xSize * 0.5f, yTemp, zSize);
+				vertices[v++] = new Vector3(0, yTemp, zSize);
+			}
+
+			if (!zLessThanTwo)
+			{
+				for (int z = zInt - 1; z > 0; z--)
+				{
+					float zTemp = z;
+					if (z == zInt)
+						zTemp = zSize;
+					vertices[v++] = new Vector3(0, yTemp, zTemp);
+				}
+			}
+			else
+			{
+				//z is less than 2, add 3 vertices, at origin, middle and zSize
+				//vertices[v++] = new Vector3(0, yTemp, zSize);
+				vertices[v++] = new Vector3(0, yTemp, zSize * 0.5f);
+				//vertices[v++] = new Vector3(0, yTemp, 0);
 			}
 		}
-		for (int z = 1; z < zSize; z++)
+
+		//top vertices
+		for (int z = 1; z < zInt; z++)
 		{
-			for (int x = 1; x < xSize; x++)
+			float zTemp = z;
+			if (zLessThanTwo)
 			{
-				vertices[v++] = new Vector3(x, ySize, z);
+				zTemp = zSize * 0.5f;
+				Debug.Log("There should be only one middle point");
+			}
+			for (int x = 1; x < xInt; x++)
+			{
+				float xTemp = x;
+				if (xLessThanTwo)
+					xTemp = xSize * 0.5f;
+				vertices[v++] = new Vector3(xTemp, ySize, zTemp);
 			}
 		}
-		for (int z = 1; z < zSize; z++)
+
+		//bottom vertices
+		for (int z = 1; z < zInt; z++)
 		{
-			for (int x = 1; x < xSize; x++)
+			float zTemp = z;
+			if (zLessThanTwo)
 			{
-				vertices[v++] = new Vector3(x, 0, z);
+				zTemp = zSize * 0.5f;
+				Debug.Log("There should be only one middle point");
+			}
+			for (int x = 1; x < xInt; x++)
+			{
+				float xTemp = x;
+				if (xLessThanTwo)
+					xTemp = xSize * 0.5f;
+				vertices[v++] = new Vector3(xTemp, 0, zTemp);
 			}
 		}
 
@@ -117,7 +221,7 @@ public class MeshCubeBuilder //: MonoBehaviour
 		int ring = (xInt + zInt) * 2;
 		int t = 0, v = 0;
 
-		for (int y = 0; y < ySize; y++, v++)
+		for (int y = 0; y < yInt; y++, v++)
 		{
 			for (int q = 0; q < ring - 1; q++, v++)
 			{
@@ -135,7 +239,7 @@ public class MeshCubeBuilder //: MonoBehaviour
 	{
 		//TO DO: error for x size 1
 		int v = ring * yInt;
-		for (int x = 0; x < xSize - 1; x++, v++)
+		for (int x = 0; x < xInt - 1; x++, v++)
 		{
 			t = SetQuad(triangles, t, v, v + 1, v + ring - 1, v + ring);
 		}
@@ -145,10 +249,10 @@ public class MeshCubeBuilder //: MonoBehaviour
 		int vMid = vMin + 1;
 		int vMax = v + 2;
 
-		for (int z = 1; z < zSize - 1; z++, vMin--, vMid++, vMax++)
+		for (int z = 1; z < zInt - 1; z++, vMin--, vMid++, vMax++)
 		{
 			t = SetQuad(triangles, t, vMin, vMid, vMin - 1, vMid + xInt - 1);
-			for (int x = 1; x < xSize - 1; x++, vMid++)
+			for (int x = 1; x < xInt - 1; x++, vMid++)
 			{
 				t = SetQuad(
 					triangles, t,
@@ -159,7 +263,7 @@ public class MeshCubeBuilder //: MonoBehaviour
 
 		int vTop = vMin - 2;
 		t = SetQuad(triangles, t, vMin, vMid, vTop + 1, vTop);
-		for (int x = 1; x < xSize - 1; x++, vTop--, vMid++)
+		for (int x = 1; x < xInt - 1; x++, vTop--, vMid++)
 		{
 			t = SetQuad(triangles, t, vMid, vMid + 1, vTop, vTop - 1);
 		}
@@ -173,7 +277,7 @@ public class MeshCubeBuilder //: MonoBehaviour
 		int v = 1;
 		int vMid = vertices.Length - (xInt - 1) * (zInt- 1);
 		t = SetQuad(triangles, t, ring - 1, vMid, 0, 1);
-		for (int x = 1; x < xSize - 1; x++, v++, vMid++)
+		for (int x = 1; x < xInt - 1; x++, v++, vMid++)
 		{
 			t = SetQuad(triangles, t, vMid, vMid + 1, v, v + 1);
 		}
@@ -183,10 +287,10 @@ public class MeshCubeBuilder //: MonoBehaviour
 		vMid -= xInt - 2;
 		int vMax = v + 2;
 
-		for (int z = 1; z < zSize - 1; z++, vMin--, vMid++, vMax++)
+		for (int z = 1; z < zInt - 1; z++, vMin--, vMid++, vMax++)
 		{
 			t = SetQuad(triangles, t, vMin, vMid + xInt- 1, vMin + 1, vMid);
-			for (int x = 1; x < xSize - 1; x++, vMid++)
+			for (int x = 1; x < xInt - 1; x++, vMid++)
 			{
 				t = SetQuad(
 					triangles, t,
@@ -197,7 +301,7 @@ public class MeshCubeBuilder //: MonoBehaviour
 
 		int vTop = vMin - 1;
 		t = SetQuad(triangles, t, vTop + 1, vTop, vTop + 2, vMid);
-		for (int x = 1; x < xSize - 1; x++, vTop--, vMid++)
+		for (int x = 1; x < xInt - 1; x++, vTop--, vMid++)
 		{
 			t = SetQuad(triangles, t, vTop, vTop - 1, vMid, vMid + 1);
 		}

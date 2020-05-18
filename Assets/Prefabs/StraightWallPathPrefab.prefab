@@ -93,6 +93,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   height: 2
-  width: 2
+  width: 0.3
+  meshFilter: {fileID: 0}
   point1GO: {fileID: 0}
   point2GO: {fileID: 0}

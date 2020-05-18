@@ -8,6 +8,7 @@ namespace MyFolk.Building
 	public class StraightWallPath : WallPath
 	{
 		public MeshFilter meshFilter;
+		public MeshRenderer meshRenderer;
 
 		public StraightWallNode point1;
 		public StraightWallNode point2;
@@ -24,6 +25,7 @@ namespace MyFolk.Building
 		private void Awake()
 		{
 			this.meshFilter = GetComponent<MeshFilter>();
+			this.meshRenderer = GetComponent<MeshRenderer>();
 		}
 
 		internal override void Draw(GameObject parent)

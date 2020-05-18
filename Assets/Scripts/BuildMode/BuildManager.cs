@@ -31,6 +31,8 @@ namespace MyFolk.Building
 		public MeshCubeBuilder meshCubeBuilder;
 		private RaycastHit point1;
 		private RaycastHit point2;
+
+		private StraightWallPath ghostWall;
 		#endregion straight wall build
 
 
@@ -44,6 +46,9 @@ namespace MyFolk.Building
 			this.meshCubeBuilder = new MeshCubeBuilder();
 			this.meshCubeBuilder.xSize = this.meshCubeBuilder.ySize = 2;
 			this.meshCubeBuilder.zSize = 3;
+
+			ghostWall = GameObject.Instantiate(Globals.ins.data.straightWallPathPrefab);
+			ghostWall.gameObject.SetActive(false);
 		}
 
 		public void Update()
@@ -96,12 +101,18 @@ namespace MyFolk.Building
 						//go.transform.SetParent(buildSurface.gameObject.transform);
 						//go.transform.position = whatIHit.point;
 						point1 = whatIHit;
+						ghostWall.transform.position = point1.point;
+						ghostWall.gameObject.SetActive(true);
 					}
 					if (Input.GetMouseButton(0))
 					{
+						this.meshCubeBuilder.Generate(ref ghostWall.meshFilter, ghostWall.width, ghostWall.height, Vector3.Distance(point1.point, whatIHit.point));
+						ghostWall.transform.LookAt(whatIHit.point);
+						ghostWall.meshRenderer.material = Globals.ins.data.ghostWallMaterial;
 					}
 					if (Input.GetMouseButtonUp(0))
 					{
+						ghostWall.gameObject.SetActive(false);
 						//GameObject go = new GameObject("point2");
 						//go.transform.SetParent(buildSurface.gameObject.transform);
 						//go.transform.position = whatIHit.point;
@@ -110,7 +121,7 @@ namespace MyFolk.Building
 						StraightWallNode node1 = new StraightWallNode();
 						StraightWallNode node2 = new StraightWallNode();
 
-						StraightWallPath wall = GameObject.Instantiate(Globals.ins.straightWallPathPrefab, buildSurface.transform);
+						StraightWallPath wall = GameObject.Instantiate(Globals.ins.data.straightWallPathPrefab, buildSurface.transform);
 						node1.position = point1.point;
 						node2.position = point2.point;
 
@@ -141,7 +152,9 @@ namespace MyFolk.Building
 						//else
 						//	this.meshCubeBuilder.zSize = temp;
 
+						wall.transform.LookAt(node2.position);
 						this.meshCubeBuilder.Generate(ref wall.meshFilter, wall.width, wall.height, Vector3.Distance(node1.position, node2.position));
+						wall.meshRenderer.material = Globals.ins.data.builtWallMaterial;
 						buildSurface.AddWall(wall);
 					}
 				}

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyFolk.Building;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,5 +57,9 @@ namespace MyFolk
 
 		[Header("Build mode")]
 		public GameObject buildTooltipPreviewPrefab;
+		public StraightWallPath straightWallPathPrefab;
+		public Material builtWallMaterial;
+		public Material ghostWallMaterial;
+
 	}
 }
