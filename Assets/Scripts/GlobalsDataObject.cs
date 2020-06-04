@@ -60,6 +60,7 @@ namespace MyFolk
 		public StraightWallPath straightWallPathPrefab;
 		public Material builtWallMaterial;
 		public Material ghostWallMaterial;
+		public Material invalidGhostWallMaterial;
 
 	}
 }

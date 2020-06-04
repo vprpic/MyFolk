@@ -15,8 +15,8 @@ MonoBehaviour:
   currentlySelectedCharacterData: {fileID: 11400000, guid: 673b3d4c79a71204f9516a98ffe3ac03,
     type: 2}
   worldClickPoint: {x: 3.9620042, y: 1.8079772, z: 11.632768}
-  totalCharactersInstantiated: 10
-  interactableItemClickedEventsCount: 489
+  totalCharactersInstantiated: 11
+  interactableItemClickedEventsCount: 494
   hungerDecreaseRate: 0.001
   funDecreaseRate: 0.0001
   socialDecreaseRate: 0.00001
@@ -34,3 +34,5 @@ MonoBehaviour:
     type: 3}
   builtWallMaterial: {fileID: 2100000, guid: c68c149e3aba02944a3d6dc6b9c80470, type: 2}
   ghostWallMaterial: {fileID: 2100000, guid: 361681d9651503e44a16ee195b92012a, type: 2}
+  invalidGhostWallMaterial: {fileID: 2100000, guid: bcac779a74a8ed84bb1aa705c6253802,
+    type: 2}

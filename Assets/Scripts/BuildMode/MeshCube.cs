@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-//[RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
-public class MeshCubeBuilder //: MonoBehaviour
+public class MeshCubeBuilder
 {
 
 	public float xSize, ySize, zSize;
@@ -11,20 +10,6 @@ public class MeshCubeBuilder //: MonoBehaviour
 
 	private Mesh mesh;
 	private Vector3[] vertices;
-
-	//private void Awake()
-	//{
-	//	//Generate();
-	//}
-
-	//private void Generate()
-	//{
-	//	GetComponent<MeshFilter>().mesh = mesh = new Mesh();
-	//	mesh.name = "Procedural Cube";
-	//	CreateVertices();
-	//	CreateTriangles();
-	//	mesh.RecalculateNormals();
-	//}
 
 	public void Generate(ref MeshFilter meshFilter, float x, float y, float z)
 	{
@@ -62,7 +47,7 @@ public class MeshCubeBuilder //: MonoBehaviour
 			zLessThanTwo = false;
 
 		meshFilter.mesh = mesh = new Mesh();
-		mesh.name = "Generated wall mesh test";
+		mesh.name = "Generated wall mesh";
 		CreateVertices();
 		CreateTriangles();
 		mesh.RecalculateNormals();
@@ -101,6 +86,7 @@ public class MeshCubeBuilder //: MonoBehaviour
 				}
 			}
 
+			yTemp += offset.y;
 
 			if (!xLessThanTwo)
 			{
@@ -109,15 +95,15 @@ public class MeshCubeBuilder //: MonoBehaviour
 					float xTemp = x;
 					if (x == xInt)
 						xTemp = xSize;
-					vertices[v++] = new Vector3(xTemp + offset.x, yTemp + offset.y, 0 + offset.z);
+					vertices[v++] = new Vector3(xTemp + offset.x, yTemp, 0 + offset.z);
 				}
 			}
 			else
 			{
 				//x is less than 2, add 3 vertices, at origin, middle and xSize
-				vertices[v++] = new Vector3(0 + offset.x, yTemp + offset.y, 0 + offset.z);
-				vertices[v++] = new Vector3(xSize * 0.5f + offset.x, yTemp + offset.y, 0 + offset.z);
-				vertices[v++] = new Vector3(xSize + offset.x, yTemp + offset.y, 0 + offset.z);
+				vertices[v++] = new Vector3(0 + offset.x, yTemp, 0 + offset.z);
+				vertices[v++] = new Vector3(xSize * 0.5f + offset.x, yTemp, 0 + offset.z);
+				vertices[v++] = new Vector3(xSize + offset.x, yTemp, 0 + offset.z);
 			}
 
 			if (!zLessThanTwo)
@@ -127,15 +113,15 @@ public class MeshCubeBuilder //: MonoBehaviour
 					float zTemp = z;
 					if (z == zInt)
 						zTemp = zSize;
-					vertices[v++] = new Vector3(xSize + offset.x, yTemp + offset.y, zTemp + offset.z);
+					vertices[v++] = new Vector3(xSize + offset.x, yTemp, zTemp + offset.z);
 				}
 			}
 			else
 			{
 				//z is less than 2, add 3 vertices, at origin, middle and zSize
 				//vertices[v++] = new Vector3(xSize, yTemp, 0); //the first one was already added
-				vertices[v++] = new Vector3(xSize + offset.x, yTemp + offset.y, zSize * 0.5f + offset.z);
-				vertices[v++] = new Vector3(xSize + offset.x, yTemp + offset.y, zSize + offset.z);
+				vertices[v++] = new Vector3(xSize + offset.x, yTemp, zSize * 0.5f + offset.z);
+				vertices[v++] = new Vector3(xSize + offset.x, yTemp, zSize + offset.z);
 			}
 
 			if (!xLessThanTwo)
@@ -145,15 +131,15 @@ public class MeshCubeBuilder //: MonoBehaviour
 					float xTemp = x;
 					if (x == xInt)
 						xTemp = xSize;
-					vertices[v++] = new Vector3(xTemp + offset.x, yTemp + offset.y, zSize + offset.z);
+					vertices[v++] = new Vector3(xTemp + offset.x, yTemp, zSize + offset.z);
 				}
 			}
 			else
 			{
 				//x is less than 2, add 3 vertices, at origin, middle and xSize
 				//vertices[v++] = new Vector3(xSize, yTemp, zSize);
-				vertices[v++] = new Vector3(xSize * 0.5f + offset.x, yTemp + offset.y, zSize + offset.z);
-				vertices[v++] = new Vector3(0 + offset.x, yTemp + offset.y, zSize + offset.z);
+				vertices[v++] = new Vector3(xSize * 0.5f + offset.x, yTemp, zSize + offset.z);
+				vertices[v++] = new Vector3(0 + offset.x, yTemp, zSize + offset.z);
 			}
 
 			if (!zLessThanTwo)
@@ -163,14 +149,14 @@ public class MeshCubeBuilder //: MonoBehaviour
 					float zTemp = z;
 					if (z == zInt)
 						zTemp = zSize;
-					vertices[v++] = new Vector3(0 + offset.x, yTemp + offset.y, zTemp + offset.z);
+					vertices[v++] = new Vector3(0 + offset.x, yTemp, zTemp + offset.z);
 				}
 			}
 			else
 			{
 				//z is less than 2, add 3 vertices, at origin, middle and zSize
 				//vertices[v++] = new Vector3(0, yTemp, zSize);
-				vertices[v++] = new Vector3(0 + offset.x, yTemp + offset.y, zSize * 0.5f + offset.z);
+				vertices[v++] = new Vector3(0 + offset.x, yTemp, zSize * 0.5f + offset.z);
 				//vertices[v++] = new Vector3(0, yTemp, 0);
 			}
 		}
@@ -182,7 +168,7 @@ public class MeshCubeBuilder //: MonoBehaviour
 			if (zLessThanTwo)
 			{
 				zTemp = zSize * 0.5f;
-				Debug.Log("There should be only one middle point");
+				//Debug.Log("There should be only one middle point");
 			}
 			for (int x = 1; x < xInt; x++)
 			{
@@ -200,7 +186,7 @@ public class MeshCubeBuilder //: MonoBehaviour
 			if (zLessThanTwo)
 			{
 				zTemp = zSize * 0.5f;
-				Debug.Log("There should be only one middle point");
+				//Debug.Log("There should be only one middle point");
 			}
 			for (int x = 1; x < xInt; x++)
 			{

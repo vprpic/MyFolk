@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +10,22 @@ namespace MyFolk.Building
 	{
 		public List<WallPath> wallsConnectedToThis;
 		public Vector3 position;
+
+		public WallNode()
+		{
+			wallsConnectedToThis = new List<WallPath>();
+		}
+
+		internal bool IsInRange(Vector3 point)
+		{
+			foreach (WallPath wall in wallsConnectedToThis)
+			{
+				float dist = Vector3.Distance(point, position);
+				if (dist < wall.width * 0.5f)
+					return true;
+			}
+			return false;
+		}
 	}
 
 	public class StraightWallNode : WallNode
@@ -22,5 +39,6 @@ namespace MyFolk.Building
 		{
 			wallsConnectedToThis = new List<WallPath>();
 		}
+
 	}
 }
