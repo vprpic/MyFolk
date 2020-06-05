@@ -32,7 +32,8 @@ namespace MyFolk.Building
 
 		#region straight wall build
 		public GameObject toolTipPreview;
-		public MeshCubeBuilder meshCubeBuilder;
+		//public MeshCubeBuilder meshCubeBuilder;
+		public ProBuilderWallCreator proBuilderWallCreator;
 		private Vector3 point1;
 		private Vector3 point2;
 		private bool isSnappingPoint1;
@@ -55,9 +56,13 @@ namespace MyFolk.Building
 			toolTipPreview = GameObject.Instantiate(Globals.ins.data.buildTooltipPreviewPrefab);
 			toolTipPreview.SetActive(false);
 			EventCallbacks.SetBuildToolEvent.RegisterListener(OnBuildToolSet);
-			this.meshCubeBuilder = new MeshCubeBuilder();
-			this.meshCubeBuilder.xSize = this.meshCubeBuilder.ySize = 2;
-			this.meshCubeBuilder.zSize = 3;
+
+			this.proBuilderWallCreator = new ProBuilderWallCreator();
+			this.proBuilderWallCreator.xSize = this.proBuilderWallCreator.ySize = 2;
+			this.proBuilderWallCreator.zSize = 3;
+			//this.meshCubeBuilder = new MeshCubeBuilder();
+			//this.meshCubeBuilder.xSize = this.meshCubeBuilder.ySize = 2;
+			//this.meshCubeBuilder.zSize = 3;
 
 			buildSurfaceMask = LayerMask.GetMask("BuildSurface");
 			wallMask = LayerMask.GetMask("Wall");
@@ -151,7 +156,8 @@ namespace MyFolk.Building
 					if (Input.GetMouseButton(0))
 					{
 						ghostWall.point2.position = toolTipPosition;
-						this.meshCubeBuilder.Generate(ref ghostWall.meshFilter, ghostWall.width, ghostWall.height, Vector3.Distance(ghostWall.point1.position, ghostWall.point2.position));
+						this.proBuilderWallCreator.Generate(ref ghostWall.proBuilderMesh, ghostWall.width, ghostWall.height, Vector3.Distance(ghostWall.point1.position, ghostWall.point2.position));
+						//this.meshCubeBuilder.Generate(ref ghostWall.meshFilter, ghostWall.width, ghostWall.height, Vector3.Distance(ghostWall.point1.position, ghostWall.point2.position));
 						ghostWall.transform.LookAt(ghostWall.point2.position);
 						ghostWall.boxCollider.size = new Vector3(ghostWall.width, ghostWall.height, Vector3.Distance(ghostWall.point1.position, ghostWall.point2.position));
 						ghostWall.boxCollider.center = new Vector3(0, ghostWall.boxCollider.size.y * 0.5f, ghostWall.boxCollider.size.z * 0.5f);
@@ -263,7 +269,8 @@ namespace MyFolk.Building
 							wall.transform.position = node1.position;
 
 							wall.transform.LookAt(node2.position);
-							this.meshCubeBuilder.Generate(ref wall.meshFilter, wall.width, wall.height, Vector3.Distance(node1.position, node2.position));
+							this.proBuilderWallCreator.Generate(ref wall.proBuilderMesh, wall.width, wall.height, Vector3.Distance(node1.position, node2.position));
+							//this.meshCubeBuilder.Generate(ref wall.meshFilter, wall.width, wall.height, Vector3.Distance(node1.position, node2.position));
 							wall.meshRenderer.material = Globals.ins.data.builtWallMaterial;
 							wall.boxCollider.size = new Vector3(wall.width, wall.height, Vector3.Distance(wall.point1.position, wall.point2.position));
 							wall.boxCollider.center = new Vector3(0, wall.boxCollider.size.y * 0.5f, wall.boxCollider.size.z * 0.5f);
@@ -296,7 +303,8 @@ namespace MyFolk.Building
 			secondWall.transform.position = node.position;
 			secondWall.transform.LookAt(secondWall.point2.position);
 
-			this.meshCubeBuilder.Generate(ref secondWall.meshFilter, secondWall.width, secondWall.height, Vector3.Distance(secondWall.point1.position, secondWall.point2.position));
+			this.proBuilderWallCreator.Generate(ref secondWall.proBuilderMesh, secondWall.width, secondWall.height, Vector3.Distance(secondWall.point1.position, secondWall.point2.position));
+			//this.meshCubeBuilder.Generate(ref secondWall.meshFilter, secondWall.width, secondWall.height, Vector3.Distance(secondWall.point1.position, secondWall.point2.position));
 			secondWall.boxCollider.size = new Vector3(secondWall.width, secondWall.height, Vector3.Distance(secondWall.point1.position, secondWall.point2.position));
 			secondWall.boxCollider.center = new Vector3(0, secondWall.boxCollider.size.y * 0.5f, secondWall.boxCollider.size.z * 0.5f);
 			secondWall.meshRenderer.material = splittingWall.meshRenderer.material;
@@ -309,7 +317,8 @@ namespace MyFolk.Building
 			splittingWall.point2.wallsConnectedToThis.Add(splittingWall);
 			splittingWall.transform.LookAt(splittingWall.point2.position);
 
-			this.meshCubeBuilder.Generate(ref splittingWall.meshFilter, splittingWall.width, splittingWall.height, Vector3.Distance(splittingWall.point1.position, splittingWall.point2.position));
+			this.proBuilderWallCreator.Generate(ref splittingWall.proBuilderMesh, splittingWall.width, splittingWall.height, Vector3.Distance(splittingWall.point1.position, splittingWall.point2.position));
+			//this.meshCubeBuilder.Generate(ref splittingWall.meshFilter, splittingWall.width, splittingWall.height, Vector3.Distance(splittingWall.point1.position, splittingWall.point2.position));
 			splittingWall.boxCollider.size = new Vector3(splittingWall.width, splittingWall.height, Vector3.Distance(splittingWall.point1.position, splittingWall.point2.position));
 			splittingWall.boxCollider.center = new Vector3(0, splittingWall.boxCollider.size.y * 0.5f, splittingWall.boxCollider.size.z * 0.5f);
 		}

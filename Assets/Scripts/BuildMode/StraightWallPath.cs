@@ -1,13 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.ProBuilder;
 
 namespace MyFolk.Building
 {
 	[RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 	public class StraightWallPath : WallPath
 	{
-		public MeshFilter meshFilter;
+		//public MeshFilter meshFilter;
+		public ProBuilderMesh proBuilderMesh;
 		public MeshRenderer meshRenderer;
 		public BoxCollider boxCollider;
 
@@ -20,7 +22,7 @@ namespace MyFolk.Building
 
 		private void Awake()
 		{
-			this.meshFilter = GetComponent<MeshFilter>();
+			this.proBuilderMesh = GetComponent<ProBuilderMesh>();
 			this.meshRenderer = GetComponent<MeshRenderer>();
 			this.boxCollider = GetComponent<BoxCollider>();
 		}
